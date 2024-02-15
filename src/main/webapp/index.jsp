@@ -54,7 +54,6 @@
         
         
         
-        
         <script>
             // Aggiungi event listener per inviare i dati del form
             document.getElementById("data-form").addEventListener("submit", function (event) {
