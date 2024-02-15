@@ -8,6 +8,7 @@
     <class>entity.HibernateUtil</class>
     <class>entity.InfoTrack</class>
     <class>entity.FileEntity</class>
+    <class>entity.DataForm</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/entryDoc"/>
