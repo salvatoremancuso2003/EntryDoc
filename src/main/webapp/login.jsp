@@ -11,34 +11,75 @@
         <link rel="stylesheet" href="css/login.css"/>
     </head>
     <body>
+        <%@include file="Bootstrap2024/index/login/Header_login.jsp" %>
+        <section class="h-100">
+            <div class="container h-100">
+                <div class="row justify-content-sm-center h-100">
+                    <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                        <div class="text-center my-5">
 
-
-        <div class="container" style="padding: 10px;" id="login_container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Login</h5>
-                            <form action="Login" method="POST" id="login_form">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" name="username" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" id="password" name="password" class="form-control" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </form>
                         </div>
+                        <div class="card shadow-lg">
+                            <div class="card-body p-5">
+                                <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                                <form method="POST" class="needs-validation" novalidate="" autocomplete="off">
+                                    <div class="mb-3">
+                                        <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                        <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+                                        <div class="invalid-feedback">
+                                            Email is invalid
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input id="password" type="password" class="form-control" name="password" required>
+                                        <div class="invalid-feedback">
+                                            Password is required
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                            <label for="remember" class="form-check-label">Remember Me</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary ms-auto">
+                                            Login
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
-
+            <hr style="color:white">
+            <hr style="color:white">
+        </section>
+        <%@include file="Bootstrap2024/index/login/Footer_login.jsp" %>
 
 
         <script src="Bootstrap2024/assets/js/bootstrap-italia.bundle.min.js"></script>
-        <script src="Bootstrap2024/assets/js/jQuery.js"></script>
+        <script>(function () {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                            form.addEventListener('submit', function (event) {
+                                if (!form.checkValidity()) {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+
+                                form.classList.add('was-validated')
+                            }, false)
+                        })
+            })()
+        </script>
     </body>
 </html>
