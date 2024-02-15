@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet("/SubmitFormDataServlet")
 public class SubmitFormDataServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
