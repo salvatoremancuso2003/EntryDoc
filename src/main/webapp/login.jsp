@@ -9,55 +9,89 @@
         <title>DOC ENTRY</title>
         <link rel="stylesheet" href="Bootstrap2024/assets/css/bootstrap-italia.min.css"/>
         <link rel="stylesheet" href="css/login.css"/>
+        <style>
+            .background-radial-gradient {
+                background-color: #ad1fff;
+                background-image: radial-gradient(650px circle at 0% 0%,
+                    hsl(218, 41%, 35%) 15%,
+                    hsl(218, 41%, 30%) 35%,
+                    hsl(218, 41%, 20%) 75%,
+                    hsl(218, 41%, 19%) 80%,
+                    transparent 100%),
+                    radial-gradient(1250px circle at 100% 100%,
+                    hsl(218, 41%, 45%) 15%,
+                    hsl(218, 41%, 30%) 35%,
+                    hsl(218, 41%, 20%) 75%,
+                    hsl(218, 41%, 19%) 80%,
+                    transparent 100%);
+            }
+
+
+            .bg-glass {
+                background-color: hsla(0, 0%, 100%, 0.9) !important;
+                backdrop-filter: saturate(200%) blur(25px);
+            }
+        </style>
     </head>
     <body>
-        <%@include file="Bootstrap2024/index/login/Header_login.jsp" %>
-        <section class="h-100">
-            <div class="container h-100">
-                <div class="row justify-content-sm-center h-100">
-                    <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
-                        <div class="text-center my-5">
 
-                        </div>
-                        <div class="card shadow-lg">
-                            <div class="card-body p-5">
-                                <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
-                                <form method="POST" class="needs-validation" novalidate="" autocomplete="off">
-                                    <div class="mb-3">
-                                        <label class="mb-2 text-muted" for="email">E-Mail Address</label>
-                                        <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
-                                        <div class="invalid-feedback">
-                                            Email is invalid
-                                        </div>
+        <section class="background-radial-gradient overflow-hidden">
+
+
+            <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+                <div class="row gx-lg-5 align-items-center mb-5">
+                    <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%); box-shadow: 0 0 10px rgba(173,31,255, 1.0);" id="entryDocTitle">
+                            DOC ENTRY <br />
+                            <span style="color: hsl(218, 81%, 75%)"></span>
+                        </h1>
+                        <p class="mb-4 opacity-70" id="customP" style="color: hsl(218, 81%, 85%);box-shadow: 0 0 10px rgba(173,31,255, 1.0); padding: 5px;" >
+                            Il nostro sito web offre una soluzione completa per l'upload, la modifica,
+                            e la visualizzazione di documenti PDF, inclusa la possibilità di manipolarli 
+                            e compilarli. Con un'interfaccia intuitiva e sicura, 
+                            gli utenti possono gestire i propri file in modo efficiente e professionale, 
+                            garantendo la massima affidabilità e precisione nei processi di manipolazione 
+                            e compilazione dei documenti.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-6 mb-5 mb-lg-0 position-relative" >
+                        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+                        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+                        <div class="card bg-glass" >
+                            <div class="card-body px-4 py-5 px-md-5"  style="
+                                 background-color: white;">
+                                <form action="Login" method="POST" id="login_form">
+
+                                    <!-- Email input -->
+                                    <div class="form-outline m-4">
+                                        <input type="email" id="username" class="form-control" name="username"/>
+                                        <label class="form-label" for="username">Username</label>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <input id="password" type="password" class="form-control" name="password" required>
-                                        <div class="invalid-feedback">
-                                            Password is required
-                                        </div>
+                                    <!-- Password input -->
+                                    <div class="form-outline m-4">
+                                        <input type="password" id="password" class="form-control" name="password" />
+                                        <label class="form-label" for="password">Password</label>
                                     </div>
 
-                                    <div class="d-flex align-items-center">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="remember" id="remember" class="form-check-input">
-                                            <label for="remember" class="form-check-label">Remember Me</label>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary ms-auto">
-                                            Login
-                                        </button>
-                                    </div>
+
+                                    <!-- Submit button -->
+                                    <button type="submit" class="btn btn-primary btn-block mb-4" style="background-color: rgba(173,31,255, 1.0);">
+                                        Login
+                                    </button>
+
+
                                 </form>
+
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <hr style="color:white">
-            <hr style="color:white">
         </section>
-        <%@include file="Bootstrap2024/index/login/Footer_login.jsp" %>
+        <!-- Section: Design Block -->
 
 
         <script src="Bootstrap2024/assets/js/bootstrap-italia.bundle.min.js"></script>

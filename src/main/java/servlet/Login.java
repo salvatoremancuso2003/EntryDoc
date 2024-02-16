@@ -30,10 +30,10 @@ public class Login extends HttpServlet {
                 InfoTrack.loginTrack(username);
                 redirectToPageByRole(response, userloggato.getRuolo().getId());
             } else {
-                response.sendRedirect("index.jsp?esito=KO1");
+                response.sendRedirect("login.jsp?esito=KO1");
             }
         } else {
-            response.sendRedirect("index.jsp?esito=KO");
+            response.sendRedirect("login.jsp?esito=KO");
         }
     }
 
@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
 
         switch (roleId) {
             case 1:
-                targetPage = "";
+                targetPage = "index.jsp";
                 break;
             case 2:
                 targetPage = "";

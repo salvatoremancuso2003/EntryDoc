@@ -12,16 +12,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
-@NamedQueries({
-    @NamedQuery(
-            name = "filesByPracticeId",
-            query = "SELECT f FROM FileEntity f WHERE f.practice.id = :practiceId"
-    ),
-    @NamedQuery(
-            name = "FileEntity.findByFilename",
-            query = "SELECT f FROM FileEntity f WHERE f.filename = :filename"
-    )
-})
+////@NamedQueries({
+//    //@NamedQuery(
+//           // name = "filesByPracticeId",
+//           // query = "SELECT f FROM FileEntity f WHERE f.practice.id = :practiceId"
+//   // ),
+//   // @NamedQuery(
+//           / /name = "FileEntity.findByFilename",
+//            /query = "SELECT f FROM FileEntity f WHERE f.filename = :filename"
+//    )
+//})
 @JsonIgnoreProperties({"practice","uploadDate","file_content"})
 public class FileEntity implements Serializable {
 

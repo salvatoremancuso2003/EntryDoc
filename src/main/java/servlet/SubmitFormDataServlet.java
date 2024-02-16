@@ -16,20 +16,20 @@ import java.util.Date;
 
 public class SubmitFormDataServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Ottieni i parametri inviati dal form
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-        String city = request.getParameter("city");
-        String zip = request.getParameter("zip");
-        String country = request.getParameter("country");
-        String dobString = request.getParameter("dob");
-        String gender = request.getParameter("gender");
-        String occupation = request.getParameter("occupation");
+        String name = request.getParameter("input1");
+        String email = request.getParameter("input2");
+        String phone = request.getParameter("input3");
+        String address = request.getParameter("input4");
+        String city = request.getParameter("input5");
+        String zip = request.getParameter("input6");
+        String country = request.getParameter("input7");
+        String dobString = request.getParameter("input8");
+        String gender = request.getParameter("input9");
+        String occupation = request.getParameter("input10");
 
         // Effettua il parsing della data di nascita
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
