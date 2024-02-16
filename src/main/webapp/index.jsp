@@ -9,6 +9,8 @@
         <title>Documento Viewer</title>
         <link rel="stylesheet" href="Bootstrap2024/assets/css/bootstrap-italia.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        <link rel="stylesheet" href="css/dataTable/datatables.css"/>
+        <link rel="stylesheet" href="css/modal/modal_daGestire.css"/>
         <script src="Bootstrap2024/assets/js/bootstrap-italia.min.js" ></script>
     </head>
     <body>
@@ -19,10 +21,39 @@
                 <div class="row gx-lg-5 align-items-center mb-5">
                     <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
 
-                        <table id="fileTable" style="width: 50%" class="responsive"> 
+                        <div class="modal-actionButton" id="fileModal">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Elenco File</h5>
+                                        <button class="btn btn-danger cancel-button" onclick="closeFileModal();">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Add a form for file upload -->
+                                        <form id="fileUploadForm" method="POST" enctype="multipart/form-data" action="AttachmentUploadServlet">
+                                            <!--<input type="hidden" id="practiceId" name="practiceId" class="attributipratica" />-->
 
-                        </table>
+                                            <div class="table-responsive">
+                                                <table class="display responsive nowrap" id="fileTable" style="width:100%"></table>
 
+                                            </div>
+                                            <div class="form-group text-center mt-3">
+                                                <!-- Input for file selection -->
+                                                <input type="file" id="fileInput" name="file" class="custom-file-input" required/>
+                                            </div>
+                                            <div class="text-center mt-3">
+                                                <div>
+                                                    <label>Seleziona un file da caricare <hr></label>
+                                                </div>
+                                                <input type="submit" value="Upload" class="btn btn-primary" id="addFileButton" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-lg-6 mb-5 mb-lg-0 position-relative" >
@@ -66,7 +97,7 @@
                                             <label class="form-label" for="input6">Password</label>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="form-group">
                                             <input type="text" id="input7" class="form-control" name="input7" />
@@ -81,7 +112,7 @@
                                             <label class="form-label" for="input9">Password</label>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="form-group">
                                             <input type="text" id="input10" class="form-control" name="input10" />
@@ -145,25 +176,6 @@
 
 
 
-        <script>
-            // Aggiungi event listener per inviare i dati del form
-            document.getElementById("data-form").addEventListener("submit", function (event) {
-                event.preventDefault(); // Previeni il comportamento predefinito del submit
-                // Puoi gestire l'invio dei dati qui, ad esempio con AJAX
-                // Esempio di invio tramite fetch API:
-                // fetch("url_del_tuo_backend", {
-                //   method: "POST",
-                //   body: new FormData(this)
-                // }).then(response => {
-                //   if (response.ok) {
-                //     // Gestisci la risposta
-                //   } else {
-                //     // Gestisci l'errore
-                //   }
-                // }).catch(error => {
-                //   console.error("Errore durante l'invio dei dati:", error);
-                // });
-            });
-        </script>
+        <script src="js/fileTable.js"</script>
     </body>
 </html>

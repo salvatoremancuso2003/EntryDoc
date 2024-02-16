@@ -12,6 +12,14 @@
         <servlet-name>SubmitFormDataServlet</servlet-name>
         <servlet-class>servlet.SubmitFormDataServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttachmentsServlet</servlet-name>
+        <servlet-class>AttachmentsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttachmentUploadServlet</servlet-name>
+        <servlet-class>servlet.AttachmentUploadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>SubmitFormDataServlet</servlet-name>
         <url-pattern>/SubmitFormDataServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttachmentsServlet</servlet-name>
+        <url-pattern>/AttachmentsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttachmentUploadServlet</servlet-name>
+        <url-pattern>/AttachmentUploadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
