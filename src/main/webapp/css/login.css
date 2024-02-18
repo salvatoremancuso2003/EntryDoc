@@ -1,28 +1,27 @@
 *{
     box-sizing: border-box;
-    font-family: "Times New Roman", Times, serif;
-}
-body{
-    margin: 0;
-}
-#entryDocTitle{
-    color: white;
-    text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    font-size: 2.4em;
-}
-#customP{
-    animation: fadeIn 1.3s ease-in-out forwards;
-}
-.btn-primary:hover{
-    box-shadow: 0 0 10px rgba(173,31,255, 1.0);
+    transition: all 0.3s ease-in-out;
+    color: rgba(173,31,255, 1.0);
+    font-family: "Arapey";
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
+    html,body{
+        margin:0;
+        height: 100%;
+        overflow-y: hidden;
+        padding: 0:
     }
-    100% {
-        opacity: 1;
+
+    .btn-primary:hover{
+        box-shadow: 0 0 10px rgba(173,31,255, 1.0);
     }
-}
+   
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }

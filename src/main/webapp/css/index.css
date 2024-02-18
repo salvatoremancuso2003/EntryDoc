@@ -48,6 +48,18 @@ select {
     width: 100%;
 }
 
+.custom-btn{
+    background-color: #ad1fff;
+    color: white;
+}
+
+.table th{
+    color: #ad1fff;
+    font-weight: bold;
+}
+
+
+
 
 
 
