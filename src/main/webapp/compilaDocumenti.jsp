@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+        <link rel="stylesheet" href="Bootstrap2024/assets/css/bootstrap-italia.min.css"/>
 
         <style>
             .selected-page {
@@ -41,15 +42,15 @@
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-6" style="z-index: 10; background-color: white; min-height: 60vh; width: 50%;">
                     <div>
-                        <button onclick="goPrevious()">Precedente</button>
-                        <button onclick="goNext()">Successivo</button>
+                        <button class="btn btn-primary" onclick="goPrevious()">Precedente</button>
+                        <button class="btn btn-primary" onclick="goNext()">Successivo</button>
                         <span>Pagina: <input type="text" id="pageNumberInput" value="1"></span>
-                        <button onclick="goToPage()">Vai</button>
+                        <button class="btn btn-primary" onclick="goToPage()">Vai</button>
                         <span id="pageCount"></span>
                     </div>
                     <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
                 </div>
-                <div id="thumbnailsContainer" style="background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:0; left: 50%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
+                <div id="thumbnailsContainer" style="display: none !important; background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:0; left: 50%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
             </div>
         </div>
 
@@ -119,6 +120,10 @@
                     document.getElementById('pageCount').textContent = ' / ' + pdfDoc.numPages;
                     renderPage(pageNum);
                     var numPages = pdf.numPages;
+                    if (numPages !== 1) {
+                        var thumbnailsContainer = document.getElementById('thumbnailsContainer');
+                        thumbnailsContainer.style.display = 'block';
+                    }
                     var promises = [];
                     for (var i = 1; i <= numPages; i++) {
                         promises.push(pdf.getPage(i));
