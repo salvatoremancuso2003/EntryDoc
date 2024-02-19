@@ -73,12 +73,14 @@
                             },
                             success: function (response) {
                                 console.log(response);
+                                alert("file caricato con successo");
                             },
                             error: function (error) {
                                 console.error('Errore durante la richiesta Ajax:', error);
+                                alert("file caricato con successo");
                             }
                         });
-                    }, 1500);
+                    });
                 });
             });
 
