@@ -24,8 +24,12 @@
                     font-size: 2.9em;
                     animation: fadeIn 1.3s ease-in-out forwards;">Elenco file</h1>
                 <div class="row gx-lg-5 align-items-center mb-5">
+<<<<<<< HEAD
                     <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
 
+=======
+                    <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
+>>>>>>> origin/master
 
                         <table id="files" class="table table-hover table-striped table-bordered dt-responsive" style="width:100%;">
                             <thead>
@@ -40,10 +44,14 @@
                         </table>
                     </div>
 
+<<<<<<< HEAD
                     <!--            <div class="col-lg-6 mb-5 mb-lg-0 position-relative" >
                         <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
                         <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div> -->
+=======
+>>>>>>> origin/master
 
+<<<<<<< HEAD
                     <!-- <div class="card bg-glass">
                         <div class="card-body px-4 py-5 px-md-5"  style="
                              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -118,6 +126,8 @@
             </div>
         </div> -->
 
+=======
+>>>>>>> origin/master
                 </div>
             </div>
         </section>
