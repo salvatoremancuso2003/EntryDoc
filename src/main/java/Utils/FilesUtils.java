@@ -13,22 +13,28 @@ import javax.persistence.Persistence;
  *
  * @author Salvatore
  */
-public class FileEntityUtils {
+public class FilesUtils {
 
     private EntityManagerFactory emf;
     private EntityManager em;
 
-    public FileEntityUtils() {
+    public FilesUtils() {
         emf = Persistence.createEntityManagerFactory("entryDoc");
         em = emf.createEntityManager();
     }
 
-    public FileEntity getFileByIdAndFilename(Long id, String filename) {
+    public byte[] getFileContentByIdAndFilename(Long id, String filename) {
         try {
-            return em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
+            FileEntity fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
                     .setParameter("id", id)
                     .setParameter("filename", filename)
                     .getSingleResult();
+
+            if (fileEntity != null) {
+                return fileEntity.getFileContent();
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

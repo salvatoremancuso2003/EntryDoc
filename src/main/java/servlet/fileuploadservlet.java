@@ -6,6 +6,7 @@ package servlet;
 
 import entity.FileEntity;
 import entity.InfoTrack;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,13 +50,13 @@ public class fileuploadservlet extends HttpServlet {
             String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
             String fileName = originalFileName;
-            String filePath = "C:\\Users\\Aldo\\Desktop\\" + fileName;
+            String filePath = "C:\\Users\\Salvatore\\Desktop\\" + fileName;
             File file = new File(filePath);
 
             int counter = 1;
             while (file.exists()) {
                 fileName = baseName + "_" + counter + extension;
-                filePath = "C:\\Users\\Aldo\\Desktop\\" + fileName;
+                filePath = "C:\\Users\\Salvatore\\Desktop\\" + fileName;
                 file = new File(filePath);
                 counter++;
             }
@@ -71,13 +72,14 @@ public class fileuploadservlet extends HttpServlet {
 
             if (fileName.endsWith(".pdf")) {
                 PDDocument document = PDDocument.load(file);
-                PDFTextStripper pdfTextStripper = new PDFTextStripper();
-                String text = pdfTextStripper.getText(document);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                document.save(baos);
                 document.close();
 
-                byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
+                byte[] bytes = baos.toByteArray();
 
                 fileEntity.setFileContent(bytes);
+
             } else if (fileName.endsWith(".docx")) {
                 XWPFDocument document = new XWPFDocument(new FileInputStream(file));
                 byte[] bytes = new byte[0];
