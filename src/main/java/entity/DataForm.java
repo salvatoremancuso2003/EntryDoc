@@ -11,34 +11,24 @@ import java.util.Date;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Dati")
+@Table(name = "Dati")
 public class DataForm implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+
     private Long id;
 
     private String inpu1;
 
     private String input2;
 
-    private String input3;
-
-    private String input4;
-
-    private String input5;
-
-    private String input6;
-
-    private String input7;
-
     @Temporal(TemporalType.DATE)
     private Date dob;
 
-    private String input8;
+    private String input3;
 
-    private String input9;
+    private String input4;
 
     public DataForm() {
     }
@@ -83,52 +73,12 @@ public class DataForm implements Serializable {
         this.input4 = input4;
     }
 
-    public String getInput5() {
-        return input5;
-    }
-
-    public void setInput5(String input5) {
-        this.input5 = input5;
-    }
-
-    public String getInput6() {
-        return input6;
-    }
-
-    public void setInput6(String input6) {
-        this.input6 = input6;
-    }
-
-    public String getInput7() {
-        return input7;
-    }
-
-    public void setInput7(String input7) {
-        this.input7 = input7;
-    }
-
     public Date getDob() {
         return dob;
     }
 
     public void setDob(Date dob) {
         this.dob = dob;
-    }
-
-    public String getInput8() {
-        return input8;
-    }
-
-    public void setInput8(String input8) {
-        this.input8 = input8;
-    }
-
-    public String getInput9() {
-        return input9;
-    }
-
-    public void setInput9(String input9) {
-        this.input9 = input9;
     }
 
 }
