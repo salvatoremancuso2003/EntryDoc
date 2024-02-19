@@ -32,6 +32,7 @@
                 background-color: hsla(0, 0%, 100%, 0.9) !important;
                 backdrop-filter: saturate(200%) blur(25px);
             }
+
         </style>
     </head>
     <body>
@@ -48,13 +49,13 @@
                             animation: fadeIn 1.3s ease-in-out forwards;">
                             DOC ENTRY <br />
                         </h1>
-                        <p class="mb-4 opacity-100" style="
-                           animation: fadeIn 1.3s ease-in-out forwards;
-                           text-shadow: 6px 6px 10px rgba(0, 0, 0, 1.4);
+                        <p class="mb-4 opacity-100"
+                           style="text-shadow: 6px 6px 10px rgba(0, 0, 0, 1.4);
                            border-radius: 5px;
                            color: hsl(218, 81%, 85%);
                            box-shadow: 0 0 10px rgba(173,31,255, 1.0);
-                           padding: 5px;"
+                           padding: 5px;
+                           animation: fadeIn 1.3s ease-in-out forwards;"
 
                            >
                             Il nostro sito web offre una soluzione completa per l'upload, la modifica,

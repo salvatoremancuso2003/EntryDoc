@@ -29,11 +29,11 @@ body {
 
 #form-container,
 #file-container {
-    padding: 150px; /* Aumentato il padding */
+    padding: 150px;
     box-sizing: border-box;
-    background-color: #ffffff; /* Colore di sfondo bianco */
-    border-radius: 5px; /* Bordo arrotondato per il contenuto */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombra per il contenuto */
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form {

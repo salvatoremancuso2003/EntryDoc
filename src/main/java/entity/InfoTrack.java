@@ -89,7 +89,7 @@ public class InfoTrack implements Serializable {
         em.close();
     }
     
-    public static void attachmentTrackUpdate(String infoName, Attachments info) {
+    public static void attachmentTrackUpdate(String infoName, FileEntity info) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("regione");
         EntityManager em = emf.createEntityManager();
@@ -112,7 +112,7 @@ public class InfoTrack implements Serializable {
         this.dataOraTracciamento = dataOraTracciamento;
     }
 
-    private InfoTrack(String infoName, String nuovo_allegato_creato, Date date, Attachments info) {
+    private InfoTrack(String infoName, String nuovo_allegato_creato, Date date, FileEntity info) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
