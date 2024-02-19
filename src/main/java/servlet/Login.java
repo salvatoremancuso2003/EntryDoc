@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
                 targetPage = "index.jsp";
                 break;
             case 2:
-                targetPage = "";
+                targetPage = "fileUpload.jsp";
                 break;
             case 3:
                 targetPage = "";
