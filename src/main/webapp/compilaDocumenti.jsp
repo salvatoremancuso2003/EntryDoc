@@ -33,7 +33,9 @@
 
             if (pdfContent != null) {
                 String base64EncodedPDF = new String(Base64.encodeBase64(pdfContent));
+
         %>
+
 
         <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
             <div class="row gx-lg-5 align-items-center mb-5">
@@ -46,7 +48,6 @@
                         <span id="pageCount"></span>
                     </div>
                     <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
-
                 </div>
                 <div id="thumbnailsContainer" style="background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:0; left: 50%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
             </div>

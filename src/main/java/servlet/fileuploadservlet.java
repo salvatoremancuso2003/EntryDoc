@@ -90,6 +90,13 @@ public class fileuploadservlet extends HttpServlet {
                 document.close();
 
                 fileEntity.setFileContent(bytes);
+            } else if (fileName.endsWith(".jpeg") || fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+                FileInputStream inputStream = new FileInputStream(file);
+                byte[] bytes = new byte[(int) file.length()];
+                inputStream.read(bytes);
+                inputStream.close();
+
+                fileEntity.setFileContent(bytes);
             }
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");

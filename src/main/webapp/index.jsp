@@ -55,27 +55,69 @@
         <script>
 
             function openDoc(filename, id) {
-                var form = document.createElement('form');
-                form.setAttribute('method', 'POST');
-                form.setAttribute('action', 'compilaDocumenti.jsp');
+                if (filename.toLowerCase().endsWith(".pdf")) {
+                    var form = document.createElement('form');
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', 'compilaDocumenti.jsp');
 
-                var idInput = document.createElement('input');
-                idInput.setAttribute('type', 'hidden');
-                idInput.setAttribute('name', 'id');
-                idInput.setAttribute('value', id);
-                form.appendChild(idInput);
+                    var idInput = document.createElement('input');
+                    idInput.setAttribute('type', 'hidden');
+                    idInput.setAttribute('name', 'id');
+                    idInput.setAttribute('value', id);
+                    form.appendChild(idInput);
 
-                var filenameInput = document.createElement('input');
-                filenameInput.setAttribute('type', 'hidden');
-                filenameInput.setAttribute('name', 'filename');
-                filenameInput.setAttribute('value', filename);
-                form.appendChild(filenameInput);
+                    var filenameInput = document.createElement('input');
+                    filenameInput.setAttribute('type', 'hidden');
+                    filenameInput.setAttribute('name', 'filename');
+                    filenameInput.setAttribute('value', filename);
+                    form.appendChild(filenameInput);
 
-                document.body.appendChild(form);
+                    document.body.appendChild(form);
 
-                form.submit();
+                    form.submit();
+                } else if (filename.toLowerCase().endsWith(".png")) {
+                    var form = document.createElement('form');
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', 'compilaImg.jsp');
 
+                    var idInput = document.createElement('input');
+                    idInput.setAttribute('type', 'hidden');
+                    idInput.setAttribute('name', 'id');
+                    idInput.setAttribute('value', id);
+                    form.appendChild(idInput);
 
+                    var filenameInput = document.createElement('input');
+                    filenameInput.setAttribute('type', 'hidden');
+                    filenameInput.setAttribute('name', 'filename');
+                    filenameInput.setAttribute('value', filename);
+                    form.appendChild(filenameInput);
+
+                    document.body.appendChild(form);
+
+                    form.submit();
+                    } else if (filename.toLowerCase().endsWith(".jpeg")) {
+                    var form = document.createElement('form');
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', 'compilaImg.jsp');
+
+                    var idInput = document.createElement('input');
+                    idInput.setAttribute('type', 'hidden');
+                    idInput.setAttribute('name', 'id');
+                    idInput.setAttribute('value', id);
+                    form.appendChild(idInput);
+
+                    var filenameInput = document.createElement('input');
+                    filenameInput.setAttribute('type', 'hidden');
+                    filenameInput.setAttribute('name', 'filename');
+                    filenameInput.setAttribute('value', filename);
+                    form.appendChild(filenameInput);
+
+                    document.body.appendChild(form);
+
+                    form.submit();
+                } else {
+                    console.error("Formato del file non supportato");
+                }
             }
 
         </script>
