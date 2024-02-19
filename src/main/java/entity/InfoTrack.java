@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 /**
@@ -88,7 +84,7 @@ public class InfoTrack implements Serializable {
         em.getTransaction().commit();
         em.close();
     }
-    
+
     public static void attachmentTrackUpdate(String infoName, FileEntity info) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("regione");
@@ -112,8 +108,10 @@ public class InfoTrack implements Serializable {
         this.dataOraTracciamento = dataOraTracciamento;
     }
 
-    private InfoTrack(String infoName, String nuovo_allegato_creato, Date date, FileEntity info) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public InfoTrack(String info, String descrizione, Date dataOraTracciamento, FileEntity file) {
+        this.info = info;
+        this.descrizione = descrizione;
+        this.dataOraTracciamento = dataOraTracciamento;
     }
 
     // Getter e Setter
