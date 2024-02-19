@@ -50,13 +50,13 @@ public class fileuploadservlet extends HttpServlet {
             String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
             String fileName = originalFileName;
-            String filePath = "C:\\Users\\Aldo\\Desktop\\" + fileName;
+            String filePath = "C:\\Users\\Salvatore\\Desktop\\" + fileName;
             File file = new File(filePath);
 
             int counter = 1;
             while (file.exists()) {
                 fileName = baseName + "_" + counter + extension;
-                filePath = "C:\\Users\\Aldo\\Desktop\\" + fileName;
+                filePath = "C:\\Users\\Salvatore\\Desktop\\" + fileName;
                 file = new File(filePath);
                 counter++;
             }
