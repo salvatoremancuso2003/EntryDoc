@@ -25,7 +25,7 @@ public class User implements Serializable {
     private String numero_telefono;
 
     @ManyToOne
-    private Role ruolo; // Aggiunto il campo ruolo
+    private Role ruolo;
 
 
     public Role getRuolo() {

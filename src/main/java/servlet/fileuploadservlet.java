@@ -70,6 +70,7 @@ public class fileuploadservlet extends HttpServlet {
             fileEntity.setFilepath(filePath);
             fileEntity.setFileSize(filePart.getSize());
             fileEntity.setUploadDate(new Timestamp(new Date().getTime()));
+            fileEntity.setStatus(1);
 
             if (fileName.endsWith(".pdf")) {
                 PDDocument document = PDDocument.load(file);

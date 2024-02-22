@@ -62,29 +62,26 @@ public class FilesServlet extends HttpServlet {
 
                 JsonArray data = new JsonArray();
                 for (FileEntity e : files) {
-                    if (e.getStatus() != 1) {
-                        JsonObject filesData = new JsonObject();
-                        filesData.addProperty("eventId", e.getId());
-                        filesData.addProperty("fileName", e.getFilename());
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String formattedDate = dateFormat.format(e.getUploadDate());
-                        filesData.addProperty("uploadDate", formattedDate);
-                        filesData.addProperty("filePath", e.getFilepath());
-                        filesData.addProperty("fileSize", e.getFileSize());
-                        filesData.addProperty("description", e.getDescription());
-                        String gestisci = "<button class=\"custom-btn\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
-                        filesData.addProperty("gestisci", gestisci);
+                    JsonObject filesData = new JsonObject();
+                    filesData.addProperty("fileName", e.getFilename());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String formattedDate = dateFormat.format(e.getUploadDate());
+                    filesData.addProperty("uploadDate", formattedDate);
+                    filesData.addProperty("filePath", e.getFilepath());
+                    filesData.addProperty("fileSize", e.getFileSize());
+                    filesData.addProperty("tipologiaDocumentale", e.getTipologia_documento().getTipo());
+                    String gestisci = "<button class=\"custom-btn\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
+                    filesData.addProperty("gestisci", gestisci);
 
-                        String fileContentBase64 = "";
-                        byte[] fileContent = e.getFileContent();
-                        if (fileContent != null) {
-                            fileContentBase64 = Base64.getEncoder().encodeToString(fileContent);
-                        }
-                        filesData.addProperty("fileContent", fileContentBase64);
-
-                        data.add(filesData);
-                        System.out.println(filesData);
+                    String fileContentBase64 = "";
+                    byte[] fileContent = e.getFileContent();
+                    if (fileContent != null) {
+                        fileContentBase64 = Base64.getEncoder().encodeToString(fileContent);
                     }
+                    filesData.addProperty("fileContent", fileContentBase64);
+
+                    data.add(filesData);
+                    System.out.println(filesData);
                 }
 
                 jsonResponse.add("aaData", data);

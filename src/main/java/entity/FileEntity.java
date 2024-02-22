@@ -17,7 +17,7 @@ import javax.persistence.*;
     ),
     @NamedQuery(
             name = "FileEntity.findAll",
-            query = "SELECT f FROM FileEntity f"
+            query = "SELECT f FROM FileEntity f WHERE f.status != 2 AND f.status != 0"
     )
 
 })
@@ -47,7 +47,10 @@ public class FileEntity implements Serializable {
     private byte[] fileContent;
 
     private int status;
-    
+
+    @ManyToOne
+    private User user;
+
     @ManyToOne
     private Tipologia_documento tipologia_documento;
 
@@ -122,7 +125,13 @@ public class FileEntity implements Serializable {
     public void setTipologia_documento(Tipologia_documento tipologia_documento) {
         this.tipologia_documento = tipologia_documento;
     }
-    
-    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }

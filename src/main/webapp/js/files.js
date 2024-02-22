@@ -17,15 +17,13 @@ $(document).ready(function () {
             "dataType": "json",
             "dataSrc": "aaData"
         },
-
         columns: [
+            {"data": "tipologiaDocumentale"},
             {"data": "fileName"},
             {"data": "uploadDate", "type": "date-eu"},
-            {"data": "description"},
             {"data": "gestisci"}
 
         ],
-
         processing: true,
         pageLength: 10,
         lengthMenu: [
@@ -33,11 +31,11 @@ $(document).ready(function () {
             [10, 25, 50, 'All']
         ],
         language: {
-            "infoFiltered": "(filtrati da _MAX_ elementi totali)",
-            "infoThousands": ".",
-            "loadingRecords": "Caricamento...",
-            "processing": "Elaborazione...",
-            "search": "Cerca:",
+            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Italian.json",
+            "datetime": {
+                "format": "DD/MM/YYYY HH:mm:ss"
+            },
+
             "paginate": {
                 "first": "Inizio",
                 "previous": "Precedente",
@@ -277,7 +275,6 @@ $(document).ready(function () {
             }
         },
         order: [[1, 'asc']],
-
         paginate: {
             first: "Inizio",
             last: "Fine",

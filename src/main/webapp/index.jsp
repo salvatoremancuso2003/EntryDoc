@@ -42,9 +42,9 @@
                                 <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
                                     <thead>
                                         <tr>
+                                            <th>Tipologia documentale : </th>
                                             <th>Nome del file : </th>
                                             <th>Data di upload :</th>
-                                            <th>Descrizione del file : </th>
                                             <th> Azione : </th>
                                         </tr>
                                     </thead>
@@ -63,6 +63,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="js/files.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 
         <!--begin::Javascript-->
         <!--begin::Global Javascript Bundle(mandatory for all pages)-->
@@ -143,6 +144,7 @@
                     document.body.appendChild(form);
 
                     form.submit();
+                    updateFileStatus(id);
                 } else if (filename.toLowerCase().endsWith(".png")) {
                     var form = document.createElement('form');
                     form.setAttribute('method', 'POST');
@@ -163,6 +165,7 @@
                     document.body.appendChild(form);
 
                     form.submit();
+                    updateFileStatus(id);
                 } else if (filename.toLowerCase().endsWith(".jpeg")) {
                     var form = document.createElement('form');
                     form.setAttribute('method', 'POST');
@@ -183,8 +186,20 @@
                     document.body.appendChild(form);
 
                     form.submit();
+                    updateFileStatus(id);
                 } else {
                     console.error("Formato del file non supportato");
+                }
+                function updateFileStatus(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "UpdateFilesStatus", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log("File status updated successfully");
+                        }
+                    };
+                    xhr.send("id=" + id);
                 }
             }
 

@@ -88,16 +88,16 @@
             List<Tipologia_documento> tipologie = form.getTipologie(tipologia_documento);
             String tipologia = tipologia_documento.getTipo();
         %>
-        <div class="container" style="position: fixed; top: 10%; right: 0; left: 75% ">
+        <div class="container" style="position: fixed; top: 10%; right: 0; left: 70%; ">
             <form action="UpdateTipoDocumento" method="POST" id="updateForm">
                 <input type="hidden" name="id" value="<%=id%>">
-                <select name="tipoDocumento" id="tipoDocumento">
+                <select name="tipoDocumento" id="tipoDocumento" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true">
                     <option value="<%=tipologia%>" class="selected"><%=tipologia%></option>
                     <% for (Tipologia_documento tipo : tipologie) {%>
                     <option value="<%=tipo.getId()%>"><%=tipo.getTipo()%></option>
                     <% } %>
                 </select>
-                <button type="submit" class="btn btn-primary" id="submitUpdateForm">Salva</button>
+                <button type="submit" class="btn btn-info" id="submitUpdateForm">Salva</button>
             </form>
 
         </div>
@@ -137,9 +137,26 @@
         <script src="assets/js/custom/utilities/modals/users-search.js"></script>
         <!--end::Custom Javascript-->
         <!--end::Javascript-->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-KXmL1NMrnAEqylOf8pvF9MsK3LMul2/nO+Juj5RCxI0=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 
         <script>
+                            let submitUpdateForm = document.getElementById('submitUpdateForm');
+                            submitUpdateForm.addEventListener('click', function () {
+                                Swal.fire({
+                                    text: "Tipologia Documentale Aggiornata!",
+                                    icon: "info",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "OK",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            });
+
                             $(document).ready(function () {
                                 $('#updateForm').submit(function (event) {
                                     event.preventDefault();
@@ -151,7 +168,6 @@
                                         url: form.attr('action'),
                                         data: form.serialize(),
                                         success: function (data) {
-                                            location.reload();
                                         },
                                         error: function (xhr, status, error) {
                                             console.error('Si è verificato un errore durante l\'invio del modulo:', error);
