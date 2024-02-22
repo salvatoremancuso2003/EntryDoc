@@ -11,10 +11,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Visualizza e Compila Documento</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
-        <link rel="stylesheet" href="Bootstrap2024/assets/css/bootstrap-italia.min.css"/>
 
+        <!--begin::Fonts(mandatory for all pages)-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+        <!--end::Fonts-->
+
+        <!--begin::Vendor Stylesheets(used for this page only)-->
+
+        <!--end::Vendor Stylesheets-->
+
+        <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+        <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+        <!--end::Global Stylesheets Bundle-->
+        
         <style>
             .selected-page {
                 display: none;
@@ -52,10 +64,10 @@
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-6" style="z-index: 10; background-color: white; min-height: 60vh; width: 50%;">
                     <div>
-                        <button class="btn btn-primary" onclick="goPrevious()">Precedente</button>
-                        <button class="btn btn-primary" onclick="goNext()">Successivo</button>
+                        <button class="btn btn-secondary" onclick="goPrevious()">Precedente</button>
+                        <button class="btn btn-secondary" onclick="goNext()">Successivo</button>
                         <span>Pagina: <input type="text" id="pageNumberInput" value="1"></span>
-                        <button class="btn btn-primary" onclick="goToPage()">Vai</button>
+                        <button class="btn btn-secondary" onclick="goToPage()">Vai</button>
                         <span id="pageCount"></span>
                     </div>
                     <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
@@ -64,6 +76,30 @@
             </div>
 
         </div>
+        
+        
+        
+         <!--begin::Javascript-->
+        <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+        <script src="assets/plugins/global/plugins.bundle.js"></script>
+        <script src="assets/js/scripts.bundle.js"></script>
+        <!--end::Global Javascript Bundle-->
+
+        <!--begin::Vendors Javascript(used for this page only)-->
+        
+        <!--end::Vendors Javascript-->
+
+        <!--begin::Custom Javascript(used for this page only)-->
+        <script src="assets/js/widgets.bundle.js"></script>
+        <script src="assets/js/custom/widgets.js"></script>
+        <script src="assets/js/custom/apps/chat/chat.js"></script>
+        <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+        <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+        <script src="assets/js/custom/utilities/modals/new-target.js"></script>
+        <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+        <!--end::Custom Javascript-->
+        <!--end::Javascript-->
+        
 
         <script>
             var pdfDoc = null;
