@@ -283,7 +283,7 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
-                                        <a href="login.jsp" class="menu-link px-5" onclick=" ">Sign Out</a>
+                                        <a id="logoutButton" class="menu-link px-5">Sign Out</a>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
@@ -483,6 +483,14 @@
                                     var base64EncodedPDF = "<%= base64EncodedPDF%>";
                                     loadAndRenderPDF(atob(base64EncodedPDF));
 
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#logoutButton").click(function (event) {
+                    event.preventDefault();
+                    window.location.href = "Logout"; // Esegui il reindirizzamento sulla servlet direttamente
+                });
+            });
         </script>
 
         <%

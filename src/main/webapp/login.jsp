@@ -125,10 +125,12 @@
             })()
         </script>
 
-        <script>var defaultThemeMode = "light";
-            var themeMode;
-            if (document.documentElement) {
-                if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+        <script>    var defaultThemeMode = "light";
+            var them    eMode;
+                    if (document.documentElement)
+            {
+                if (
+                        document.documentElement.hasAttribute("data-bs-theme-mode")) {
                     themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
                 } else {
                     if (localStorage.getItem("data-bs-theme") !== null) {
