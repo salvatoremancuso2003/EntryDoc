@@ -3,6 +3,11 @@
     Created on : 19 feb 2024, 10:09:42
     Author     : Salvatore
 --%>
+<%@page import="entity.Campo_form"%>
+<%@page import="entity.Tipologia_documento"%>
+<%@page import="Utils.Form"%>
+<%@page import="java.util.List"%>
+<%@page import="entity.CampoTipologiaDocumento"%>
 <%@page import="org.apache.commons.codec.binary.Base64"%>
 <%@page import="entity.FileEntity"%>
 <%@page import="Utils.FilesUtils"%>
@@ -26,7 +31,7 @@
         <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
         <!--end::Global Stylesheets Bundle-->
-        
+
         <style>
             .selected-page {
                 display: none;
@@ -76,17 +81,50 @@
             </div>
 
         </div>
-        
-        
-        
-         <!--begin::Javascript-->
+
+        <% Form form = new Form();
+            Tipologia_documento tipologia_documento = form.findTipologiaDocumentoByFileEntityId(id);
+            List<CampoTipologiaDocumento> campoTipologiaDocumento = form.getCampoTipologiaDocumentoByTipologiaDocumento(tipologia_documento);
+            List<Tipologia_documento> tipologie = form.getTipologie(tipologia_documento);
+            String tipologia = tipologia_documento.getTipo();
+        %>
+        <div class="container" style="position: fixed; top: 10%; right: 0; left: 75% ">
+            <form action="UpdateTipoDocumento" method="POST" id="updateForm">
+                <input type="hidden" name="id" value="<%=id%>">
+                <select name="tipoDocumento" id="tipoDocumento">
+                    <option value="<%=tipologia%>" class="selected"><%=tipologia%></option>
+                    <% for (Tipologia_documento tipo : tipologie) {%>
+                    <option value="<%=tipo.getId()%>"><%=tipo.getTipo()%></option>
+                    <% } %>
+                </select>
+                <button type="submit" class="btn btn-primary" id="submitUpdateForm">Salva</button>
+            </form>
+
+        </div>
+
+        <div class="container" style="position: fixed; top: 25%; right: 0; left: 75% ">
+            <form action="" id="saveForm" method="POST">
+                <h4>title</h4>
+                <div class="form-group" id="formFields">
+                    <% for (CampoTipologiaDocumento campo : campoTipologiaDocumento) { %>
+                    <% Campo_form campoForm = campo.getCampoForm();%>
+                    <div class="form-group">
+                        <label><%= campoForm.getEtichetta()%></label>
+                        <input type="<%= campoForm.getTipologia_campo()%>" id="input" name="<%= campoForm.getNome()%>" class="form-control">
+                    </div>
+                    <% }%>
+                </div>
+            </form>
+        </div>
+
+        <!--begin::Javascript-->
         <!--begin::Global Javascript Bundle(mandatory for all pages)-->
         <script src="assets/plugins/global/plugins.bundle.js"></script>
         <script src="assets/js/scripts.bundle.js"></script>
         <!--end::Global Javascript Bundle-->
 
         <!--begin::Vendors Javascript(used for this page only)-->
-        
+
         <!--end::Vendors Javascript-->
 
         <!--begin::Custom Javascript(used for this page only)-->
@@ -99,7 +137,29 @@
         <script src="assets/js/custom/utilities/modals/users-search.js"></script>
         <!--end::Custom Javascript-->
         <!--end::Javascript-->
-        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-KXmL1NMrnAEqylOf8pvF9MsK3LMul2/nO+Juj5RCxI0=" crossorigin="anonymous"></script>
+
+        <script>
+                            $(document).ready(function () {
+                                $('#updateForm').submit(function (event) {
+                                    event.preventDefault();
+
+                                    var form = $(this);
+
+                                    $.ajax({
+                                        type: form.attr('method'),
+                                        url: form.attr('action'),
+                                        data: form.serialize(),
+                                        success: function (data) {
+                                            location.reload();
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Si è verificato un errore durante l\'invio del modulo:', error);
+                                        }
+                                    });
+                                });
+                            });
+        </script>
 
         <script>
             var pdfDoc = null;
@@ -223,7 +283,7 @@
                                 thumbnailContainer.classList.add('thumbnail-container');
                                 if (pageNumber === pageNum) {
                                     thumbnailContainer.classList.add('current-page');
-                                    thumbnailContainer.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
+                                    thumbnailContainer.style.border = "2px solid black";
                                 }
                                 thumbnailImg.addEventListener('click', function (event) {
                                     var clickedThumbnail = event.target;
@@ -256,5 +316,6 @@
                 out.println("PDF not found");
             }
         %>
+
     </body>
 </html>

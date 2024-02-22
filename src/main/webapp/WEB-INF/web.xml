@@ -24,6 +24,14 @@
         <servlet-name>fileuploadservlet</servlet-name>
         <servlet-class>servlet.fileuploadservlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateInputServlet</servlet-name>
+        <servlet-class>servlet.UpdateInputServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTipoDocumento</servlet-name>
+        <servlet-class>servlet.UpdateTipoDocumento</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -47,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>fileuploadservlet</servlet-name>
         <url-pattern>/fileuploadservlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTipoDocumento</servlet-name>
+        <url-pattern>/UpdateTipoDocumento</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

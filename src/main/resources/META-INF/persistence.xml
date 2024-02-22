@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <persistence-unit name="entryDoc" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>entity.User</class>
-        <class>entity.Role</class>
-        <class>entity.AuthService</class>
-        <class>entity.HibernateUtil</class>
-        <class>entity.InfoTrack</class>
-        <class>entity.FileEntity</class>
-        <class>entity.DataForm</class>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/entryDoc"/>
-            <property name="javax.persistence.jdbc.user" value="entryDoc"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.password" value="entryDoc1234"/>
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-            <property name="javax.persistence.schema-generation.database.action" value="update"/>
-        </properties>
-    </persistence-unit>
+  <persistence-unit name="entryDoc" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>entity.User</class>
+    <class>entity.Role</class>
+    <class>entity.AuthService</class>
+    <class>entity.HibernateUtil</class>
+    <class>entity.InfoTrack</class>
+    <class>entity.FileEntity</class>
+    <class>entity.Tipologia_documento</class>
+    <class>entity.Campo_form</class>
+    <class>entity.CampoTipologiaDocumento</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/entryDoc"/>
+      <property name="javax.persistence.jdbc.user" value="entryDoc"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="entryDoc"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="javax.persistence.schema-generation.database.action" value="update"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+    </properties>
+  </persistence-unit>
 </persistence>

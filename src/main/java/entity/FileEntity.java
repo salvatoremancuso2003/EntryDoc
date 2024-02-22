@@ -15,11 +15,10 @@ import javax.persistence.*;
             name = "FileEntity.findByFilename",
             query = "SELECT f FROM FileEntity f WHERE f.filename = :filename"
     ),
-      @NamedQuery(
+    @NamedQuery(
             name = "FileEntity.findAll",
             query = "SELECT f FROM FileEntity f"
     )
-
 
 })
 public class FileEntity implements Serializable {
@@ -40,7 +39,7 @@ public class FileEntity implements Serializable {
     @Column(name = "file_size")
     private Long fileSize;
 
-    @Column(name = "upload_date")
+    @Column(name = "uploadDate", nullable = false, updatable = false, insertable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp uploadDate;
 
     @Lob
@@ -48,6 +47,9 @@ public class FileEntity implements Serializable {
     private byte[] fileContent;
 
     private int status;
+    
+    @ManyToOne
+    private Tipologia_documento tipologia_documento;
 
     public Long getId() {
         return id;
@@ -112,5 +114,15 @@ public class FileEntity implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Tipologia_documento getTipologia_documento() {
+        return tipologia_documento;
+    }
+
+    public void setTipologia_documento(Tipologia_documento tipologia_documento) {
+        this.tipologia_documento = tipologia_documento;
+    }
+    
+    
 
 }
