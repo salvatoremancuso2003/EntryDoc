@@ -325,15 +325,11 @@
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <footer>
-
-            </footer>
         </div>
 
 
@@ -430,7 +426,7 @@
             }
 
         </script>
-        
+
         <script>
             $(document).ready(function () {
                 $("#logoutButton").click(function (event) {
@@ -440,6 +436,5 @@
             });
         </script>
         <!--end::Javascript-->
-
     </body>
 </html>
