@@ -72,7 +72,7 @@ public class FilesServlet extends HttpServlet {
                         filesData.addProperty("filePath", e.getFilepath());
                         filesData.addProperty("fileSize", e.getFileSize());
                         filesData.addProperty("description", e.getDescription());
-                        String gestisci = "<button class=\"custom-btn\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
+                        String gestisci = "<button class=\"btn btn-light\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
                         filesData.addProperty("gestisci", gestisci);
 
                         String fileContentBase64 = "";
