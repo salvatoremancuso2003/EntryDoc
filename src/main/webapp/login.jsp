@@ -25,7 +25,7 @@
                 background-image: url('assets/media/auth/img-back.jpg');
             }
             [data-bs-theme="dark"] body {
-                background-image: url('assets/media/auth/bg8-dark.jpg');
+                background-image: url('assets/media/auth/img-back.jpg');
             }
         </style>
 
