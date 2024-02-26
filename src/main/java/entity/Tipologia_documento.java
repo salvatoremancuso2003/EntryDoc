@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +30,9 @@ public class Tipologia_documento implements Serializable {
 
     @Column(name = "tipo")
     private String tipo;
+    
+    @Column(name = "scadenza")
+    private int scadenza;
 
     public Long getId() {
         return id;
@@ -46,6 +50,13 @@ public class Tipologia_documento implements Serializable {
         this.tipo = tipo;
     }
 
+    public int getScadenza() {
+        return scadenza;
+    }
+
+    public void setScadenza(int scadenza) {
+        this.scadenza = scadenza;
+    }
     
     @Override
     public int hashCode() {

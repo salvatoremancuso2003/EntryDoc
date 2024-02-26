@@ -7,6 +7,10 @@ package servlet;
 import entity.FileEntity;
 import entity.User;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -36,6 +40,7 @@ public class UpdateFilesStatus extends HttpServlet {
         Long id = Long.parseLong(request.getParameter("id"));
         HttpSession httpSession = request.getSession();
         String us_name = httpSession.getAttribute("us_name").toString();
+        boolean timerScaduto = Boolean.valueOf(request.getParameter("timerScaduto"));
 
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
@@ -45,15 +50,24 @@ public class UpdateFilesStatus extends HttpServlet {
                     .setParameter("us_name", us_name)
                     .getSingleResult();
             FileEntity fileEntity = em.find(FileEntity.class, id);
-            fileEntity.setStatus(2);
-            fileEntity.setUser(user);
+            if (timerScaduto) {
+                fileEntity.setStatus(1);
+                fileEntity.setUser(null);
+                fileEntity.setExpiration_date(null);
+            } else {
+                fileEntity.setStatus(2);
+                fileEntity.setUser(user);
+                int attributoScadenza = fileEntity.getTipologia_documento().getScadenza();
+                fileEntity.setExpiration_date(new Timestamp(System.currentTimeMillis() + attributoScadenza * 60 * 1000));
+
+            }
+
             em.getTransaction().begin();
             em.merge(fileEntity);
             em.getTransaction().commit();
 
             em.close();
             emf.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

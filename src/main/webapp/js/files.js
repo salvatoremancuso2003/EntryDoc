@@ -10,10 +10,13 @@
  */
 
 $(document).ready(function () {
-    $('#files').DataTable({
+    var table = $('#files').DataTable({
         ajax: {
             "url": "FilesServlet",
             "type": "POST",
+            data: function (d) {
+                d.stato = $("#stato").val();
+            },
             "dataType": "json",
             "dataSrc": "aaData"
         },
@@ -35,7 +38,6 @@ $(document).ready(function () {
             "datetime": {
                 "format": "DD/MM/YYYY HH:mm:ss"
             },
-
             "paginate": {
                 "first": "Inizio",
                 "previous": "Precedente",
@@ -283,5 +285,8 @@ $(document).ready(function () {
         }
     },
             );
+    $("#stato").change(function () {
+        table.ajax.reload(null, false);
+    });
 });
 

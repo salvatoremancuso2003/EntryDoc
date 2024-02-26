@@ -1,3 +1,6 @@
+<%@page import="entity.FileEntity"%>
+<%@page import="java.util.List"%>
+<%@page import="Utils.FilesUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -192,10 +195,25 @@
                         </div>
                         <!--end::Theme mode-->
                         <!--begin::User menu-->
+                        <%
+                            String username = session.getAttribute("us_name").toString();
+                            String name = session.getAttribute("us_nome").toString();
+                            String surname = session.getAttribute("us_cognome").toString();
+                            String nomeCompleto = name + " " + surname;
+                            String name2 = session.getAttribute("us_nome").toString();
+                            String userIdParam = session.getAttribute("us_id").toString();
+                            int userId = Integer.parseInt(userIdParam);
+                            FilesUtils filesUtils = new FilesUtils();
+                            Boolean presenza = filesUtils.getFilesWithUserId(userId);
+
+
+                        %>
                         <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
                             <!--begin::Menu wrapper-->
                             <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                                <img src="assets/media/avatars/blank.png" class="rounded-3" alt="user" />
+                                <div class="symbol symbol-50px" >
+                                    <div class="symbol-label fs-2 fw-semibold text-success"> <%= name2.charAt(0)%> </div>
+                                </div>
                             </div>
                             <!--begin::User account menu-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -204,14 +222,17 @@
                                     <div class="menu-content d-flex align-items-center px-3">
                                         <!--begin::Avatar-->
                                         <div class="symbol symbol-50px me-5">
-                                            <img alt="Logo" src="assets/media/avatars/blank.png" />
+                                            <div class="symbol symbol-50px">
+                                                <div class="symbol-label fs-2 fw-semibold text-success"> <%= name2.charAt(0)%> </div>
+                                            </div>
                                         </div>
                                         <!--end::Avatar-->
                                         <!--begin::Username-->
+
                                         <div class="d-flex flex-column">
-                                            <div class="fw-bold d-flex align-items-center fs-5">Robert Fox 
-                                                <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div>
-                                            <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">robert@kt.com</a>
+                                            <div class="fw-bold d-flex align-items-center fs-5"><%=nomeCompleto%>
+                                                <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Utente</span></div>
+                                            <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"><%=username%></a>
                                         </div>
                                         <!--end::Username-->
                                     </div>
@@ -226,12 +247,11 @@
                                 </div>-->
                                 <!--end::Menu item-->
                                 <!--begin::Menu separator-->
-                                <div class="separator my-2"></div>
                                 <!--end::Menu separator-->
                                 <!--begin::Menu item-->
-                                <!--<div class="menu-item px-5 my-1">
+                                <!--   <div class="menu-item px-5 my-1">
                                     <a href="account/settings.html" class="menu-link px-5">Account Settings</a>
-                                </div>-->
+                                </div>--->
                                 <!--end::Menu item-->
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-5">
@@ -255,9 +275,14 @@
                                 <!--begin::Card-->
                                 <div class="card h-100">
                                     <!--begin::Card body-->
+                                    <%
+
+                                        List<FileEntity> tutti = filesUtils.getAllFiles();
+
+                                    %>
                                     <div class="card-body p-9">
                                         <!--begin::Heading-->
-                                        <div class="fs-2hx fw-bold">237</div>
+                                        <div class="fs-2hx fw-bold"><%=tutti.size()%></div>
                                         <div class="fs-4 fw-semibold text-gray-500 mb-7">Documenti presenti</div>
                                         <!--end::Heading-->
                                         <!--begin::Wrapper-->
@@ -267,27 +292,50 @@
                                                 <canvas id="kt_project_list_chart"></canvas>
                                             </div>
                                             <!--end::Chart-->
+                                            <%
+                                                List<FileEntity> daModificare = filesUtils.getFilesWithStatus1();
+
+                                                int daModificare2 = 0;
+                                                if (!daModificare.isEmpty()) {
+                                                    daModificare2 = daModificare.size();
+                                                }
+
+                                                List<FileEntity> attivi = filesUtils.getFilesWithStatus2();
+
+                                                int attivi2 = 0;
+                                                if (!attivi.isEmpty()) {
+                                                    attivi2 = attivi.size();
+                                                }
+
+                                                List<FileEntity> completati = filesUtils.getFilesWithStatus3();
+
+                                                int completati2 = 0;
+                                                if (!completati.isEmpty()) {
+                                                    completati2 = completati.size();
+                                                }
+
+                                            %>
                                             <!--begin::Labels-->
                                             <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
                                                     <div class="bullet bg-primary me-3"></div>
                                                     <div class="text-gray-500">Attivi</div>
-                                                    <div class="ms-auto fw-bold text-gray-700">30</div>
+                                                    <div class="ms-auto fw-bold text-gray-700"><%=attivi2%></div>
                                                 </div>
                                                 <!--end::Label-->
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
                                                     <div class="bullet bg-success me-3"></div>
                                                     <div class="text-gray-500">Completati</div>
-                                                    <div class="ms-auto fw-bold text-gray-700">45</div>
+                                                    <div class="ms-auto fw-bold text-gray-700"><%=completati2%></div>
                                                 </div>
                                                 <!--end::Label-->
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center">
                                                     <div class="bullet bg-gray-300 me-3"></div>
                                                     <div class="text-gray-500">Da modificare</div>
-                                                    <div class="ms-auto fw-bold text-gray-700">25</div>
+                                                    <div class="ms-auto fw-bold text-gray-700"><%=daModificare2%></div>
                                                 </div>
                                                 <!--end::Label-->
                                             </div>
@@ -305,29 +353,42 @@
                     <hr>
 
                     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-                        <h1>Elenco documenti</h1>
-                        <div class="row gx-lg-5 align-items-center mb-5">
-                            <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
+                        <form action="FilesServlet" method="POST" class="form-horizontal" style="display: block">
+                            <h1>Elenco documenti</h1>
+                            <div class="row gx-lg-5 align-items-center mb-5">
+                                <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
 
-                                <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
+                                    <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
 
-                                    <div class="table-responsive">
-                                        <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tipologia documentale : </th>
-                                                    <th>Nome del file : </th>
-                                                    <th>Data di upload :</th>
-                                                    <th> Azione : </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                                        <div class="form-group">
+                                            <label class="active" for="stato">Filtro Documenti</label>
+                                            <select id="stato" class="form-control" name="stato">
+                                                <option value="DaModificare">Da modificare</option>
+                                                <option value="Attivi">Attivi</option>
+                                                <option value="Completati">Completati</option>
+                                                <option value="Tutti">Tutti</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipologia documentale : </th>
+                                                        <th>Nome del file : </th>
+                                                        <th>Data di upload :</th>
+                                                        <th> Azione : </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
             <!--begin::Footer-->
@@ -395,88 +456,73 @@
         <script src="assets/js/custom/utilities/modals/users-search.js"></script>
         <!--end::Custom Javascript-->
         <script>
-
             function openDoc(filename, id) {
+                var presenza = "<%= presenza%>";
+                
                 if (filename.toLowerCase().endsWith(".pdf")) {
-                    var form = document.createElement('form');
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', 'compilaDocumenti.jsp');
+                    updateFileStatus(id, function () {
+                        var form = document.createElement('form');
+                        form.setAttribute('method', 'POST');
+                        form.setAttribute('action', 'compilaDocumenti.jsp');
 
-                    var idInput = document.createElement('input');
-                    idInput.setAttribute('type', 'hidden');
-                    idInput.setAttribute('name', 'id');
-                    idInput.setAttribute('value', id);
-                    form.appendChild(idInput);
+                        var idInput = document.createElement('input');
+                        idInput.setAttribute('type', 'hidden');
+                        idInput.setAttribute('name', 'id');
+                        idInput.setAttribute('value', id);
+                        form.appendChild(idInput);
 
-                    var filenameInput = document.createElement('input');
-                    filenameInput.setAttribute('type', 'hidden');
-                    filenameInput.setAttribute('name', 'filename');
-                    filenameInput.setAttribute('value', filename);
-                    form.appendChild(filenameInput);
+                        var filenameInput = document.createElement('input');
+                        filenameInput.setAttribute('type', 'hidden');
+                        filenameInput.setAttribute('name', 'filename');
+                        filenameInput.setAttribute('value', filename);
+                        form.appendChild(filenameInput);
 
-                    document.body.appendChild(form);
+                        document.body.appendChild(form);
 
-                    form.submit();
-                    updateFileStatus(id);
-                } else if (filename.toLowerCase().endsWith(".png")) {
-                    var form = document.createElement('form');
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', 'compilaImg.jsp');
+                        form.submit();
+                    });
+                } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg")) {
+                    updateFileStatus(id, function () {
+                        var form = document.createElement('form');
+                        form.setAttribute('method', 'POST');
+                        form.setAttribute('action', 'compilaImg.jsp');
 
-                    var idInput = document.createElement('input');
-                    idInput.setAttribute('type', 'hidden');
-                    idInput.setAttribute('name', 'id');
-                    idInput.setAttribute('value', id);
-                    form.appendChild(idInput);
+                        var idInput = document.createElement('input');
+                        idInput.setAttribute('type', 'hidden');
+                        idInput.setAttribute('name', 'id');
+                        idInput.setAttribute('value', id);
+                        form.appendChild(idInput);
 
-                    var filenameInput = document.createElement('input');
-                    filenameInput.setAttribute('type', 'hidden');
-                    filenameInput.setAttribute('name', 'filename');
-                    filenameInput.setAttribute('value', filename);
-                    form.appendChild(filenameInput);
+                        var filenameInput = document.createElement('input');
+                        filenameInput.setAttribute('type', 'hidden');
+                        filenameInput.setAttribute('name', 'filename');
+                        filenameInput.setAttribute('value', filename);
+                        form.appendChild(filenameInput);
 
-                    document.body.appendChild(form);
+                        document.body.appendChild(form);
 
-                    form.submit();
-                    updateFileStatus(id);
-                } else if (filename.toLowerCase().endsWith(".jpeg")) {
-                    var form = document.createElement('form');
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', 'compilaImg.jsp');
-
-                    var idInput = document.createElement('input');
-                    idInput.setAttribute('type', 'hidden');
-                    idInput.setAttribute('name', 'id');
-                    idInput.setAttribute('value', id);
-                    form.appendChild(idInput);
-
-                    var filenameInput = document.createElement('input');
-                    filenameInput.setAttribute('type', 'hidden');
-                    filenameInput.setAttribute('name', 'filename');
-                    filenameInput.setAttribute('value', filename);
-                    form.appendChild(filenameInput);
-
-                    document.body.appendChild(form);
-
-                    form.submit();
-                    updateFileStatus(id);
+                        form.submit();
+                    });
                 } else {
                     console.error("Formato del file non supportato");
                 }
-                function updateFileStatus(id) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "UpdateFilesStatus", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            console.log("File status updated successfully");
-                        }
-                    };
-                    xhr.send("id=" + id);
-                }
+            }
+
+            function updateFileStatus(id, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "UpdateFilesStatus", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("File status updated successfully");
+                        callback();
+                    }
+                };
+                xhr.send("id=" + id);
             }
 
         </script>
+
 
         <script>
             $(document).ready(function () {

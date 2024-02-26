@@ -7,8 +7,7 @@ import javax.persistence.*;
 @NamedQuery(name = "getUtenteUSPASS", query = "SELECT u FROM User u WHERE u.username = :username")
 @Table(name = "utente")
 public class User implements Serializable {
-    
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +17,11 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "cognome")
+    private String cognome;
+
     @Column(unique = true)
     private String email;
 
@@ -26,7 +30,6 @@ public class User implements Serializable {
 
     @ManyToOne
     private Role ruolo;
-
 
     public Role getRuolo() {
         return ruolo;
@@ -76,5 +79,20 @@ public class User implements Serializable {
         this.numero_telefono = numero_telefono;
     }
 
-    
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
 }

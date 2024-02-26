@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +18,7 @@ import javax.persistence.*;
     ),
     @NamedQuery(
             name = "FileEntity.findAll",
-            query = "SELECT f FROM FileEntity f WHERE f.status != 2 AND f.status != 0"
+            query = "SELECT f FROM FileEntity f"
     )
 
 })
@@ -53,6 +54,9 @@ public class FileEntity implements Serializable {
 
     @ManyToOne
     private Tipologia_documento tipologia_documento;
+
+    @Column(name = "expiration_date")
+    private Timestamp expiration_date;
 
     public Long getId() {
         return id;
@@ -132,6 +136,14 @@ public class FileEntity implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Timestamp getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(Timestamp expiration_date) {
+        this.expiration_date = expiration_date;
     }
 
 }

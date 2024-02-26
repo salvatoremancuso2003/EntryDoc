@@ -3,6 +3,7 @@
     Created on : 19 feb 2024, 10:09:42
     Author     : Salvatore
 --%>
+<%@page import="java.sql.Timestamp"%>
 <%@page import="entity.Campo_form"%>
 <%@page import="entity.CampoTipologiaDocumento"%>
 <%@page import="java.util.List"%>
@@ -30,6 +31,7 @@
         <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
         <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <!--end::Global Stylesheets Bundle-->
 
         <style>
@@ -59,11 +61,26 @@
             FilesUtils fileUtils = new FilesUtils();
             byte[] pdfContent = fileUtils.getFileContentByIdAndFilename(id, filename);
 
+            Timestamp fileExpirationDate = fileUtils.getFileExpirationDate(id, filename);
+
             if (pdfContent != null) {
                 String base64EncodedPDF = new String(Base64.encodeBase64(pdfContent));
-
+                if (fileExpirationDate != null && fileExpirationDate.getTime() < System.currentTimeMillis()) {
+        %>
+        <script>
+            alert("Il documento è stato reimpostato! Il tempo per concludere il documento è terminato!");
+        </script>
+        <%
+            }
         %>
 
+        <%            String username = session.getAttribute("us_name").toString();
+            String name = session.getAttribute("us_nome").toString();
+            String surname = session.getAttribute("us_cognome").toString();
+            String nomeCompleto = name + " " + surname;
+
+
+        %>
 
 
         <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -250,9 +267,9 @@
                                             <!--end::Avatar-->
                                             <!--begin::Username-->
                                             <div class="d-flex flex-column">
-                                                <div class="fw-bold d-flex align-items-center fs-5">Robert Fox 
-                                                    <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div>
-                                                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">robert@kt.com</a>
+                                                <div class="fw-bold d-flex align-items-center fs-5"><%=nomeCompleto%>
+                                                    <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Utente</span></div>
+                                                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"><%=username%></a>
                                             </div>
                                             <!--end::Username-->
                                         </div>
@@ -267,12 +284,11 @@
                                     </div>-->
                                     <!--end::Menu item-->
                                     <!--begin::Menu separator-->
-                                    <div class="separator my-2"></div>
                                     <!--end::Menu separator-->
                                     <!--begin::Menu item-->
-                                    <!--<div class="menu-item px-5 my-1">
+                                    <!--   <div class="menu-item px-5 my-1">
                                         <a href="account/settings.html" class="menu-link px-5">Account Settings</a>
-                                    </div>-->
+                                    </div>--->
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
@@ -334,6 +350,70 @@
                             <% }%>
                         </div>
                     </form>
+                    <span id="countdown" style="font-size: 11px" ></span>
+                    <script>
+                        var countdownElement = document.getElementById('countdown');
+                        var expirationTime = "<%= fileExpirationDate%>";
+                        var id = "<%= id%>";
+                        var isTimerExpired = false;
+
+                        function startTimer(expirationDateTime, display) {
+                            function updateDisplay() {
+                                var currentTime = new Date();
+                                var difference = expirationDateTime - currentTime;
+                                var timer = Math.max(0, Math.floor(difference / 1000));
+
+                                var minutes = Math.floor(timer / 60);
+                                var seconds = timer % 60;
+
+                                minutes = String(minutes).padStart(2, '0');
+                                seconds = String(seconds).padStart(2, '0');
+
+                                display.textContent = "Tempo rimasto prima della reimpostazione del documento: " + minutes + ":" + seconds;
+
+                                if (timer <= 0 && !isTimerExpired) {
+                                    timerExpired();
+                                    isTimerExpired = true;
+                                }
+                            }
+
+                            updateDisplay();
+                            setInterval(updateDisplay, 1000);
+                        }
+
+                        function timerExpired() {
+                            alert("Reimpostazione del documento effettuata");
+                            updateFileStatus(id, true);
+                        }
+
+                        function updateFileStatus(id, timerScaduto) {
+                            $.ajax({
+                                type: "POST",
+                                url: "UpdateFilesStatus",
+                                data: {
+                                    id: id,
+                                    timerScaduto: timerScaduto
+                                },
+                                success: function (response) {
+                                    window.location.href = "index.jsp";
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Error updating file status: " + error);
+                                }
+                            });
+                        }
+
+                        jQuery(function ($) {
+                            var expirationDateTime = new Date(expirationTime);
+                            startTimer(expirationDateTime, countdownElement);
+                        });
+
+                    </script>
+
+
+
+
+
                 </div>
             </div>
             <!--begin::Footer-->
@@ -397,44 +477,43 @@
         <!--end::Javascript-->
 
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 
         <script>
-                                    let submitUpdateForm = document.getElementById('submitUpdateForm');
-                                    submitUpdateForm.addEventListener('click', function () {
-                                        Swal.fire({
-                                            text: "Tipologia Documentale Aggiornata!",
-                                            icon: "info",
-                                            buttonsStyling: false,
-                                            confirmButtonText: "OK",
-                                            customClass: {
-                                                confirmButton: "btn btn-primary"
-                                            }
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                location.reload();
-                                            }
-                                        });
-                                    });
+                        let submitUpdateForm = document.getElementById('submitUpdateForm');
+                        submitUpdateForm.addEventListener('click', function () {
+                            Swal.fire({
+                                text: "Tipologia Documentale Aggiornata!",
+                                icon: "info",
+                                buttonsStyling: false,
+                                confirmButtonText: "OK",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        });
 
-                                    $(document).ready(function () {
-                                        $('#updateForm').submit(function (event) {
-                                            event.preventDefault();
+                        $(document).ready(function () {
+                            $('#updateForm').submit(function (event) {
+                                event.preventDefault();
 
-                                            var form = $(this);
+                                var form = $(this);
 
-                                            $.ajax({
-                                                type: form.attr('method'),
-                                                url: form.attr('action'),
-                                                data: form.serialize(),
-                                                success: function (data) {
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    console.error('Si è verificato un errore durante l\'invio del modulo:', error);
-                                                }
-                                            });
-                                        });
-                                    });
+                                $.ajax({
+                                    type: form.attr('method'),
+                                    url: form.attr('action'),
+                                    data: form.serialize(),
+                                    success: function (data) {
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Si è verificato un errore durante l\'invio del modulo:', error);
+                                    }
+                                });
+                            });
+                        });
         </script>
 
         <script>

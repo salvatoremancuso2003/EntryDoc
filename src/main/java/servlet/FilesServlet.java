@@ -4,6 +4,7 @@
  */
 package servlet;
 
+import Utils.FilesUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import entity.FileEntity;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.EntityManager;
@@ -45,14 +48,25 @@ public class FilesServlet extends HttpServlet {
         System.out.println("servlet.FilesServlet.doPost() prova");
         EntityManagerFactory emf = null;
         EntityManager em = null;
+        String stato = request.getParameter("stato");
 
         try {
             emf = Persistence.createEntityManagerFactory("entryDoc");
             em = emf.createEntityManager();
 
             try {
+                List<FileEntity> files = Collections.emptyList();
+                FilesUtils filesUtils = new FilesUtils();
+                if (stato.equals("Tutti")) {
+                    files = em.createNamedQuery("FileEntity.findAll", FileEntity.class).getResultList();
+                } else if (stato.equals("DaModificare")) {
+                    files = filesUtils.getFilesWithStatus1();
 
-                List<FileEntity> files = em.createNamedQuery("FileEntity.findAll", FileEntity.class).getResultList();
+                } else if (stato.equals("Completati")) {
+                    files = filesUtils.getFilesWithStatus3();
+                } else if (stato.equals("Attivi")) {
+                    files = filesUtils.getFilesWithStatus2();
+                }
 
                 JsonObject jsonResponse = new JsonObject();
                 jsonResponse.addProperty("iTotalRecords", files.size());
@@ -70,7 +84,7 @@ public class FilesServlet extends HttpServlet {
                     filesData.addProperty("filePath", e.getFilepath());
                     filesData.addProperty("fileSize", e.getFileSize());
                     filesData.addProperty("tipologiaDocumentale", e.getTipologia_documento().getTipo());
-                    String gestisci = "<button class=\"btn btn-light\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
+                    String gestisci = "<button class=\"btn btn-primary\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
                     filesData.addProperty("gestisci", gestisci);
 
                     String fileContentBase64 = "";
@@ -79,6 +93,7 @@ public class FilesServlet extends HttpServlet {
                         fileContentBase64 = Base64.getEncoder().encodeToString(fileContent);
                     }
                     filesData.addProperty("fileContent", fileContentBase64);
+                    
 
                     data.add(filesData);
                     System.out.println(filesData);
@@ -103,6 +118,7 @@ public class FilesServlet extends HttpServlet {
                 emf.close();
             }
         }
+
     }
     public static final String ITOTALRECORDS = "iTotalRecords";
     public static final String ITOTALDISPLAY = "iTotalDisplayRecords";

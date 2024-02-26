@@ -1,6 +1,8 @@
 package servlet;
 
+import Utils.FilesUtils;
 import entity.AuthService;
+import entity.FileEntity;
 import entity.InfoTrack;
 import entity.User;
 import java.io.IOException;
@@ -17,20 +19,27 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         if (AuthService.isPasswordValid(username, password)) {
-            
-            
+
             User userloggato = AuthService.authenticate_US(username, password);
-            
-            
+            FilesUtils filesUtils = new FilesUtils();
+            FileEntity userFileEntity = filesUtils.getFilesWithUser(userloggato);
+            System.out.println("FILE ENTITY ------------ " + userFileEntity);
+
             if (userloggato != null) {
 
                 request.getSession().setAttribute("us_name", username);
                 request.getSession().setAttribute("us_user", userloggato);
+                request.getSession().setAttribute("us_nome", userloggato.getNome());
+                request.getSession().setAttribute("us_cognome", userloggato.getCognome());
+                request.getSession().setAttribute("us_id", userloggato.getId());
 
                 InfoTrack.loginTrack(username);
-                redirectToPageByRole(response, userloggato.getRuolo().getId());
-                
-                
+                if (userFileEntity != null) {
+                    response.sendRedirect("compilaDocumenti.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
+                } else {
+                    redirectToPageByRole(response, userloggato.getRuolo().getId());
+                }
+
             } else {
                 response.sendRedirect("login.jsp?esito=KO1");
             }
@@ -71,7 +80,6 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
 
     @Override
     public String getServletInfo() {
