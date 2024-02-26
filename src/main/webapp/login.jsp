@@ -22,7 +22,7 @@
 
         <style>
             body {
-                background-image: url('assets/media/auth/bg8.jpg');
+                background-image: url('assets/media/auth/img-back.jpg');
             }
             [data-bs-theme="dark"] body {
                 background-image: url('assets/media/auth/bg8-dark.jpg');
@@ -32,7 +32,7 @@
     </head>
     <!--end::Head-->
     <!--begin::Body-->
-    <body id="kt_body" class="app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
+    <body>
         <div class="d-flex flex-column flex-root" id="kt_app_root">
             <div class="d-flex flex-column flex-center flex-column-fluid">
                 <!--begin::Content-->
