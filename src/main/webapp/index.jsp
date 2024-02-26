@@ -57,7 +57,7 @@
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->
                                         <span class="menu-link">
-                                            <span class="menu-title">Menu</span>
+                                            <span class="menu-title" style="color: #17C653;">Menu</span>
                                             <span class="menu-arrow d-lg-none"></span>
                                         </span>
                                         <!--end:Menu link-->
@@ -360,7 +360,7 @@
         </div>
 
         <!--begin::Scrolltop-->
-        <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+        <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #17C653;">
             <i class="ki-duotone ki-arrow-up">
                 <span class="path1"></span>
                 <span class="path2"></span>

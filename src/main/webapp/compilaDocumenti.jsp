@@ -16,6 +16,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Visualizza e Compila Documento</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
 
@@ -45,8 +47,6 @@
             .thumbnail-page-number, .custom-checkbox {
                 margin-right: 10px;
             }
-
-
         </style>
 
     </head>
@@ -100,7 +100,7 @@
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->
                                         <span class="menu-link">
-                                            <span class="menu-title">Menu</span>
+                                            <span class="menu-title" style="color: #17C653;">Menu</span>
                                             <span class="menu-arrow d-lg-none"></span>
                                         </span>
                                         <!--end:Menu link-->
@@ -288,8 +288,9 @@
                     </div>
                 </div>
                 <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-                    <div class="row gx-lg-5 align-items-center mb-5">
-                        <div class="col-6" style="z-index: 10; background-color: white; min-height: 60vh; width: 50%;">
+
+                    <div class="row col-md-12">
+                        <div class="col-6 border">
                             <div>
                                 <button class="btn btn-secondary" onclick="goPrevious()">Precedente</button>
                                 <button class="btn btn-secondary" onclick="goNext()">Successivo</button>
@@ -297,109 +298,125 @@
                                 <button class="btn btn-secondary" onclick="goToPage()">Vai</button>
                                 <span id="pageCount"></span>
                             </div>
-                            <canvas id="pdfViewer" style="width: 100%; height: 100%;"></canvas>
+                            <canvas id="pdfViewer" style="width: 100%; height: auto; border: 2px solid;"></canvas>
+                            <div class='border' id="thumbnailsContainer" style="display: none !important; background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:0; left: 50%; justify-content: flex-start; padding-left: 20px; flex-direction: column;"></div>
                         </div>
-                        <div id="thumbnailsContainer" style="display: none !important; background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:0; left: 50%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
-                    </div>
-                </div>
-                <% Form form = new Form();
-                    Tipologia_documento tipologia_documento = form.findTipologiaDocumentoByFileEntityId(id);
-                    List<CampoTipologiaDocumento> campoTipologiaDocumento = form.getCampoTipologiaDocumentoByTipologiaDocumento(tipologia_documento);
-                    List<Tipologia_documento> tipologie = form.getTipologie(tipologia_documento);
-                    String tipologia = tipologia_documento.getTipo();
-                %>
-                <div class="container" style="position: fixed; top: 10%; right: 0; left: 70%; ">
-                    <form action="UpdateTipoDocumento" method="POST" id="updateForm">
-                        <input type="hidden" name="id" value="<%=id%>">
-                        <select name="tipoDocumento" id="tipoDocumento" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true">
-                            <option value="<%=tipologia%>" class="selected"><%=tipologia%></option>
-                            <% for (Tipologia_documento tipo : tipologie) {%>
-                            <option value="<%=tipo.getId()%>"><%=tipo.getTipo()%></option>
-                            <% }%>
-                        </select>
-                        <button type="submit" class="btn btn-info" id="submitUpdateForm">Salva</button>
-                    </form>
 
-                </div>
-                <div class="container" style="position: fixed; top: 25%; right: 0; left: 75% ">
-                    <form action="" id="saveForm" method="POST">
-                        <h4>title</h4>
-                        <div class="form-group" id="formFields">
-                            <% for (CampoTipologiaDocumento campo : campoTipologiaDocumento) { %>
-                            <% Campo_form campoForm = campo.getCampoForm();%>
-                            <div class="form-group">
-                                <label><%= campoForm.getEtichetta()%></label>
-                                <input type="<%= campoForm.getTipologia_campo()%>" id="input" name="<%= campoForm.getNome()%>" class="form-control">
+
+                        <% Form form = new Form();
+                            Tipologia_documento tipologia_documento = form.findTipologiaDocumentoByFileEntityId(id);
+                            List<CampoTipologiaDocumento> campoTipologiaDocumento = form.getCampoTipologiaDocumentoByTipologiaDocumento(tipologia_documento);
+                            List<Tipologia_documento> tipologie = form.getTipologie(tipologia_documento);
+                            String tipologia = tipologia_documento.getTipo();
+                        %>
+
+                        <div class="col-6">
+                            <!<!-- start form -->
+                            <div class="container border">
+                                <hr>
+                                <form action="UpdateTipoDocumento" method="POST" id="updateForm">
+                                    <input type="hidden" name="id" value="<%=id%>">
+                                    <select name="tipoDocumento" id="tipoDocumento" class="form-select form-select-solid border" data-control="select2" data-placeholder="Select an option" data-allow-clear="true">
+                                        <option value="<%=tipologia%>" class="selected"><%=tipologia%></option>
+                                        <% for (Tipologia_documento tipo : tipologie) {%>
+                                        <option value="<%=tipo.getId()%>"><%=tipo.getTipo()%></option>
+                                        <% }%>
+                                    </select>
+                                    <hr>
+                                    <button type="submit" class="btn btn-success" id="submitUpdateForm">Salva</button>
+                                </form>
+                                <br>
                             </div>
-                            <% }%>
+                            <br>
+                            <div class="container border">
+                                <br>
+                                <h6>input form</h6>
+                                <form action="" id="saveForm" method="POST">
+                                    <div class="form-group" id="formFields">
+                                        <% for (CampoTipologiaDocumento campo : campoTipologiaDocumento) { %>
+                                        <% Campo_form campoForm = campo.getCampoForm();%>
+                                        <div class="form-group">
+                                            <label><%= campoForm.getEtichetta()%></label>
+                                            <input type="<%= campoForm.getTipologia_campo()%>" id="input" name="<%= campoForm.getNome()%>" class="form-control">
+                                        </div>
+                                        <% }%>
+                                        <br>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <!--begin::Footer-->
-            <div id="kt_app_footer" class="app-footer">
-                <!--begin::Footer container-->
-                <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-                    <!--begin::Copyright-->
-                    <div class="text-gray-900 order-2 order-md-1">
-                        <span class="text-muted fw-semibold me-1">2024&copy;</span>
-                        <a href="" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
                     </div>
-                    <!--end::Copyright-->
-                    <!--begin::Menu-->
-                    <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">About</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">Support</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">Purchase</a>
-                        </li>
-                    </ul>
-                    <!--end::Menu-->
                 </div>
-                <!--end::Footer container-->
+
+
+                <!--begin::Footer-->
+                <div id="kt_app_footer" class="app-footer">
+                    <!--begin::Footer container-->
+                    <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                        <!--begin::Copyright-->
+                        <div class="text-gray-900 order-2 order-md-1">
+                            <span class="text-muted fw-semibold me-1">2024&copy;</span>
+                            <a href="" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
+                        </div>
+                        <!--end::Copyright-->
+                        <!--begin::Menu-->
+                        <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+                            <li class="menu-item">
+                                <a href="" target="_blank" class="menu-link px-2">About</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" target="_blank" class="menu-link px-2">Support</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" target="_blank" class="menu-link px-2">Purchase</a>
+                            </li>
+                        </ul>
+                        <!--end::Menu-->
+                    </div>
+                    <!--end::Footer container-->
+                </div>
+                <!--end::Footer-->
             </div>
-            <!--end::Footer-->
-        </div>
-
-        <!--begin::Scrolltop-->
-        <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-            <i class="ki-duotone ki-arrow-up">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Scrolltop-->
+        </div>               
+    </div>
+    <!-- end form -->
 
 
-        <!--begin::Javascript-->
-        <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-        <script src="assets/plugins/global/plugins.bundle.js"></script>
-        <script src="assets/js/scripts.bundle.js"></script>
-        <!--end::Global Javascript Bundle-->
-
-        <!--begin::Vendors Javascript(used for this page only)-->
-
-        <!--end::Vendors Javascript-->
-
-        <!--begin::Custom Javascript(used for this page only)-->
-        <script src="assets/js/widgets.bundle.js"></script>
-        <script src="assets/js/custom/widgets.js"></script>
-        <script src="assets/js/custom/apps/chat/chat.js"></script>
-        <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-        <script src="assets/js/custom/utilities/modals/create-app.js"></script>
-        <script src="assets/js/custom/utilities/modals/new-target.js"></script>
-        <script src="assets/js/custom/utilities/modals/users-search.js"></script>
-        <!--end::Custom Javascript-->
-        <!--end::Javascript-->
+    <!--begin::Scrolltop-->
+    <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #17C653!important;">
+        <i class="ki-duotone ki-arrow-up">
+            <span class="path1"></span>
+            <span class="path2"></span>
+        </i>
+    </div>
+    <!--end::Scrolltop-->
 
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <!--begin::Javascript-->
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
+    <script src="assets/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
 
-        <script>
+    <!--begin::Vendors Javascript(used for this page only)-->
+
+    <!--end::Vendors Javascript-->
+
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="assets/js/widgets.bundle.js"></script>
+    <script src="assets/js/custom/widgets.js"></script>
+    <script src="assets/js/custom/apps/chat/chat.js"></script>
+    <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+    <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+    <script src="assets/js/custom/utilities/modals/new-target.js"></script>
+    <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+    <script>
                                     let submitUpdateForm = document.getElementById('submitUpdateForm');
                                     submitUpdateForm.addEventListener('click', function () {
                                         Swal.fire({
@@ -435,172 +452,172 @@
                                             });
                                         });
                                     });
-        </script>
+    </script>
 
-        <script>
-            var pdfDoc = null;
-            var pageNum = 1;
-            var scale = 1.5;
-            function renderPage(num) {
-                pdfDoc.getPage(num).then(function (page) {
-                    var canvas = document.getElementById('pdfViewer');
-                    var context = canvas.getContext('2d');
-                    var viewport = page.getViewport({scale: scale});
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    page.render(renderContext);
-                });
-                document.getElementById('pageNumberInput').value = num;
-            }
+    <script>
+        var pdfDoc = null;
+        var pageNum = 1;
+        var scale = 1.5;
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(function (page) {
+                var canvas = document.getElementById('pdfViewer');
+                var context = canvas.getContext('2d');
+                var viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+            document.getElementById('pageNumberInput').value = num;
+        }
 
-            function goPrevious() {
-                if (pageNum <= 1)
-                    return;
-                pageNum--;
-                renderPage(pageNum);
-                loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
-            }
+        function goPrevious() {
+            if (pageNum <= 1)
+                return;
+            pageNum--;
+            renderPage(pageNum);
+            loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
+        }
 
-            function goNext() {
-                if (pageNum >= pdfDoc.numPages)
-                    return;
-                pageNum++;
-                renderPage(pageNum);
-                loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
-            }
+        function goNext() {
+            if (pageNum >= pdfDoc.numPages)
+                return;
+            pageNum++;
+            renderPage(pageNum);
+            loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
+        }
 
-            function goToPage(pageNumber) {
-                if (pageNumber) {
-                    if (pageNumber >= 1 && pageNumber <= pdfDoc.numPages) {
-                        pageNum = pageNumber;
-                        renderPage(pageNum);
-                        loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
-                    } else {
-                        alert('Numero di pagina non valido');
-                    }
-                } else {
-                    var desiredPage = parseInt(document.getElementById('pageNumberInput').value);
-                    goToPage(desiredPage);
-                }
-            }
-
-            function searchAndGoToPage() {
-                goToPage();
-            }
-            function addPageNumber(thumbnailContainer, pageNumber) {
-                var container = document.createElement('div');
-                container.classList.add('thumbnail-page-container');
-
-                var pageNumberLabel = document.createElement('div');
-                pageNumberLabel.textContent = 'Pagina ' + pageNumber;
-                pageNumberLabel.classList.add('thumbnail-page-number');
-
-                var checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'pageCheckbox';
-                checkbox.className = 'custom-checkbox';
-                checkbox.value = pageNumber;
-
-                container.appendChild(pageNumberLabel);
-                container.appendChild(checkbox);
-
-                thumbnailContainer.appendChild(container);
-            }
-
-            var checkboxState = {};
-
-            function saveCheckboxState() {
-                var checkboxes = document.querySelectorAll('.custom-checkbox');
-                checkboxes.forEach(function (checkbox) {
-                    checkboxState[checkbox.value] = checkbox.checked;
-                });
-            }
-            function loadAndRenderPDF(base64Data) {
-                pdfjsLib.getDocument({data: base64Data}).promise.then(function (pdf) {
-                    pdfDoc = pdf;
-                    document.getElementById('pageCount').textContent = ' / ' + pdfDoc.numPages;
+        function goToPage(pageNumber) {
+            if (pageNumber) {
+                if (pageNumber >= 1 && pageNumber <= pdfDoc.numPages) {
+                    pageNum = pageNumber;
                     renderPage(pageNum);
-                    var numPages = pdf.numPages;
-                    if (numPages !== 1) {
-                        var thumbnailsContainer = document.getElementById('thumbnailsContainer');
-                        thumbnailsContainer.style.display = 'block';
-                    }
-                    var promises = [];
-                    for (var i = 1; i <= numPages; i++) {
-                        promises.push(pdf.getPage(i));
-                    }
-                    Promise.all(promises).then(function (pages) {
-                        var thumbnailsContainer = document.getElementById('thumbnailsContainer');
-                        thumbnailsContainer.innerHTML = '';
-                        pages.forEach(function (page, index) {
-                            var thumbnailCanvas = document.createElement('canvas');
-                            var ctx = thumbnailCanvas.getContext('2d');
-                            var thumbnailWidth = 100;
-                            var thumbnailHeight = 140;
-                            var viewport = page.getViewport({scale: 1});
-                            thumbnailCanvas.width = thumbnailWidth;
-                            thumbnailCanvas.height = thumbnailHeight;
-                            viewport = page.getViewport({scale: Math.min(thumbnailWidth / viewport.width, thumbnailHeight / viewport.height)});
-                            var renderContext = {
-                                canvasContext: ctx,
-                                viewport: viewport
-                            };
-                            page.render(renderContext).promise.then(function () {
-                                var thumbnail = thumbnailCanvas.toDataURL('image/png');
-                                var thumbnailImg = document.createElement('img');
-                                thumbnailImg.src = thumbnail;
-                                var pageNumber = index + 1;
-                                thumbnailImg.setAttribute('data-page', '' + pageNumber);
-                                var thumbnailContainer = document.createElement('div');
-                                thumbnailContainer.classList.add('thumbnail-container');
-                                if (pageNumber === pageNum) {
-                                    thumbnailContainer.classList.add('current-page');
-                                    thumbnailContainer.style.border = "2px solid black";
-                                }
-                                thumbnailImg.addEventListener('click', function (event) {
-                                    var clickedThumbnail = event.target;
-                                    var clickedPageNumber = parseInt(clickedThumbnail.getAttribute('data-page'));
-                                    goToPage(clickedPageNumber);
-                                });
-                                addPageNumber(thumbnailContainer, pageNumber);
-                                thumbnailContainer.appendChild(thumbnailImg);
-                                thumbnailsContainer.appendChild(thumbnailContainer);
-                            });
-                        });
+                    loadAndRenderPDF(atob(base64EncodedPDF), pageNum);
+                } else {
+                    alert('Numero di pagina non valido');
+                }
+            } else {
+                var desiredPage = parseInt(document.getElementById('pageNumberInput').value);
+                goToPage(desiredPage);
+            }
+        }
 
-                        var checkboxes = document.querySelectorAll('.custom-checkbox');
-                        checkboxes.forEach(function (checkbox) {
-                            if (checkboxState.hasOwnProperty(checkbox.value)) {
-                                checkbox.checked = checkboxState[checkbox.value];
+        function searchAndGoToPage() {
+            goToPage();
+        }
+        function addPageNumber(thumbnailContainer, pageNumber) {
+            var container = document.createElement('div');
+            container.classList.add('thumbnail-page-container');
+
+            var pageNumberLabel = document.createElement('div');
+            pageNumberLabel.textContent = 'Pagina ' + pageNumber;
+            pageNumberLabel.classList.add('thumbnail-page-number');
+
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'pageCheckbox';
+            checkbox.className = 'custom-checkbox';
+            checkbox.value = pageNumber;
+
+            container.appendChild(pageNumberLabel);
+            container.appendChild(checkbox);
+
+            thumbnailContainer.appendChild(container);
+        }
+
+        var checkboxState = {};
+
+        function saveCheckboxState() {
+            var checkboxes = document.querySelectorAll('.custom-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                checkboxState[checkbox.value] = checkbox.checked;
+            });
+        }
+        function loadAndRenderPDF(base64Data) {
+            pdfjsLib.getDocument({data: base64Data}).promise.then(function (pdf) {
+                pdfDoc = pdf;
+                document.getElementById('pageCount').textContent = ' / ' + pdfDoc.numPages;
+                renderPage(pageNum);
+                var numPages = pdf.numPages;
+                if (numPages !== 1) {
+                    var thumbnailsContainer = document.getElementById('thumbnailsContainer');
+                    thumbnailsContainer.style.display = 'block';
+                }
+                var promises = [];
+                for (var i = 1; i <= numPages; i++) {
+                    promises.push(pdf.getPage(i));
+                }
+                Promise.all(promises).then(function (pages) {
+                    var thumbnailsContainer = document.getElementById('thumbnailsContainer');
+                    thumbnailsContainer.innerHTML = '';
+                    pages.forEach(function (page, index) {
+                        var thumbnailCanvas = document.createElement('canvas');
+                        var ctx = thumbnailCanvas.getContext('2d');
+                        var thumbnailWidth = 100;
+                        var thumbnailHeight = 140;
+                        var viewport = page.getViewport({scale: 1});
+                        thumbnailCanvas.width = thumbnailWidth;
+                        thumbnailCanvas.height = thumbnailHeight;
+                        viewport = page.getViewport({scale: Math.min(thumbnailWidth / viewport.width, thumbnailHeight / viewport.height)});
+                        var renderContext = {
+                            canvasContext: ctx,
+                            viewport: viewport
+                        };
+                        page.render(renderContext).promise.then(function () {
+                            var thumbnail = thumbnailCanvas.toDataURL('image/png');
+                            var thumbnailImg = document.createElement('img');
+                            thumbnailImg.src = thumbnail;
+                            var pageNumber = index + 1;
+                            thumbnailImg.setAttribute('data-page', '' + pageNumber);
+                            var thumbnailContainer = document.createElement('div');
+                            thumbnailContainer.classList.add('thumbnail-container');
+                            if (pageNumber === pageNum) {
+                                thumbnailContainer.classList.add('current-page');
+                                thumbnailContainer.style.border = "2px solid black";
                             }
+                            thumbnailImg.addEventListener('click', function (event) {
+                                var clickedThumbnail = event.target;
+                                var clickedPageNumber = parseInt(clickedThumbnail.getAttribute('data-page'));
+                                goToPage(clickedPageNumber);
+                            });
+                            addPageNumber(thumbnailContainer, pageNumber);
+                            thumbnailContainer.appendChild(thumbnailImg);
+                            thumbnailsContainer.appendChild(thumbnailContainer);
                         });
                     });
-                });
-            }
 
-            var base64EncodedPDF = "<%= base64EncodedPDF%>";
-            loadAndRenderPDF(atob(base64EncodedPDF));
-
-        </script>
-
-        <script>
-            $(document).ready(function () {
-                $("#logoutButton").click(function (event) {
-                    event.preventDefault();
-                    window.location.href = "Logout";
+                    var checkboxes = document.querySelectorAll('.custom-checkbox');
+                    checkboxes.forEach(function (checkbox) {
+                        if (checkboxState.hasOwnProperty(checkbox.value)) {
+                            checkbox.checked = checkboxState[checkbox.value];
+                        }
+                    });
                 });
             });
-        </script>
+        }
 
-        <%
-            } else {
-                out.println("PDF not found");
-            }
-        %>
-    </body>
+        var base64EncodedPDF = "<%= base64EncodedPDF%>";
+        loadAndRenderPDF(atob(base64EncodedPDF));
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#logoutButton").click(function (event) {
+                event.preventDefault();
+                window.location.href = "Logout";
+            });
+        });
+    </script>
+
+    <%
+        } else {
+            out.println("PDF not found");
+        }
+    %>
+</body>
 </html>
 
