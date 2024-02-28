@@ -86,14 +86,23 @@ public class FilesServlet extends HttpServlet {
                     filesData.addProperty("tipologiaDocumentale", e.getTipologia_documento().getTipo());
                     String gestisci = "<button class=\"btn btn-primary\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
                     filesData.addProperty("gestisci", gestisci);
+                    String status = "";
+                    if (e.getStatus() == 1) {
+                        status = "<span class=\"badge badge-secondary\">Da prendere in carico</span>";
+                    } else if (e.getStatus() == 2) {
+                        status = "<span class=\"badge badge-primary\">Preso in carico</span>";
+                    } else if (e.getStatus() == 3) {
+                        status = "<span class=\"badge badge-success\">Completato</span>";
+                    }
+                    filesData.addProperty("status", status);
 
+                    // Aggiungi filesData all'array JSON
                     String fileContentBase64 = "";
                     byte[] fileContent = e.getFileContent();
                     if (fileContent != null) {
                         fileContentBase64 = Base64.getEncoder().encodeToString(fileContent);
                     }
                     filesData.addProperty("fileContent", fileContentBase64);
-                    
 
                     data.add(filesData);
                     System.out.println(filesData);

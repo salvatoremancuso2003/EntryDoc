@@ -36,7 +36,7 @@
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center text-center p-10">
                     <!--begin::Wrapper-->
-                    <div class="card card-flush" >
+                    <div class="card card-flush" style="box-shadow: rgba(3,102,214,0.3) 6px 2px 16px 0px,rgba(3,102,214,0.3) -6px -2px 16px 0px;" >
                         <div class="card-body ">
                             <!--begin::Logo-->
                             <!--<div class="mb-7">
@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" class="btn btn-light bg-success  hover-elevate-up">
+                                    <button type="submit" class="btn btn-primary  hover-elevate-up">
                                         Login
                                     </button>
                                 </form>

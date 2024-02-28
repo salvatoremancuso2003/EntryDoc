@@ -15,7 +15,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Visualizza e Compila Documento</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
 
@@ -34,7 +36,7 @@
         <!--end::Global Stylesheets Bundle-->
 
         <style>
-             .bg-01 {
+            .bg-01 {
                 background-image: url('assets/media/auth/bg6.jpg');
                 opacity: 0.9;
             }
@@ -57,16 +59,19 @@
                 if (fileExpirationDate != null && fileExpirationDate.getTime() < System.currentTimeMillis()) {
         %>
         <script>
-            alert("Il documento è stato reimpostato! Il tempo per concludere il documento è terminato!");
+            alert("Il documento ? stato reimpostato! Il tempo per concludere il documento ? terminato!");
         </script>
         <%
             }
         %>
 
-        <%            String username = session.getAttribute("us_name").toString();
+        <%
+            String username = session.getAttribute("us_name").toString();
             String name = session.getAttribute("us_nome").toString();
             String surname = session.getAttribute("us_cognome").toString();
             String nomeCompleto = name + " " + surname;
+            String name2 = session.getAttribute("us_nome").toString();
+            String userIdParam = session.getAttribute("us_id").toString();
 
 
         %>
@@ -91,9 +96,7 @@
                         <!--end::Sidebar mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-30px" />
-                            </a>
+                            
                         </div>
                         <!--end::Mobile logo-->
                         <!--begin::Header wrapper-->
@@ -106,7 +109,7 @@
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->
                                         <span class="menu-link">
-                                            <span class="menu-title" style="color: #17C653;">Menu</span>
+                                            <span class="menu-title" style="color: #1B84FF;">Menu</span>
                                             <span class="menu-arrow d-lg-none"></span>
                                         </span>
                                         <!--end:Menu link-->
@@ -164,18 +167,19 @@
                             <!--begin::Theme mode-->
                             <div class="app-navbar-item ms-1 ms-md-4">
                                 <!--begin::Menu toggle-->
-                              
+
                                 <!--begin::Menu toggle-->
                                 <!--begin::Menu-->
-                                
+
                             </div>
                             <!--end::Theme mode-->
                             <!--begin::User menu-->
                             <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
                                 <!--begin::Menu wrapper-->
                                 <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                                    <img src="assets/media/avatars/blank.png" class="rounded-3" alt="user" />
-                                </div>
+                                    <div class="symbol symbol-50px" >
+                                        <div class="symbol-label fs-2 fw-semibold text-primary"> <%= name2.charAt(0)%> </div>
+                                    </div>                                </div>
                                 <!--begin::User account menu-->
                                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
                                     <!--begin::Menu item-->
@@ -183,7 +187,9 @@
                                         <div class="menu-content d-flex align-items-center px-3">
                                             <!--begin::Avatar-->
                                             <div class="symbol symbol-50px me-5">
-                                                <img alt="Logo" src="assets/media/avatars/blank.png" />
+                                                <div class="symbol symbol-50px">
+                                                    <div class="symbol-label fs-2 fw-semibold text-primary"> <%= name2.charAt(0)%> </div>
+                                                </div>
                                             </div>
                                             <!--end::Avatar-->
                                             <!--begin::Username-->
@@ -225,10 +231,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+                <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5" >
                     <div class="row col-md-12">
-                        <div class='border' id="thumbnailsContainer" style="display: none !important; background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:10%; left: 5%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
-                        <div class="col-6 border">
+                        <div class='border'  id="thumbnailsContainer" style="display: none !important; background-color: lightgray; width: 8%; height: auto; display: flex; position: fixed; top:10%; left: 5%; justify-content: flex-start; padding-left: 20px; flex-direction: column; border: 2px solid;"></div>
+                        <div class="col-6" style="background-color: #ffff; border:solid 2px;">
                             <div>
                                 <button class="btn btn-secondary" onclick="goPrevious()">Precedente</button>
                                 <button class="btn btn-secondary" onclick="goNext()">Successivo</button>
@@ -236,7 +242,7 @@
                                 <button class="btn btn-secondary" onclick="goToPage()">Vai</button>
                                 <span id="pageCount"></span>
                             </div>
-                            <canvas id="pdfViewer" style="width: 100%; height: auto; border: 2px solid;"></canvas>
+                            <canvas  id="pdfViewer" style="width: 100%; height: auto; border: 2px solid;"></canvas>
                         </div>
 
                         <% Form form = new Form();
@@ -245,9 +251,9 @@
                             List<Tipologia_documento> tipologie = form.getTipologie(tipologia_documento);
                             String tipologia = tipologia_documento.getTipo();
                         %>
-                        <div class="col-6">
+                        <div class="col-6" >
                             <!<!-- start form -->
-                            <div class="container border">
+                            <div class="container" style="background-color: #ffff; border:solid 2px;" >
                                 <hr>
                                 <form action="UpdateTipoDocumento" method="POST" id="updateForm">
                                     <input type="hidden" name="id" value="<%=id%>">
@@ -258,13 +264,13 @@
                                         <% }%>
                                     </select>
                                     <hr>
-                                    <button type="submit" class="btn btn-success" id="submitUpdateForm">Salva</button>
+                                    <button type="submit" class="btn btn-primary" id="submitUpdateForm">Salva</button>
                                     <button type="submit" class="btn btn-danger" id="submitUpdateForm">Salva</button>
                                 </form>
                                 <br>
                             </div>
                             <br>
-                            <div class="container border">
+                            <div class="container" style="background-color: #ffff; border:solid 2px; ">
                                 <span id="countdown" style="font-size: 11px" ></span>
                                 <br>
                                 <h6>input form</h6>
@@ -352,7 +358,7 @@
         </div>
 
         <!--begin::Footer-->
-        <div id="kt_app_footer" class="app-footer">
+        <div id="kt_app_footer" class="app-footer" style="background-color: #000 ;">
             <!--begin::Footer container-->
             <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
                 <!--begin::Copyright-->
@@ -385,7 +391,7 @@
 
 
 <!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #17C653!important;">
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #1B84FF!important;">
     <i class="ki-duotone ki-arrow-up">
         <span class="path1"></span>
         <span class="path2"></span>
@@ -449,7 +455,7 @@
                                 success: function (data) {
                                 },
                                 error: function (xhr, status, error) {
-                                    console.error('Si è verificato un errore durante l\'invio del modulo:', error);
+                                    console.error('Si ? verificato un errore durante l\'invio del modulo:', error);
                                 }
                             });
                         });

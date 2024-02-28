@@ -24,6 +24,7 @@ $(document).ready(function () {
             {"data": "tipologiaDocumentale"},
             {"data": "fileName"},
             {"data": "uploadDate", "type": "date-eu"},
+            {"data":"status"},
             {"data": "gestisci"}
 
         ],

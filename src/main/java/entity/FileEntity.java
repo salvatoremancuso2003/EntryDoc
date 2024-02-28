@@ -6,7 +6,6 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -145,5 +144,7 @@ public class FileEntity implements Serializable {
     public void setExpiration_date(Timestamp expiration_date) {
         this.expiration_date = expiration_date;
     }
+    
+    
 
 }
