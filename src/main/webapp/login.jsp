@@ -36,7 +36,7 @@
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center text-center p-10">
                     <!--begin::Wrapper-->
-                    <div class="card card-flush" >
+                    <div class="card card-flush" style="box-shadow: rgba(241,241,244,0.3) 6px 2px 16px 0px,rgba(241,241,244,0.3) -6px -2px 16px 0px;" >
                         <div class="card-body ">
                             <!--begin::Logo-->
                             <!--<div class="mb-7">
@@ -46,7 +46,7 @@
                             </div>-->
                             <!--end::Logo-->
                             <!--begin::Title-->
-                            <h1 class="fw-bolder text-gray-900 mb-5">Login</h1>
+                            <h1 class="fw-bolder text-gray-900 mb-5">Accedi</h1>
                             <!--end::Title-->
                             <!--begin::Text-->
                             <div class="fw-semibold fs-6 text-gray-500 mb-7">
@@ -71,9 +71,10 @@
                                         </div>
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" class="btn btn-light bg-success  hover-elevate-up">
+                                    <button type="submit" class="btn btn-secondary  hover-elevate-up">
                                         Login
                                     </button>
+
                                 </form>
                             </div>
                         </div>

@@ -48,7 +48,7 @@
         <div class="d-flex flex-column flex-root" id="kt_app_root">
             <!--begin::Page bg image-->
             <style>body {
-                background-image: url('assets/media/auth/img-back.jpg');
+                background-image: url('assets/media/auth/bg6.jpg');
             }
             [data-bs-theme="dark"] body {
                 background-image: url('assets/media/auth/bg1-dark.jpg');
@@ -74,7 +74,7 @@
                             <!--end::Illustration-->
                             <!--begin::Link-->
                             <div class="mb-0">
-                                <a href="login.jsp" class="btn btn-sm btn-success">Ritorna al Login</a>
+                                <a href="login.jsp" class="btn btn-sm btn-secondary">Ritorna al Login</a>
                             </div>
                             <!--end::Link-->
                         </div>

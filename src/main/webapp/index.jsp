@@ -46,9 +46,7 @@
                         <!--end::Sidebar mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-30px" />
-                            </a>
+
                         </div>
                         <!--end::Mobile logo-->
                         <!--begin::Header wrapper-->
@@ -61,7 +59,7 @@
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->
                                         <span class="menu-link">
-                                            <span class="menu-title" style="color: #17C653;">Menu</span>
+                                            <span class="menu-title" style="color: #1B84FF;">Menu</span>
                                             <span class="menu-arrow d-lg-none"></span>
                                         </span>
                                         <!--end:Menu link-->
@@ -160,7 +158,7 @@
                             <!--begin::Menu wrapper-->
                             <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                                 <div class="symbol symbol-50px" >
-                                    <div class="symbol-label fs-2 fw-semibold text-success"> <%= name2.charAt(0)%> </div>
+                                    <div class="symbol-label fs-2 fw-semibold text-primary"> <%= name2.charAt(0)%> </div>
                                 </div>
                             </div>
                             <!--begin::User account menu-->
@@ -171,7 +169,7 @@
                                         <!--begin::Avatar-->
                                         <div class="symbol symbol-50px me-5">
                                             <div class="symbol symbol-50px">
-                                                <div class="symbol-label fs-2 fw-semibold text-success"> <%= name2.charAt(0)%> </div>
+                                                <div class="symbol-label fs-2 fw-semibold text-primary"> <%= name2.charAt(0)%> </div>
                                             </div>
                                         </div>
                                         <!--end::Avatar-->
@@ -228,7 +226,7 @@
                                         List<FileEntity> tutti = filesUtils.getAllFiles();
 
                                     %>
-                                    <div class="card-body p-9">
+                                    <div class="card-body p-9" style="box-shadow: rgba(0,0,0,0.18) 0px 2px 4px;">
                                         <!--begin::Heading-->
                                         <div class="fs-2hx fw-bold"><%=tutti.size()%></div>
                                         <div class="fs-4 fw-semibold text-gray-500 mb-7">Documenti presenti</div>
@@ -267,23 +265,23 @@
                                             <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                                                    <div class="bullet bg-gray-300 me-3"></div>
+                                                    <div class="text-gray-500">Da prendere in carico</div>
+                                                    <div class="ms-auto fw-bold text-gray-700"><%=daModificare2%></div>
+                                                </div>
+                                                <!--end::Label-->
+                                                <!--begin::Label-->
+                                                <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
                                                     <div class="bullet bg-primary me-3"></div>
                                                     <div class="text-gray-500">Presi in carico</div>
                                                     <div class="ms-auto fw-bold text-gray-700"><%=attivi2%></div>
                                                 </div>
                                                 <!--end::Label-->
                                                 <!--begin::Label-->
-                                                <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
+                                                <div class="d-flex fs-6 fw-semibold align-items-center">
                                                     <div class="bullet bg-success me-3"></div>
                                                     <div class="text-gray-500">Completati</div>
                                                     <div class="ms-auto fw-bold text-gray-700"><%=completati2%></div>
-                                                </div>
-                                                <!--end::Label-->
-                                                <!--begin::Label-->
-                                                <div class="d-flex fs-6 fw-semibold align-items-center">
-                                                    <div class="bullet bg-gray-300 me-3"></div>
-                                                    <div class="text-gray-500">Da prendere in carico</div>
-                                                    <div class="ms-auto fw-bold text-gray-700"><%=daModificare2%></div>
                                                 </div>
                                                 <!--end::Label-->
                                             </div>
@@ -301,75 +299,76 @@
                     <hr>
 
                     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+                        <div class="container border px-4 py-5 px-md-5 text-center text-lg-start my-5" style="box-shadow: rgba(50,50,93,0.5) 0px 30px 60px -12px, rgba(0,0,0,0.3) 0px 18px 36px -18px;" >
+                            <h1>Elenco documenti</h1>
 
-                        <h1>Elenco documenti</h1>
-                        <div class="row gx-lg-5 align-items-center mb-5">
-                            <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
 
-                                <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
-                                    <form action="FilesServlet" method="POST" class="form-horizontal" style="display: block">
-                                        <div class="form-group">
-                                            <label class="active" for="stato">Filtro Documenti</label>
-                                            <select id="stato" class="form-control" name="stato">
-                                                <option value="DaModificare">Da prendere in carico</option>
-                                                <option value="Attivi">In lavorazione</option>
-                                                <option value="Completati">Completati</option>
-                                                <option value="Tutti">Tutti</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                    <div class="table-responsive">
-                                        <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tipologia documentale : </th>
-                                                    <th>Nome del file : </th>
-                                                    <th>Data di upload :</th>
-                                                    <th> Azione : </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                            <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
+                                <form action="FilesServlet" method="POST" class="form-horizontal" style="display: block">
+                                    <div class="form-group">
+                                        <label class="active" for="stato">Filtro Documenti</label>
+                                        <select id="stato" class="form-control" name="stato">
+                                            <option value="DaModificare">Da prendere in carico</option>
+                                            <option value="Attivi">Presi in carico</option>
+                                            <option value="Completati">Completati</option>
+                                            <option value="Tutti">Tutti</option>
+                                        </select>
                                     </div>
+                                </form>
+                                <div class="table-responsive">
+
+
+                                    <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipologia documentale : </th>
+                                                <th>Nome del file : </th>
+                                                <th>Data di upload :</th>
+                                                <th>Stato :</th>
+                                                <th>Azione : </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
+
             </div>
-            <!--begin::Footer-->
-            <div id="kt_app_footer" class="app-footer">
-                <!--begin::Footer container-->
-                <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-                    <!--begin::Copyright-->
-                    <div class="text-gray-900 order-2 order-md-1">
-                        <span class="text-muted fw-semibold me-1">2024&copy;</span>
-                        <a href="" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
-                    </div>
-                    <!--end::Copyright-->
-                    <!--begin::Menu-->
-                    <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">About</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">Support</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="" target="_blank" class="menu-link px-2">Purchase</a>
-                        </li>
-                    </ul>
-                    <!--end::Menu-->
-                </div>
-                <!--end::Footer container-->
-            </div>
-            <!--end::Footer-->
         </div>
+        <!--begin::Footer-->
+        <div id="kt_app_footer" class="app-footer">
+            <!--begin::Footer container-->
+            <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                <!--begin::Copyright-->
+                <div class="text-gray-900 order-2 order-md-1">
+                    <span class="text-muted fw-semibold me-1">2024&copy;</span>
+                    <a href="" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
+                </div>
+                <!--end::Copyright-->
+                <!--begin::Menu-->
+                <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+                    <li class="menu-item">
+                        <a href="" target="_blank" class="menu-link px-2">About</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="" target="_blank" class="menu-link px-2">Support</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="" target="_blank" class="menu-link px-2">Purchase</a>
+                    </li>
+                </ul>
+                <!--end::Menu-->
+            </div>
+            <!--end::Footer container-->
+        </div>
+        <!--end::Footer-->
 
         <!--begin::Scrolltop-->
-        <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #17C653;">
+        <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true" style="background-color: #1B84FF;">
             <i class="ki-duotone ki-arrow-up">
                 <span class="path1"></span>
                 <span class="path2"></span>
@@ -403,6 +402,7 @@
         <script src="assets/js/custom/utilities/modals/new-target.js"></script>
         <script src="assets/js/custom/utilities/modals/users-search.js"></script>
         <!--end::Custom Javascript-->
+
         <script>
             function openDoc(filename, id) {
                 // CONTROLLO
@@ -524,4 +524,3 @@
         <!--end::Javascript-->
     </body>
 </html>
-
