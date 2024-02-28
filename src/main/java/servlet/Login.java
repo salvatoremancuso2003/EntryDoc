@@ -35,7 +35,17 @@ public class Login extends HttpServlet {
 
                 InfoTrack.loginTrack(username);
                 if (userFileEntity != null) {
-                    response.sendRedirect("compilaDocumenti.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
+                    if (userFileEntity.getFilename().endsWith("pdf")) {
+                        response.sendRedirect("compilaDocumenti.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
+                    } else if (userFileEntity.getFilename().endsWith("png")
+                            || userFileEntity.getFilename().endsWith("jpeg")
+                            || userFileEntity.getFilename().endsWith("jpg")
+                            || userFileEntity.getFilename().endsWith(".img")) {
+
+                        response.sendRedirect("compilaImg.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
+
+                    }
+
                 } else {
                     redirectToPageByRole(response, userloggato.getRuolo().getId());
                 }

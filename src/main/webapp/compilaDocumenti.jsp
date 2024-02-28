@@ -34,7 +34,7 @@
         <!--end::Global Stylesheets Bundle-->
 
         <style>
-             .bg-01 {
+            .bg-01 {
                 background-image: url('assets/media/auth/bg6.jpg');
                 opacity: 0.9;
             }
@@ -164,10 +164,10 @@
                             <!--begin::Theme mode-->
                             <div class="app-navbar-item ms-1 ms-md-4">
                                 <!--begin::Menu toggle-->
-                              
+
                                 <!--begin::Menu toggle-->
                                 <!--begin::Menu-->
-                                
+
                             </div>
                             <!--end::Theme mode-->
                             <!--begin::User menu-->
@@ -258,8 +258,10 @@
                                         <% }%>
                                     </select>
                                     <hr>
-                                    <button type="submit" class="btn btn-success" id="submitUpdateForm">Salva</button>
-                                    <button type="submit" class="btn btn-danger" id="submitUpdateForm">Salva</button>
+                                    <div class="container" style="display: flex; justify-content: space-between">
+                                        <button type="submit" class="btn btn-success" id="submitUpdateForm">Salva</button>
+                                        <button type="submit" class="btn btn-danger" id="submitResetUpdateForm">Reimposta documento</button>
+                                    </div>
                                 </form>
                                 <br>
                             </div>
@@ -319,6 +321,27 @@
                         alert("Reimpostazione del documento effettuata");
                         updateFileStatus(id, true);
                     }
+
+                    const resetButton = document.getElementById("submitResetUpdateForm");
+                    resetButton.addEventListener('click', function () {
+
+                        Swal.fire({
+                            text: "Confermi di voler reimpostare il documento?",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Confermo",
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            customClass: {
+                                confirmButton: "btn btn-danger",
+                                cancelButton : "btn btn-primary"
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                updateFileStatus(id, true);
+                            }
+                        });
+                    });
 
                     function updateFileStatus(id, timerScaduto) {
                         $.ajax({

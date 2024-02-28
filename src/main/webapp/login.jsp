@@ -24,7 +24,7 @@
             .bg-01 {
                 background-image: url('assets/media/auth/bg6.jpg');
             }
-           
+
         </style>
 
     </head>
@@ -54,7 +54,7 @@
                             </div>
                             <!--end::Text-->
                             <!--begin::Illustration-->
-                            <div class=""style="width: 100%;">
+                            <div class="" style="width: 100%;">
                                 <form action="Login" method="POST" id="login_form">
                                     <!-- Email input -->
                                     <div class="row">

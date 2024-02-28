@@ -36,6 +36,10 @@
         <servlet-name>UpdateFilesStatus</servlet-name>
         <servlet-class>servlet.UpdateFilesStatus</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FilenameCheck</servlet-name>
+        <servlet-class>servlet.FilenameCheck</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -67,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>UpdateFilesStatus</servlet-name>
         <url-pattern>/UpdateFilesStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilenameCheck</servlet-name>
+        <url-pattern>/FilenameCheck</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

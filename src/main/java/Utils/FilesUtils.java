@@ -31,7 +31,7 @@ public class FilesUtils {
 
     public byte[] getFileContentByIdAndFilename(Long id, String filename) {
         try {
-            FileEntity fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
+            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
                     .setParameter("id", id)
                     .setParameter("filename", filename)
                     .getSingleResult();
@@ -49,7 +49,7 @@ public class FilesUtils {
 
     public Timestamp getFileExpirationDate(Long id, String filename) {
         try {
-            FileEntity fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
+            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
                     .setParameter("id", id)
                     .setParameter("filename", filename)
                     .getSingleResult();
@@ -60,7 +60,7 @@ public class FilesUtils {
                     fileEntity.setStatus(1);
                     fileEntity.setUser(null);
                     fileEntity.setExpiration_date(null);
-                    em.merge(fileEntity);
+                    this.em.merge(fileEntity);
                 }
                 return expirationDate;
             } else {
@@ -74,7 +74,7 @@ public class FilesUtils {
 
     public List getAllFiles() {
         try {
-            List<FileEntity> fileEntity = em.createQuery("SELECT f FROM FileEntity f", FileEntity.class)
+            List<FileEntity> fileEntity = this.em.createQuery("SELECT f FROM FileEntity f", FileEntity.class)
                     .getResultList();
 
             return fileEntity;
@@ -86,7 +86,7 @@ public class FilesUtils {
 
     public List getFilesWithStatus1() {
         try {
-            List<FileEntity> fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 1", FileEntity.class)
+            List<FileEntity> fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 1", FileEntity.class)
                     .getResultList();
 
             return fileEntity;
@@ -97,13 +97,13 @@ public class FilesUtils {
     }
 
     public void close() {
-        em.close();
-        emf.close();
+        this.em.close();
+        this.emf.close();
     }
 
     public List getFilesWithStatus2() {
         try {
-            List<FileEntity> fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 2", FileEntity.class)
+            List<FileEntity> fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 2", FileEntity.class)
                     .getResultList();
 
             return fileEntity;
@@ -115,7 +115,7 @@ public class FilesUtils {
 
     public List getFilesWithStatus3() {
         try {
-            List<FileEntity> fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 3", FileEntity.class)
+            List<FileEntity> fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.status = 3", FileEntity.class)
                     .getResultList();
 
             return fileEntity;
@@ -127,7 +127,7 @@ public class FilesUtils {
 
     public FileEntity getFilesWithUser(User user) {
         try {
-            FileEntity fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.user = :user", FileEntity.class)
+            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.user = :user", FileEntity.class)
                     .setParameter("user", user)
                     .getSingleResult();
 
@@ -137,9 +137,20 @@ public class FilesUtils {
                 return null;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
     }
+
+    public FileEntity getFiles(String id) {
+        try {
+            FileEntity fileEntity = this.em.find(FileEntity.class, Long.valueOf(id));
+            return fileEntity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

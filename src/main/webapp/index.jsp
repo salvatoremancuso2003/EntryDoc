@@ -301,13 +301,13 @@
                     <hr>
 
                     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-                        <form action="FilesServlet" method="POST" class="form-horizontal" style="display: block">
-                            <h1>Elenco documenti</h1>
-                            <div class="row gx-lg-5 align-items-center mb-5">
-                                <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
 
-                                    <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
+                        <h1>Elenco documenti</h1>
+                        <div class="row gx-lg-5 align-items-center mb-5">
+                            <div class="col-12" style="z-index: 10; background-color: white; min-height: 60vh;">
 
+                                <div class="col-12" style="z-index: 10; background-color: white; min-height: 70vh;">
+                                    <form action="FilesServlet" method="POST" class="form-horizontal" style="display: block">
                                         <div class="form-group">
                                             <label class="active" for="stato">Filtro Documenti</label>
                                             <select id="stato" class="form-control" name="stato">
@@ -317,24 +317,24 @@
                                                 <option value="Tutti">Tutti</option>
                                             </select>
                                         </div>
-
-                                        <div class="table-responsive">
-                                            <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Tipologia documentale : </th>
-                                                        <th>Nome del file : </th>
-                                                        <th>Data di upload :</th>
-                                                        <th> Azione : </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
+                                    </form>
+                                    <div class="table-responsive">
+                                        <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipologia documentale : </th>
+                                                    <th>Nome del file : </th>
+                                                    <th>Data di upload :</th>
+                                                    <th> Azione : </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+
                     </div>
 
                 </div>
@@ -405,53 +405,95 @@
         <!--end::Custom Javascript-->
         <script>
             function openDoc(filename, id) {
-                
-                if (filename.toLowerCase().endsWith(".pdf")) {
-                    updateFileStatus(id, function () {
-                        var form = document.createElement('form');
-                        form.setAttribute('method', 'POST');
-                        form.setAttribute('action', 'compilaDocumenti.jsp');
-
-                        var idInput = document.createElement('input');
-                        idInput.setAttribute('type', 'hidden');
-                        idInput.setAttribute('name', 'id');
-                        idInput.setAttribute('value', id);
-                        form.appendChild(idInput);
-
-                        var filenameInput = document.createElement('input');
-                        filenameInput.setAttribute('type', 'hidden');
-                        filenameInput.setAttribute('name', 'filename');
-                        filenameInput.setAttribute('value', filename);
-                        form.appendChild(filenameInput);
-
-                        document.body.appendChild(form);
-
-                        form.submit();
+                // CONTROLLO
+                var esito;
+                $.ajax({
+                    type: "POST",
+                    url: "FilenameCheck",
+                    data: {
+                        "id": id
+                    },
+                    async: false,
+                    success: function (result) {
+                        esito = result;
+                    }
+                });
+                if (esito === "KO") {
+                    Swal.fire({
+                        text: "Documento già preso in carico da un altro utente!",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "OK",
+                        customClass: {
+                            confirmButton: "btn btn-danger"
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
-                } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg")) {
-                    updateFileStatus(id, function () {
-                        var form = document.createElement('form');
-                        form.setAttribute('method', 'POST');
-                        form.setAttribute('action', 'compilaImg.jsp');
-
-                        var idInput = document.createElement('input');
-                        idInput.setAttribute('type', 'hidden');
-                        idInput.setAttribute('name', 'id');
-                        idInput.setAttribute('value', id);
-                        form.appendChild(idInput);
-
-                        var filenameInput = document.createElement('input');
-                        filenameInput.setAttribute('type', 'hidden');
-                        filenameInput.setAttribute('name', 'filename');
-                        filenameInput.setAttribute('value', filename);
-                        form.appendChild(filenameInput);
-
-                        document.body.appendChild(form);
-
-                        form.submit();
+                } else if (esito.includes(";")) {
+                    Swal.fire({
+                        text: "Hai già un documento preso in carico. Premuto il tasto di conferma verrai reindirizzato a quel documento!",
+                        icon: "warning",
+                        buttonsStyling: false,
+                        confirmButtonText: "OK",
+                        customClass: {
+                            confirmButton: "btn btn-warning"
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var utenteAssociato = esito.split(";");
+                            var id = utenteAssociato[1];
+                            var filename = utenteAssociato[0];
+                            if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".img")) {
+                                window.location.href = "compilaImg.jsp?filename=" + filename + "&id=" + id;
+                            } else if ((filename.toLowerCase().endsWith(".pdf"))) {
+                                window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id;
+                            }
+                        }
                     });
-                } else {
-                    console.error("Formato del file non supportato");
+
+                } else if (esito === "OK") {
+                    if (filename.toLowerCase().endsWith(".pdf")) {
+                        updateFileStatus(id, function () {
+                            var form = document.createElement('form');
+                            form.setAttribute('method', 'POST');
+                            form.setAttribute('action', 'compilaDocumenti.jsp');
+                            var idInput = document.createElement('input');
+                            idInput.setAttribute('type', 'hidden');
+                            idInput.setAttribute('name', 'id');
+                            idInput.setAttribute('value', id);
+                            form.appendChild(idInput);
+                            var filenameInput = document.createElement('input');
+                            filenameInput.setAttribute('type', 'hidden');
+                            filenameInput.setAttribute('name', 'filename');
+                            filenameInput.setAttribute('value', filename);
+                            form.appendChild(filenameInput);
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg")) {
+                        updateFileStatus(id, function () {
+                            var form = document.createElement('form');
+                            form.setAttribute('method', 'POST');
+                            form.setAttribute('action', 'compilaImg.jsp');
+                            var idInput = document.createElement('input');
+                            idInput.setAttribute('type', 'hidden');
+                            idInput.setAttribute('name', 'id');
+                            idInput.setAttribute('value', id);
+                            form.appendChild(idInput);
+                            var filenameInput = document.createElement('input');
+                            filenameInput.setAttribute('type', 'hidden');
+                            filenameInput.setAttribute('name', 'filename');
+                            filenameInput.setAttribute('value', filename);
+                            form.appendChild(filenameInput);
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    } else {
+                        console.error("Formato del file non supportato");
+                    }
                 }
             }
 
@@ -467,7 +509,6 @@
                 };
                 xhr.send("id=" + id);
             }
-
         </script>
 
 
@@ -477,7 +518,8 @@
                     event.preventDefault();
                     window.location.href = "Logout";
                 });
-            });
+            }
+            );
         </script>
         <!--end::Javascript-->
     </body>
