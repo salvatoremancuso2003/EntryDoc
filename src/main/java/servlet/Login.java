@@ -44,7 +44,7 @@ public class Login extends HttpServlet {
                 response.sendRedirect("login.jsp?esito=KO1");
             }
         } else {
-            response.sendRedirect("login.jsp?esito=KO");
+            response.sendRedirect("unauth.jsp");
         }
     }
 

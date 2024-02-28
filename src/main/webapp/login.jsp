@@ -21,25 +21,23 @@
 
 
         <style>
-            body {
-                background-image: url('assets/media/auth/bg8.jpg');
+            .bg-01 {
+                background-image: url('assets/media/auth/bg6.jpg');
             }
-            [data-bs-theme="dark"] body {
-                background-image: url('assets/media/auth/bg8-dark.jpg');
-            }
+           
         </style>
 
     </head>
     <!--end::Head-->
     <!--begin::Body-->
-    <body id="kt_body" class="app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
-        <div class="d-flex flex-column flex-root" id="kt_app_root">
+    <body>
+        <div class="d-flex flex-column flex-root bg-01" id="kt_app_root">
             <div class="d-flex flex-column flex-center flex-column-fluid">
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center text-center p-10">
                     <!--begin::Wrapper-->
-                    <div class="card card-flush w-md-650px py-5">
-                        <div class="card-body py-15 py-sm-20">
+                    <div class="card card-flush" >
+                        <div class="card-body ">
                             <!--begin::Logo-->
                             <!--<div class="mb-7">
                                 <a href="index.html" class="">
@@ -48,18 +46,19 @@
                             </div>-->
                             <!--end::Logo-->
                             <!--begin::Title-->
-                            <h1 class="fw-bolder text-gray-900 mb-5">Welcome to Metronic</h1>
+                            <h1 class="fw-bolder text-gray-900 mb-5">Login</h1>
                             <!--end::Title-->
                             <!--begin::Text-->
-                            <div class="fw-semibold fs-6 text-gray-500 mb-7">This is your opportunity to get creative and make a name 
-                                <br />that gives readers an idea</div>
+                            <div class="fw-semibold fs-6 text-gray-500 mb-7">
+
+                            </div>
                             <!--end::Text-->
                             <!--begin::Illustration-->
-                            <div class="sm-0">
+                            <div class=""style="width: 100%;">
                                 <form action="Login" method="POST" id="login_form">
                                     <!-- Email input -->
                                     <div class="row">
-                                        <div class="form-group">
+                                        <div class="form-group" style="align-content: center">
                                             <input  type="email" id="username" class="form-control" name="username"/>
                                             <label class="form-label" for="username">Username</label>
                                         </div>
@@ -72,7 +71,7 @@
                                         </div>
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" class="btn btn-light bg-primary  hover-elevate-up">
+                                    <button type="submit" class="btn btn-light bg-success  hover-elevate-up">
                                         Login
                                     </button>
                                 </form>
@@ -106,7 +105,8 @@
         <!--end::Custom Javascript-->
         <!--end::Javascript-->
 
-        <script>(function () {
+        <script>
+            (function () {
                 'use strict'
 
                 var forms = document.querySelectorAll('.needs-validation')
@@ -125,9 +125,11 @@
             })()
         </script>
 
-        <script>    var defaultThemeMode = "light";
-            var them    eMode;
-                    if (document.documentElement)
+        <script>
+            var defaultThemeMode = "light";
+            var them
+            eMode;
+            if (document.documentElement)
             {
                 if (
                         document.documentElement.hasAttribute("data-bs-theme-mode")) {
@@ -143,7 +145,8 @@
                     themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
                 }
                 document.documentElement.setAttribute("data-bs-theme", themeMode);
-            }</script>
+            }
+        </script>
     </body>
     <!--end::Body-->
 </html>
