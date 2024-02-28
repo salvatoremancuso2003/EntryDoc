@@ -142,21 +142,4 @@ public class FilesUtils {
         }
     }
 
-    public Boolean getFilesWithUserId(int id) {
-        try {
-            FileEntity fileEntity = em.createQuery("SELECT f FROM FileEntity f WHERE f.user.id = :id", FileEntity.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-
-            if (fileEntity != null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 }

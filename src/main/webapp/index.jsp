@@ -202,9 +202,7 @@
                             String nomeCompleto = name + " " + surname;
                             String name2 = session.getAttribute("us_nome").toString();
                             String userIdParam = session.getAttribute("us_id").toString();
-                            int userId = Integer.parseInt(userIdParam);
                             FilesUtils filesUtils = new FilesUtils();
-                            Boolean presenza = filesUtils.getFilesWithUserId(userId);
 
 
                         %>
@@ -320,7 +318,7 @@
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
                                                     <div class="bullet bg-primary me-3"></div>
-                                                    <div class="text-gray-500">Attivi</div>
+                                                    <div class="text-gray-500">Presi in carico</div>
                                                     <div class="ms-auto fw-bold text-gray-700"><%=attivi2%></div>
                                                 </div>
                                                 <!--end::Label-->
@@ -334,7 +332,7 @@
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-semibold align-items-center">
                                                     <div class="bullet bg-gray-300 me-3"></div>
-                                                    <div class="text-gray-500">Da modificare</div>
+                                                    <div class="text-gray-500">Da prendere in carico</div>
                                                     <div class="ms-auto fw-bold text-gray-700"><%=daModificare2%></div>
                                                 </div>
                                                 <!--end::Label-->
@@ -363,8 +361,8 @@
                                         <div class="form-group">
                                             <label class="active" for="stato">Filtro Documenti</label>
                                             <select id="stato" class="form-control" name="stato">
-                                                <option value="DaModificare">Da modificare</option>
-                                                <option value="Attivi">Attivi</option>
+                                                <option value="DaModificare">Da prendere in carico</option>
+                                                <option value="Attivi">In lavorazione</option>
                                                 <option value="Completati">Completati</option>
                                                 <option value="Tutti">Tutti</option>
                                             </select>
@@ -457,8 +455,6 @@
         <!--end::Custom Javascript-->
         <script>
             function openDoc(filename, id) {
-                var presenza = "<%= presenza%>";
-                
                 if (filename.toLowerCase().endsWith(".pdf")) {
                     updateFileStatus(id, function () {
                         var form = document.createElement('form');
