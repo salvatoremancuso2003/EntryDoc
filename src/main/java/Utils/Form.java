@@ -29,7 +29,7 @@ public class Form {
 
     public List<CampoTipologiaDocumento> getCampoTipologiaDocumentoByTipologiaDocumento(Tipologia_documento tipologia_documento) {
         try {
-            List<CampoTipologiaDocumento> campoTipologiaDocumento = em.createQuery("SELECT ctd FROM CampoTipologiaDocumento ctd WHERE ctd.tipologiaDocumento = :tipologia_documento", CampoTipologiaDocumento.class)
+            List<CampoTipologiaDocumento> campoTipologiaDocumento = em.createQuery("SELECT ctd FROM CampoTipologiaDocumento ctd WHERE ctd.tipologiaDocumento = :tipologia_documento ORDER BY ctd.ordine", CampoTipologiaDocumento.class)
                     .setParameter("tipologia_documento", tipologia_documento)
                     .getResultList();
             return campoTipologiaDocumento;

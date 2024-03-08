@@ -6,6 +6,8 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -56,6 +58,9 @@ public class FileEntity implements Serializable {
 
     @Column(name = "expiration_date")
     private Timestamp expiration_date;
+
+    @OneToMany(mappedBy = "fileEntity")
+    private List<CampoFileValue> campoFileValues = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -143,6 +148,14 @@ public class FileEntity implements Serializable {
 
     public void setExpiration_date(Timestamp expiration_date) {
         this.expiration_date = expiration_date;
+    }
+
+    public List<CampoFileValue> getCampoFileValues() {
+        return campoFileValues;
+    }
+
+    public void setCampoFileValues(List<CampoFileValue> campoFileValues) {
+        this.campoFileValues = campoFileValues;
     }
     
     

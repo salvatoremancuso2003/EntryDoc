@@ -49,6 +49,8 @@ public class FilenameCheck extends HttpServlet {
                 if (assegnatoutente == null) {
                     //OK
                     pw.print("OK");
+                } else if (assegnatoutente != null && assegnatoutente.getStatus() == 3) {
+                    pw.print("OK");
 
                 } else {
                     // CAMBIARE FILENTITY E FILENAME

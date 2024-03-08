@@ -511,6 +511,40 @@
             }
         </script>
 
+        <script>
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            $(document).ready(function () {
+                var esito = getUrlParameter('esito');
+                if (esito === 'OK') {
+                    Swal.fire({
+                        text: 'Operazione completata con successo!',
+                        icon: 'success',
+                        buttonsStyling: false,
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-success'
+                        }
+                    });
+                } else if (esito === 'ERROR') {
+                    Swal.fire({
+                        text: 'Si è verificato un errore. Si prega di riprovare.',
+                        icon: 'error',
+                        buttonsStyling: false,
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-danger'
+                        }
+                    });
+                }
+            });
+        </script>
+
 
         <script>
             $(document).ready(function () {

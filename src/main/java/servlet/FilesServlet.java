@@ -84,8 +84,17 @@ public class FilesServlet extends HttpServlet {
                     filesData.addProperty("filePath", e.getFilepath());
                     filesData.addProperty("fileSize", e.getFileSize());
                     filesData.addProperty("tipologiaDocumentale", e.getTipologia_documento().getTipo());
-                    String gestisci = "<button type='button' class=\"btn btn-primary\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
-                    filesData.addProperty("gestisci", gestisci);
+                    if (e.getStatus() == 3) {
+                        String visualizza = "<button type='button' class=\"btn btn-secondary\" onclick=\"viewCompleteDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Visualizza</button>";
+                        filesData.addProperty("gestisci", visualizza);
+                    } else if (e.getStatus() == 2) {
+                        String visualizza = "<button type='button' class=\"btn btn-secondary\" onclick=\"viewDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Visualizza</button>";
+                        filesData.addProperty("gestisci", visualizza);
+                    } else {
+                        String gestisci = "<button type='button' class=\"btn btn-secondary\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";
+                        filesData.addProperty("gestisci", gestisci);
+                    }
+
                     String status = "";
                     if (e.getStatus() == 1) {
                         status = "<span class=\"badge badge-secondary\">Da prendere in carico</span>";

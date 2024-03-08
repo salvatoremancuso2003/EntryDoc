@@ -59,7 +59,7 @@
                 if (fileExpirationDate != null && fileExpirationDate.getTime() < System.currentTimeMillis()) {
         %>
         <script>
-            alert("Il documento ? stato reimpostato! Il tempo per concludere il documento ? terminato!");
+            alert("Il documento è stato reimpostato! Il tempo per concludere il documento è terminato!");
         </script>
         <%
             }
@@ -96,7 +96,7 @@
                         <!--end::Sidebar mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            
+
                         </div>
                         <!--end::Mobile logo-->
                         <!--begin::Header wrapper-->
@@ -276,18 +276,45 @@
                                 <span id="countdown" style="font-size: 11px" ></span>
                                 <br>
                                 <h6>input form</h6>
-                                <form action="" id="saveForm" method="POST">
-                                    <div class="form-group" id="formFields">
+                                <form action="SaveForm" id="saveForm" method="POST">
+                                    <input type="hidden" id="idFileEntity" name="idFileEntity" value="<%=id%>"
+                                           <div class="form-group" id="formFields">
                                         <% for (CampoTipologiaDocumento campo : campoTipologiaDocumento) { %>
                                         <% Campo_form campoForm = campo.getCampoForm();%>
                                         <div class="form-group">
                                             <label><%= campoForm.getEtichetta()%></label>
-                                            <input type="<%= campoForm.getTipologia_campo()%>" id="input" name="<%= campoForm.getNome()%>" class="form-control">
+                                            <% if ("select".equals(campoForm.getTipologia_campo())) {%>
+                                            <input type="hidden" name="idCampo[]" value="<%= campoForm.getId()%>">
+                                            <select id="input" name="campo[]" class="form-control">
+                                                <%
+                                                    String[] options_values = campoForm.getOptionsValue().split(",");
+                                                    String[] options_description = campoForm.getOptions_description().split(",");
+                                                    for (int i = 0; i < options_values.length; i++) {
+                                                %>
+                                                <option value="<%= options_values[i].trim()%>"><%= options_description[i].trim()%></option>
+                                                <%
+                                                    }
+                                                %>
+                                            </select>
+
+                                            <% } else {%>
+                                            <input type="hidden" name="idCampo[]" value="<%= campoForm.getId()%>">
+                                            <input type="<%= campoForm.getTipologia_campo()%>" id="input"  name="campo[]" class="form-control">
+                                            <% } %>
                                         </div>
                                         <% }%>
                                         <br>
+                                        <div class="container" style="display: flex; justify-content: flex-start">
+                                            <button type="submit" class="btn btn-success" id="submitSaveForm">Invia</button>
+                                        </div>
+                                        <br>
                                     </div>
+
+
                                 </form>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -340,7 +367,7 @@
                             showCancelButton: true,
                             customClass: {
                                 confirmButton: "btn btn-danger",
-                                cancelButton : "btn btn-primary"
+                                cancelButton: "btn btn-primary"
                             }
                         }).then((result) => {
                             if (result.isConfirmed) {

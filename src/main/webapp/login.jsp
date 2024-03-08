@@ -24,6 +24,7 @@
             .bg-01 {
                 background-image: url('assets/media/auth/bg6.jpg');
             }
+            
 
         </style>
 
@@ -65,11 +66,28 @@
                                     </div>
                                     <!-- Password input -->
                                     <div class="row">
-                                        <div class="form-group">
+                                        <div class="form-group" style="position: relative;">
                                             <input type="password" id="password" class="form-control" name="password"/>
+                                            <button id="togglePasswordButton" style="background: none; border: none; position: absolute; right: 10px; top: 30%; transform: translateY(-50%); font-size: 15px" >
+                                                <i id="togglePasswordIcon" class="bi bi-eye-slash-fill"></i>
+                                            </button>
                                             <label class="form-label" for="password">Password</label>
                                         </div>
                                     </div>
+                                    <script>
+                                        let togglePasswordButton = document.getElementById('togglePasswordButton');
+                                        let password = document.getElementById('password');
+                                        let isPasswordVisible = false;
+                                        let togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+                                        togglePasswordButton.addEventListener('click', function (event) {
+                                            event.preventDefault();
+                                            isPasswordVisible = !isPasswordVisible;
+                                            password.type = isPasswordVisible ? "text" : "password";
+                                            togglePasswordIcon.className = isPasswordVisible ? "bi bi-eye-fill" : "bi bi-eye-slash-fill";
+                                        });
+                                    </script>
+
                                     <!-- Submit button -->
                                     <button type="submit" class="btn btn-secondary  hover-elevate-up">
                                         Login
@@ -107,23 +125,23 @@
         <!--end::Javascript-->
 
         <script>
-            (function () {
-                'use strict'
+                                            (function () {
+                                                'use strict'
 
-                var forms = document.querySelectorAll('.needs-validation')
+                                                var forms = document.querySelectorAll('.needs-validation')
 
-                Array.prototype.slice.call(forms)
-                        .forEach(function (form) {
-                            form.addEventListener('submit', function (event) {
-                                if (!form.checkValidity()) {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }
+                                                Array.prototype.slice.call(forms)
+                                                        .forEach(function (form) {
+                                                            form.addEventListener('submit', function (event) {
+                                                                if (!form.checkValidity()) {
+                                                                    event.preventDefault()
+                                                                    event.stopPropagation()
+                                                                }
 
-                                form.classList.add('was-validated')
-                            }, false)
-                        })
-            })()
+                                                                form.classList.add('was-validated')
+                                                            }, false)
+                                                        })
+                                            })()
         </script>
 
         <script>

@@ -19,14 +19,9 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         if (AuthService.isPasswordValid(username, password)) {
-
             User userloggato = AuthService.authenticate_US(username, password);
-            FilesUtils filesUtils = new FilesUtils();
-            FileEntity userFileEntity = filesUtils.getFilesWithUser(userloggato);
-            System.out.println("FILE ENTITY ------------ " + userFileEntity);
 
             if (userloggato != null) {
-
                 request.getSession().setAttribute("us_name", username);
                 request.getSession().setAttribute("us_user", userloggato);
                 request.getSession().setAttribute("us_nome", userloggato.getNome());
@@ -34,22 +29,26 @@ public class Login extends HttpServlet {
                 request.getSession().setAttribute("us_id", userloggato.getId());
 
                 InfoTrack.loginTrack(username);
+
+                FilesUtils filesUtils = new FilesUtils();
+                FileEntity userFileEntity = filesUtils.getFilesWithUser(userloggato);
+                System.out.println("FILE ENTITY ------------ " + userFileEntity);
+
                 if (userFileEntity != null) {
-                    if (userFileEntity.getFilename().endsWith("pdf")) {
-                        response.sendRedirect("compilaDocumenti.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
-                    } else if (userFileEntity.getFilename().endsWith("png")
-                            || userFileEntity.getFilename().endsWith("jpeg")
-                            || userFileEntity.getFilename().endsWith("jpg")
-                            || userFileEntity.getFilename().endsWith(".img")) {
-
-                        response.sendRedirect("compilaImg.jsp?filename=" + userFileEntity.getFilename() + "&id=" + userFileEntity.getId());
-
+                    int status = userFileEntity.getStatus();
+                    if (status == 2) {
+                        String filename = userFileEntity.getFilename();
+                        if (filename.endsWith("pdf")) {
+                            response.sendRedirect("compilaDocumenti.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
+                        } else if (filename.endsWith("png") || filename.endsWith("jpeg") || filename.endsWith("jpg") || filename.endsWith(".img")) {
+                            response.sendRedirect("compilaImg.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
+                        }
+                    } else if (status == 3) {
+                        redirectToPageByRole(response, userloggato.getRuolo().getId());
                     }
-
                 } else {
                     redirectToPageByRole(response, userloggato.getRuolo().getId());
                 }
-
             } else {
                 response.sendRedirect("login.jsp?esito=KO1");
             }
@@ -76,7 +75,9 @@ public class Login extends HttpServlet {
                 break;
         }
 
-        response.sendRedirect(targetPage);
+        if (!targetPage.isEmpty()) {
+            response.sendRedirect(targetPage);
+        }
     }
 
     @Override

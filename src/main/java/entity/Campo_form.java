@@ -5,13 +5,16 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +38,17 @@ public class Campo_form implements Serializable {
 
     @Column(name = "etichetta")
     private String etichetta;
+
+    @Lob
+    @Column(name = "options_value")
+    private String options_value;
+
+    @Lob
+    @Column(name = "options_description")
+    private String options_description;
+
+    @OneToMany(mappedBy = "campoForm")
+    private List<CampoFileValue> campoFileValues = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -68,6 +82,22 @@ public class Campo_form implements Serializable {
         this.etichetta = etichetta;
     }
 
+    public String getOptionsValue() {
+        return options_value;
+    }
+
+    public void setOptionsValue(String options_value) {
+        this.options_value = options_value;
+    }
+
+    public String getOptions_description() {
+        return options_description;
+    }
+
+    public void setOptions_description(String options_description) {
+        this.options_description = options_description;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -77,7 +107,6 @@ public class Campo_form implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Campo_form)) {
             return false;
         }
@@ -91,6 +120,14 @@ public class Campo_form implements Serializable {
     @Override
     public String toString() {
         return "entity.Campo_form[ id=" + id + " ]";
+    }
+
+    public List<CampoFileValue> getCampoFileValues() {
+        return campoFileValues;
+    }
+
+    public void setCampoFileValues(List<CampoFileValue> campoFileValues) {
+        this.campoFileValues = campoFileValues;
     }
 
 }
