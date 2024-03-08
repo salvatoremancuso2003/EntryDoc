@@ -214,9 +214,9 @@
                 <br>
                 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
                     <!--begin::Content wrapper-->
-                    <div id="kt_app_content_container" class="app-container container-xxl">
+                    <div id="kt_app_content_container" class="container" >
                         <!--begin::Stats-->
-                        <div class="row gx-6 gx-xl-9" style="margin-left: -40px;">
+                        <div class="row gx-6 gx-xl-9" style="display: flex; justify-content: flex-start">
                             <div class="col-lg-6 col-xxl-4">
                                 <!--begin::Card-->
                                 <div class="card h-100">
@@ -404,6 +404,21 @@
         <!--end::Custom Javascript-->
 
         <script>
+            function viewDoc(filename, id) {
+                var esito;
+                $.ajax({
+                    type: "POST",
+                    url: "FilenameCheck",
+                    data: {
+                        "id": id,
+                        "azione" : viewDoc
+                    },
+                    async: false,
+                    success: function (result) {
+                        esito = result;
+                    }
+                });
+            }
             function openDoc(filename, id) {
                 // CONTROLLO
                 var esito;
