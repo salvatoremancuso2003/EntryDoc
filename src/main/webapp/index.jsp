@@ -456,7 +456,7 @@
                     });
 
                 } else if (esito === "OK") {
-                    if (filename.toLowerCase().endsWith(".pdf")) {
+                    if (filename.toLowerCase().endsWith(".pdf") ) {
                         updateFileStatus(id, function () {
                             var form = document.createElement('form');
                             form.setAttribute('method', 'POST');
@@ -474,7 +474,7 @@
                             document.body.appendChild(form);
                             form.submit();
                         });
-                    } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg")) {
+                    } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".tiff")) {
                         updateFileStatus(id, function () {
                             var form = document.createElement('form');
                             form.setAttribute('method', 'POST');

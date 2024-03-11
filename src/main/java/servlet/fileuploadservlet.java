@@ -99,6 +99,19 @@ public class fileuploadservlet extends HttpServlet {
                 inputStream.close();
 
                 fileEntity.setFileContent(bytes);
+            } else if (fileName.endsWith(".tiff") || fileName.endsWith(".tif")) {
+                FileInputStream inputStream = new FileInputStream(file);
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                byte[] bytes = outputStream.toByteArray();
+                inputStream.close();
+                outputStream.close();
+
+                fileEntity.setFileContent(bytes);
             }
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");

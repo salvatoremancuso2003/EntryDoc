@@ -222,9 +222,6 @@
 
 
             <div class="d-flex justify-content-center align-items-center vh-100">
-                <%
-                    FileEntity fileEntity = fileUtils.getFiles(idParam);
-                %>
 
                 <div class="table-responsive" style="background-color: white; padding: 20px;">
                     <table id="files" class="table table-striped table-row-bordered gy-5 gs-7" style="width:100%;">
@@ -556,6 +553,7 @@
                                             </select>
 
                                             <% } else {%>
+                                            <input type="hidden" name= "pageCount" value
                                             <input type="hidden" name="idCampo[]" value="<%= campoForm.getId()%>">
                                             <input type="<%= campoForm.getTipologia_campo()%>" id="input"  name="campo[]" class="form-control">
                                             <% } %>
