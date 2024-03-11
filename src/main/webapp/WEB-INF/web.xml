@@ -44,6 +44,10 @@
         <servlet-name>SaveForm</servlet-name>
         <servlet-class>servlet.SaveForm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FilesServlet2</servlet-name>
+        <servlet-class>servlet.FilesServlet2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -83,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>SaveForm</servlet-name>
         <url-pattern>/SaveForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilesServlet2</servlet-name>
+        <url-pattern>/FilesServlet2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
