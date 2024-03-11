@@ -68,7 +68,7 @@
                                     <div class="row">
                                         <div class="form-group" style="position: relative;">
                                             <input type="password" id="password" class="form-control" name="password"/>
-                                            <button id="togglePasswordButton" style="background: none; border: none; position: absolute; right: 10px; top: 30%; transform: translateY(-50%); font-size: 15px" >
+                                            <button id="togglePasswordButton" type="button" style="background: none; border: none; position: absolute; right: 10px; top: 30%; transform: translateY(-50%); font-size: 15px" >
                                                 <i id="togglePasswordIcon" class="bi bi-eye-slash-fill"></i>
                                             </button>
                                             <label class="form-label" for="password">Password</label>

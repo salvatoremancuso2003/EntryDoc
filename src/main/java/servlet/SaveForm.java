@@ -64,7 +64,6 @@ public class SaveForm extends HttpServlet {
 
                 String campoValue = "Nome campo: " + campoForm.getNome()
                         + ", Valore campo: " + campi[i]
-                        + ", Descrizione campo: " + campoForm.getOptions_description()
                         + ", Tipologia campo: " + campoForm.getTipologia_campo();
 
                 json.addProperty("Campo_" + (i + 1), campoValue);

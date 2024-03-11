@@ -85,10 +85,9 @@ public class FilesServlet extends HttpServlet {
                     filesData.addProperty("fileSize", e.getFileSize());
                     filesData.addProperty("tipologiaDocumentale", e.getTipologia_documento().getTipo());
                     if (e.getStatus() == 3) {
-                        String visualizza = "<button type='button' class=\"btn btn-success\" onclick=\"viewCompleteDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Visualizza</button>";
+                        String visualizza = "<button type='button' class=\"btn btn-success\" onclick=\"viewDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Visualizza</button>";
                         filesData.addProperty("gestisci", visualizza);
                     } else if (e.getStatus() == 2) {
-                        String visualizza = "<button type='button' class=\"btn btn-secondary\" onclick=\"viewDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Visualizza</button>";
                         filesData.addProperty("gestisci", "");
                     } else {
                         String gestisci = "<button type='button' class=\"btn btn-secondary\" onclick=\"openDoc('" + e.getFilename() + "', '" + e.getId() + "');\">Gestisci</button>";

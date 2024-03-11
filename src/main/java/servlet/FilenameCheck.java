@@ -5,6 +5,7 @@
 package servlet;
 
 import Utils.FilesUtils;
+import com.google.protobuf.StringValue;
 import entity.FileEntity;
 import entity.User;
 import java.io.IOException;
@@ -49,9 +50,6 @@ public class FilenameCheck extends HttpServlet {
                 if (assegnatoutente == null) {
                     //OK
                     pw.print("OK");
-                } else if (assegnatoutente != null && assegnatoutente.getStatus() == 3) {
-                    pw.print("OK");
-
                 } else {
                     // CAMBIARE FILENTITY E FILENAME
                     pw.print(assegnatoutente.getFilename() + ";" + assegnatoutente.getId());

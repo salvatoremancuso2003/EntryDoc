@@ -43,17 +43,15 @@ public class Login extends HttpServlet {
                         } else if (filename.endsWith("png") || filename.endsWith("jpeg") || filename.endsWith("jpg") || filename.endsWith(".img")) {
                             response.sendRedirect("compilaImg.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
                         }
-                    } else if (status == 3) {
+                    } else {
                         redirectToPageByRole(response, userloggato.getRuolo().getId());
                     }
                 } else {
                     redirectToPageByRole(response, userloggato.getRuolo().getId());
                 }
             } else {
-                response.sendRedirect("login.jsp?esito=KO1");
+                response.sendRedirect("unauth.jsp");
             }
-        } else {
-            response.sendRedirect("unauth.jsp");
         }
     }
 

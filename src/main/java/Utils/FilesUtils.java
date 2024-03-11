@@ -4,6 +4,7 @@
  */
 package Utils;
 
+import entity.CampoFileValue;
 import entity.FileEntity;
 import entity.User;
 import java.sql.Timestamp;
@@ -96,6 +97,22 @@ public class FilesUtils {
         }
     }
 
+    public String getFilesDetails(Long id) {
+        try {
+            List<String> jsonResults = this.em.createQuery("SELECT cfv.json FROM CampoFileValue cfv WHERE cfv.fileEntity.id = :id", String.class)
+                    .setParameter("id", id)
+                    .getResultList();
+            if (jsonResults != null && !jsonResults.isEmpty()) {
+                return jsonResults.get(0);
+            } else {
+                return "[]";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[]";
+        }
+    }
+
     public void close() {
         this.em.close();
         this.emf.close();
@@ -127,7 +144,7 @@ public class FilesUtils {
 
     public FileEntity getFilesWithUser(User user) {
         try {
-            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.user = :user", FileEntity.class)
+            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.user = :user AND f.status = 2", FileEntity.class)
                     .setParameter("user", user)
                     .getSingleResult();
 
@@ -137,7 +154,7 @@ public class FilesUtils {
                 return null;
             }
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
     }
@@ -151,6 +168,5 @@ public class FilesUtils {
         }
         return null;
     }
-
 
 }

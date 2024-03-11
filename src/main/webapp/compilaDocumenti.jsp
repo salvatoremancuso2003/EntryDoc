@@ -3,6 +3,7 @@
     Created on : 19 feb 2024, 10:09:42
     Author     : Salvatore
 --%>
+<%@page import="entity.CampoFileValue"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="entity.Campo_form"%>
 <%@page import="entity.CampoTipologiaDocumento"%>
@@ -40,41 +41,125 @@
                 background-image: url('assets/media/auth/bg6.jpg');
                 opacity: 0.9;
             }
+
         </style>
 
     </head>
     <body class="app-default" id="kt_app_body" data-kt-app-layout="dark-header" data-kt-app-toolbar-enabled="true">
         <%
+            FilesUtils fileUtils = new FilesUtils();
             String filename = request.getParameter("filename");
             String idParam = request.getParameter("id");
             Long id = Long.parseLong(idParam);
-
-            FilesUtils fileUtils = new FilesUtils();
-            byte[] pdfContent = fileUtils.getFileContentByIdAndFilename(id, filename);
-
-            Timestamp fileExpirationDate = fileUtils.getFileExpirationDate(id, filename);
-
-            if (pdfContent != null) {
-                String base64EncodedPDF = new String(Base64.encodeBase64(pdfContent));
-                if (fileExpirationDate != null && fileExpirationDate.getTime() < System.currentTimeMillis()) {
-        %>
-        <script>
-            alert("Il documento è stato reimpostato! Il tempo per concludere il documento è terminato!");
-        </script>
-        <%
+            String visualizzaParam = request.getParameter("visualizza");
+            Boolean visualizza = false;
+            String campoFileValues = null;
+            if (visualizzaParam != null && visualizzaParam.equals("true")) {
+                visualizza = true;
+            }
+            if (visualizza) {
+                campoFileValues = fileUtils.getFilesDetails(id);
             }
         %>
 
         <%
-            String username = session.getAttribute("us_name").toString();
+            if (visualizza) {
+        %>
+
+
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div id="card-container" class="container">
+            </div>
+        </div>
+
+
+
+        <script>
+            var campoFileValues = '<% out.print(campoFileValues); %>';
+            var details = JSON.parse(campoFileValues);
+            var cardContainer = document.getElementById('card-container');
+
+            function createCardElement(headerText, bodyId) {
+                var card = document.createElement('div');
+                card.className = 'card card-bordered';
+
+                var header = document.createElement('div');
+                header.className = 'card-header';
+                header.innerHTML = `
+            <h3 class="card-title">${headerText}</h3>`;
+                card.appendChild(header);
+
+                var body = document.createElement('div');
+                body.className = 'card-body';
+                body.id = bodyId;
+                card.appendChild(body);
+
+                var footer = document.createElement('div');
+                footer.className = 'card-footer';
+                footer.textContent = '';
+                card.appendChild(footer);
+
+                return card;
+            }
+
+            function createFieldElement(fieldName, fieldValue) {
+                var field = document.createElement('div');
+                field.className = 'card-item';
+                field.textContent = fieldName + ': ' + fieldValue;
+                return field;
+            }
+
+            var userCard = createCardElement('Informazioni Utente', 'user-body');
+            var fieldsCard = createCardElement('Dettagli Documentazione', 'campi-body');
+
+            for (var key in details) {
+                if (details.hasOwnProperty(key)) {
+                    var infoElement = createFieldElement(key, details[key]);
+                    if (key.startsWith('Campo')) {
+                        fieldsCard.querySelector('.card-body').appendChild(infoElement);
+                    } else {
+                        userCard.querySelector('.card-body').appendChild(infoElement);
+                    }
+                }
+            }
+
+            cardContainer.appendChild(userCard);
+            cardContainer.appendChild(fieldsCard);
+        </script>
+
+
+
+
+
+        <%
+        } else {
+            byte[] pdfContent = fileUtils.getFileContentByIdAndFilename(id, filename);
+            Timestamp fileExpirationDate = fileUtils.getFileExpirationDate(id, filename);
+
+            String base64EncodedPDF = null;
+
+            if (pdfContent != null) {
+                base64EncodedPDF = new String(Base64.encodeBase64(pdfContent));
+                if (fileExpirationDate != null && fileExpirationDate.getTime() < System.currentTimeMillis()) {
+        %>
+
+        <%
+            }
+
+
+        %>
+
+
+        <%            String username = session.getAttribute("us_name").toString();
             String name = session.getAttribute("us_nome").toString();
             String surname = session.getAttribute("us_cognome").toString();
             String nomeCompleto = name + " " + surname;
             String name2 = session.getAttribute("us_nome").toString();
             String userIdParam = session.getAttribute("us_id").toString();
-
-
         %>
+
+
+
 
 
         <div class="d-flex flex-column flex-root app-root bg-01" id="kt_app_root">
@@ -351,9 +436,28 @@
                     }
 
                     function timerExpired() {
-                        alert("Reimpostazione del documento effettuata");
-                        updateFileStatus(id, true);
+                        Swal.fire({
+                            text: "Tempo scaduto. Vuoi aggiornarlo?",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Sì",
+                            cancelButtonText: "No",
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                                cancelButton: "btn btn-danger"
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                updateFileStatus(id, false);
+
+                            } else {
+                                updateFileStatus(id, true);
+                            }
+                        });
                     }
+
 
                     const resetButton = document.getElementById("submitResetUpdateForm");
                     resetButton.addEventListener('click', function () {
@@ -385,7 +489,11 @@
                                 timerScaduto: timerScaduto
                             },
                             success: function (response) {
-                                window.location.href = "index.jsp";
+                                if (timerScaduto === false) {
+                                    window.location.reload();
+                                } else {
+                                    window.location.href = "index.jsp";
+                                }
                             },
                             error: function (xhr, status, error) {
                                 console.error("Error updating file status: " + error);
@@ -672,10 +780,15 @@
 </script>
 
 <%
-    } else {
-        out.println("PDF not found");
+        } else {
+            out.println("PDF not found");
+        }
     }
+
 %>
+</body>
+</html>
+
 </body>
 </html>
 

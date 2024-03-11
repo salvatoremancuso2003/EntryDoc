@@ -404,21 +404,7 @@
         <!--end::Custom Javascript-->
 
         <script>
-            function viewDoc(filename, id) {
-                var esito;
-                $.ajax({
-                    type: "POST",
-                    url: "FilenameCheck",
-                    data: {
-                        "id": id,
-                        "azione" : viewDoc
-                    },
-                    async: false,
-                    success: function (result) {
-                        esito = result;
-                    }
-                });
-            }
+
             function openDoc(filename, id) {
                 // CONTROLLO
                 var esito;
@@ -524,6 +510,27 @@
                 };
                 xhr.send("id=" + id);
             }
+
+            function viewDoc(filename, id) {
+                Swal.fire({
+                    text: "Vuoi visualizzare i dati di questo file?",
+                    icon: "info",
+                    buttonsStyling: false,
+                    confirmButtonText: "Sì",
+                    customClass: {
+                        confirmButton: "btn btn-info"
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".img")) {
+                            window.location.href = "compilaImg.jsp?filename=" + filename + "&id=" + id + "&visualizza=" + true;
+                        } else if ((filename.toLowerCase().endsWith(".pdf"))) {
+                            window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id + "&visualizza=" + true;
+                        }
+                    }
+                });
+            }
+            ;
         </script>
 
         <script>
@@ -545,6 +552,10 @@
                         customClass: {
                             confirmButton: 'btn btn-success'
                         }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.jsp";
+                        }
                     });
                 } else if (esito === 'ERROR') {
                     Swal.fire({
@@ -554,6 +565,10 @@
                         confirmButtonText: 'OK',
                         customClass: {
                             confirmButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.jsp";
                         }
                     });
                 }
