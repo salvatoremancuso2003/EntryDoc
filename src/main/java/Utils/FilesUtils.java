@@ -4,17 +4,23 @@
  */
 package Utils;
 
-import entity.CampoFileValue;
 import entity.FileEntity;
 import entity.User;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  *
@@ -22,8 +28,8 @@ import javax.persistence.Persistence;
  */
 public class FilesUtils {
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+    private final EntityManagerFactory emf;
+    private final EntityManager em;
 
     public FilesUtils() {
         emf = Persistence.createEntityManagerFactory("entryDoc");
@@ -39,6 +45,52 @@ public class FilesUtils {
 
             if (fileEntity != null) {
                 return fileEntity.getFileContent();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public byte[] convertTiffToPdf(byte[] tiffContent) {
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(tiffContent));
+
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            PDImageXObject imageXObject = LosslessFactory.createFromImage(document, bufferedImage);
+            contentStream.drawImage(imageXObject, 0, 0, imageXObject.getWidth(), imageXObject.getHeight());
+            contentStream.close();
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            document.save(outputStream);
+            document.close();
+
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public byte[] getFileContentTiffByIdAndFilename(Long id, String filename) {
+        try {
+            FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
+                    .setParameter("id", id)
+                    .setParameter("filename", filename)
+                    .getSingleResult();
+
+            if (fileEntity != null) {
+                if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
+                    return convertTiffToPdf(fileEntity.getFileContent());
+                } else {
+                    return fileEntity.getFileContent();
+                }
             } else {
                 return null;
             }

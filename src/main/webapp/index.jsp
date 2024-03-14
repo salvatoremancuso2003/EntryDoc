@@ -447,8 +447,8 @@
                             var utenteAssociato = esito.split(";");
                             var id = utenteAssociato[1];
                             var filename = utenteAssociato[0];
-                            if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".img")) {
-                                window.location.href = "compilaImg.jsp?filename=" + filename + "&id=" + id;
+                            if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
+                                window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id;
                             } else if ((filename.toLowerCase().endsWith(".pdf"))) {
                                 window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id;
                             }
@@ -456,7 +456,7 @@
                     });
 
                 } else if (esito === "OK") {
-                    if (filename.toLowerCase().endsWith(".pdf") ) {
+                    if (filename.toLowerCase().endsWith(".pdf")) {
                         updateFileStatus(id, function () {
                             var form = document.createElement('form');
                             form.setAttribute('method', 'POST');
@@ -474,11 +474,11 @@
                             document.body.appendChild(form);
                             form.submit();
                         });
-                    } else if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".tiff")) {
+                    } else if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
                         updateFileStatus(id, function () {
                             var form = document.createElement('form');
                             form.setAttribute('method', 'POST');
-                            form.setAttribute('action', 'compilaImg.jsp');
+                            form.setAttribute('action', 'compilaDocumenti.jsp');
                             var idInput = document.createElement('input');
                             idInput.setAttribute('type', 'hidden');
                             idInput.setAttribute('name', 'id');
@@ -522,8 +522,8 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpeg") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".img")) {
-                            window.location.href = "compilaImg.jsp?filename=" + filename + "&id=" + id + "&visualizza=" + true;
+                        if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
+                            window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id + "&visualizza=" + true;
                         } else if ((filename.toLowerCase().endsWith(".pdf"))) {
                             window.location.href = "compilaDocumenti.jsp?filename=" + filename + "&id=" + id + "&visualizza=" + true;
                         }

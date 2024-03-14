@@ -14,6 +14,7 @@ import entity.User;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,6 +46,10 @@ public class SaveForm extends HttpServlet {
         Long idFileEntity = Long.parseLong(request.getParameter("idFileEntity"));
         String[] campi = request.getParameterValues("campo[]");
         String[] idCampi = request.getParameterValues("idCampo[]");
+        String pageCount = request.getParameter("pageCount");
+        System.out.println("NUMERI PAGINE SALVATE :  - -- - - -- - - - " + pageCount);
+        System.out.println("CAMPI : ------- " + Arrays.toString(campi) + "\n" + "-------------- " + "ID CAMPI : ------------ " + Arrays.toString(idCampi));
+        System.out.println("LUNGHEZZA CAMPI : ------- " + campi.length + "\n" + "-------------- " + "LUNGHEZZA ID CAMPI : ------------ " + idCampi.length);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("us_user");
 
@@ -95,7 +100,6 @@ public class SaveForm extends HttpServlet {
                 campoFileValue.setCampoForm(campoForm);
                 em.persist(campoFileValue);
             }
-
 
             et.commit();
             response.sendRedirect("index.jsp?esito=OK");

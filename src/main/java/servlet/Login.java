@@ -40,8 +40,8 @@ public class Login extends HttpServlet {
                         String filename = userFileEntity.getFilename();
                         if (filename.endsWith("pdf")) {
                             response.sendRedirect("compilaDocumenti.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
-                        } else if (filename.endsWith("png") || filename.endsWith("jpeg") || filename.endsWith("jpg") || filename.endsWith(".img")) {
-                            response.sendRedirect("compilaImg.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
+                        } else if (filename.endsWith("tiff") || filename.endsWith("tif")) {
+                            response.sendRedirect("compilaDocumenti.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
                         }
                     } else {
                         redirectToPageByRole(response, userloggato.getRuolo().getId());
