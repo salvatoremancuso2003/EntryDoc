@@ -500,8 +500,8 @@
                         </div>
                     </div>
                 </div>
-               
-                    <div class="container" id="thumbnailsContainer" style="display: none !important; background: none; justify-content: flex-start; flex-direction: column ">
+
+                <div class="container" id="thumbnailsContainer" style="display: none !important; background: none; justify-content: flex-start; flex-direction: column ">
 
 
                 </div>
@@ -581,6 +581,8 @@
                                         <% }%>
                                         <br>
                                         <div class="container" style="display: flex; justify-content: flex-start">
+                                            <input type="hidden" id="totalPagesInput" name="totalPages" />
+                                            <input type="hidden" name="selectedPages" id="selectedPagesInput" />
                                             <button type="submit" class="btn btn-success" id="submitSaveForm">Invia</button>
                                         </div>
                                         <br>
@@ -896,12 +898,24 @@
 
         var checkboxState = {};
 
+        var selectedPages = [];
+
         function saveCheckboxState() {
-            var checkboxes = document.querySelectorAll('.custom-checkbox');
+            selectedPages = [];
+            var checkboxes = document.querySelectorAll('.custom-checkbox:checked');
             checkboxes.forEach(function (checkbox) {
-                checkboxState[checkbox.value] = checkbox.checked;
+                selectedPages.push(checkbox.value);
             });
+            updateHiddenInput();
         }
+
+        function updateHiddenInput() {
+            var hiddenInput = document.getElementById('selectedPagesInput');
+            if (hiddenInput) {
+                hiddenInput.value = JSON.stringify(selectedPages);
+            }
+        }
+
 
         function loadAndRenderPDF(base64Data) {
             pdfjsLib.getDocument({data: base64Data}).promise.then(function (pdf) {
@@ -951,6 +965,7 @@
                             thumbnailsContainer.appendChild(thumbnailContainer);
                         });
                     });
+                    document.getElementById('totalPagesInput').value = numPages;
 
                     var checkboxes = document.querySelectorAll('.custom-checkbox');
                     checkboxes.forEach(function (checkbox) {
@@ -964,6 +979,15 @@
 
         var base64EncodedPDF = "<%= base64EncodedPDF%>";
         loadAndRenderPDF(atob(base64EncodedPDF));
+
+        document.getElementById('saveForm').addEventListener('click', function (event) {
+            saveCheckboxState();
+        });
+
+        document.getElementById('saveForm').addEventListener('submit', function (event) {
+            saveCheckboxState();
+        });
+
 
     </script>
 

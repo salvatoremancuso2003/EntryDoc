@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 
 /**
  *
@@ -46,10 +47,8 @@ public class SaveForm extends HttpServlet {
         Long idFileEntity = Long.parseLong(request.getParameter("idFileEntity"));
         String[] campi = request.getParameterValues("campo[]");
         String[] idCampi = request.getParameterValues("idCampo[]");
-        String pageCount = request.getParameter("pageCount");
-        System.out.println("NUMERI PAGINE SALVATE :  - -- - - -- - - - " + pageCount);
-        System.out.println("CAMPI : ------- " + Arrays.toString(campi) + "\n" + "-------------- " + "ID CAMPI : ------------ " + Arrays.toString(idCampi));
-        System.out.println("LUNGHEZZA CAMPI : ------- " + campi.length + "\n" + "-------------- " + "LUNGHEZZA ID CAMPI : ------------ " + idCampi.length);
+        String selectedPages = request.getParameter("selectedPages");
+        String totalPages = request.getParameter("totalPages");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("us_user");
 
@@ -88,6 +87,13 @@ public class SaveForm extends HttpServlet {
             String jsonString = json.toString();
             fileEntity.setStatus(3);
             fileEntity.setUser(user);
+
+            if (selectedPages != null && selectedPages.equals("[]")) {
+                fileEntity.setPageSelected(totalPages);
+            } else {
+                fileEntity.setPageSelected(selectedPages);
+            }
+            fileEntity.setTotalPages(totalPages);
 
             for (int i = 0; i < campi.length; i++) {
                 CampoFileValue campoFileValue = new CampoFileValue();

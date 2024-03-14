@@ -62,6 +62,12 @@ public class FileEntity implements Serializable {
     @OneToMany(mappedBy = "fileEntity")
     private List<CampoFileValue> campoFileValues = new ArrayList<>();
 
+    @Column(name = "total_pages")
+    private String totalPages;
+
+    @Column(name = "page_selected")
+    private String pageSelected;
+
     public Long getId() {
         return id;
     }
@@ -157,7 +163,21 @@ public class FileEntity implements Serializable {
     public void setCampoFileValues(List<CampoFileValue> campoFileValues) {
         this.campoFileValues = campoFileValues;
     }
-    
-    
+
+    public String getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(String totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public String getPageSelected() {
+        return pageSelected;
+    }
+
+    public void setPageSelected(String pageSelected) {
+        this.pageSelected = pageSelected;
+    }
 
 }
