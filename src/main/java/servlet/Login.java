@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class Login extends HttpServlet {
 
@@ -27,6 +28,9 @@ public class Login extends HttpServlet {
                 request.getSession().setAttribute("us_nome", userloggato.getNome());
                 request.getSession().setAttribute("us_cognome", userloggato.getCognome());
                 request.getSession().setAttribute("us_id", userloggato.getId());
+
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(1800); // Imposta il timeout della sessione a 10 secondi
 
                 InfoTrack.loginTrack(username);
 

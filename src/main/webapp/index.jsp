@@ -4,6 +4,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    if (session.getAttribute("us_name") == null) {
+%>
+<script>
+    // Verifica se la sessione è scaduta e mostra l'alert se necessario
+    var sessionExpired = <%= session.getAttribute("us_name") == null ? "true" : "false"%>;
+    if (sessionExpired) {
+        alert("La sessione è scaduta");
+        window.location.href = "sessionExpiredErrorPage.jsp";
+    }
+</script>
+<%
+
+} else {
+
+
+%>
+
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -587,4 +605,5 @@
         </script>
         <!--end::Javascript-->
     </body>
+    <%}%>
 </html>

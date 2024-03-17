@@ -19,6 +19,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Persistence;
 import javax.persistence.Temporal;
@@ -42,6 +43,9 @@ public class InfoTrack implements Serializable {
     @Column(name = "dataOraTracciamento")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataOraTracciamento;
+    
+    @ManyToOne
+    private FileEntity fileEntity;
 
     public static void loginTrack(String username) {
 
@@ -61,15 +65,35 @@ public class InfoTrack implements Serializable {
             System.out.println(e);
 
         }
+    }
+
+    public static void actionTrack(String username,String info2) {
+
+        try {
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
+            EntityManager em = emf.createEntityManager();
+
+            InfoTrack t = new InfoTrack(username, info2, "AZIONE UTENTE", new Date());
+
+            em.getTransaction().begin();
+            em.persist(t);
+            em.getTransaction().commit();
+            em.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
 
     }
 
-    public static void downloadTrackUpload(String infoName) {
+    public static void downloadTrackUpload(String infoName, FileEntity fileEntity) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
         EntityManager em = emf.createEntityManager();
 
-        InfoTrack f = new InfoTrack(infoName, "DOWNLOAD FILE", new Date());
+        InfoTrack f = new InfoTrack(infoName, "DOWNLOAD FILE", new Date(), fileEntity);
 
         em.getTransaction().begin();
         em.persist(f);
@@ -90,12 +114,12 @@ public class InfoTrack implements Serializable {
         em.close();
     }
 
-    public static void attachmentTrackUpdate(String infoName, FileEntity info) {
+    public static void formTrackUpdate(String infoName) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("regione");
         EntityManager em = emf.createEntityManager();
 
-        InfoTrack a = new InfoTrack(infoName, "NUOVO ALLEGATO CREATO", new Date(), info);
+        InfoTrack a = new InfoTrack(infoName, "NUOVO ALLEGATO CREATO", new Date());
 
         em.getTransaction().begin();
         em.persist(a);
@@ -109,6 +133,13 @@ public class InfoTrack implements Serializable {
 
     public InfoTrack(String info, String descrizione, Date dataOraTracciamento) {
         this.info = info;
+        this.descrizione = descrizione;
+        this.dataOraTracciamento = dataOraTracciamento;
+    }
+    
+    public InfoTrack(String info,String info2, String descrizione, Date dataOraTracciamento) {
+        this.info = info;
+        this.info2 = info2;
         this.descrizione = descrizione;
         this.dataOraTracciamento = dataOraTracciamento;
     }
@@ -159,6 +190,16 @@ public class InfoTrack implements Serializable {
     public void setInfo2(String info2) {
         this.info2 = info2;
     }
+
+    public FileEntity getFileEntity() {
+        return fileEntity;
+    }
+
+    public void setFileEntity(FileEntity fileEntity) {
+        this.fileEntity = fileEntity;
+    }
+    
+    
     
 
 }
