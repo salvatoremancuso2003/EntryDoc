@@ -23,37 +23,42 @@
         <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
         <!--end::Global Stylesheets Bundle-->
         <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+         <!--begin::Page bg image-->
+        <style>
+            body {
+                background-image: url('assets/media/auth/bg6.jpg');
+            }
+            [data-bs-theme="dark"] body {
+                background-image: url('assets/media/auth/bg1-dark.jpg');
+            }
+        </style>
+        <!--end::Page bg image-->
     </head>
     <!--end::Head-->
     <!--begin::Body-->
     <body id="kt_body" class="app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
         <!--begin::Theme mode setup on page load-->
-        <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) {
-                        if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
-                            themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
-                        } else {
-                            if (localStorage.getItem("data-bs-theme") !== null) {
-                                themeMode = localStorage.getItem("data-bs-theme");
-                            } else {
-                                themeMode = defaultThemeMode;
-                            }
-                        }
-                        if (themeMode === "system") {
-                            themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-                        }
-                        document.documentElement.setAttribute("data-bs-theme", themeMode);
-                    }</script>
+        <script>
+            var defaultThemeMode = "light";
+            var themeMode;
+            if (document.documentElement) {
+                if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                    themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+                } else {
+                    if (localStorage.getItem("data-bs-theme") !== null) {
+                        themeMode = localStorage.getItem("data-bs-theme");
+                    } else {
+                        themeMode = defaultThemeMode;
+                    }
+                }
+                if (themeMode === "system") {
+                    themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                }
+                document.documentElement.setAttribute("data-bs-theme", themeMode);
+            }</script>
         <!--end::Theme mode setup on page load-->
         <!--begin::Root-->
         <div class="d-flex flex-column flex-root" id="kt_app_root">
-            <!--begin::Page bg image-->
-            <style>body {
-                background-image: url('assets/media/auth/bg6.jpg');
-            }
-            [data-bs-theme="dark"] body {
-                background-image: url('assets/media/auth/bg1-dark.jpg');
-            }</style>
-            <!--end::Page bg image-->
             <!--begin::Authentication - Signup Welcome Message -->
             <div class="d-flex flex-column flex-center flex-column-fluid">
                 <!--begin::Content-->
