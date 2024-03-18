@@ -46,9 +46,6 @@ public class CampoFileValue implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "json", columnDefinition = "json")
-    private String json;
-
     @Lob
     @Column(name = "file_content", columnDefinition = "LONGBLOB")
     private byte[] fileContent;
@@ -99,14 +96,6 @@ public class CampoFileValue implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
     }
 
     public byte[] getFileContent() {

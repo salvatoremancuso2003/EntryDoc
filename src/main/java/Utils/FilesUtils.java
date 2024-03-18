@@ -9,6 +9,7 @@ import entity.User;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -44,7 +46,7 @@ public class FilesUtils {
                     .getSingleResult();
 
             if (fileEntity != null) {
-                return fileEntity.getFileContent();
+                return FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
             } else {
                 return null;
             }
@@ -87,9 +89,9 @@ public class FilesUtils {
 
             if (fileEntity != null) {
                 if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
-                    return convertTiffToPdf(fileEntity.getFileContent());
+                    return convertTiffToPdf(FileUtils.readFileToByteArray(new File(fileEntity.getFilepath())));
                 } else {
-                    return fileEntity.getFileContent();
+                    return FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
                 }
             } else {
                 return null;

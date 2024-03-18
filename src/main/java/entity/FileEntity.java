@@ -68,6 +68,9 @@ public class FileEntity implements Serializable {
     @Column(name = "page_selected")
     private String pageSelected;
 
+    @Column(name = "json", columnDefinition = "json")
+    private String json;
+
     public Long getId() {
         return id;
     }
@@ -178,6 +181,14 @@ public class FileEntity implements Serializable {
 
     public void setPageSelected(String pageSelected) {
         this.pageSelected = pageSelected;
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
 
 }
