@@ -47,7 +47,8 @@ public class UpdateTipoDocumento extends HttpServlet {
             fileEntity.setTipologia_documento(tipoDocumento);
             em.getTransaction().begin();
             em.merge(fileEntity);
-            InfoTrack.actionTrack(request.getSession().getAttribute("us_name").toString(),"DOCUMENTO REIMPOSTATO" ,nuovoTipoDocumento);
+            InfoTrack.actionTrack(request.getSession().getAttribute("us_name").toString(),"TIPOLOGIA DOCUMENTALE AGGIORNATA",nuovoTipoDocumento);
+
             em.getTransaction().commit();
             
 

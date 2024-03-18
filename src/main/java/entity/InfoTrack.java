@@ -47,7 +47,6 @@ public class InfoTrack implements Serializable {
     @ManyToOne
     private FileEntity fileEntity;
 
-
     public static void loginTrack(String username) {
 
         try {
@@ -68,7 +67,7 @@ public class InfoTrack implements Serializable {
         }
     }
 
-    public static void actionTrack(String username,String descrizione,String info2) {
+    public static void actionTrack(String username, String descrizione, String info2) {
 
         try {
 
@@ -101,7 +100,6 @@ public class InfoTrack implements Serializable {
         em.getTransaction().commit();
         em.close();
     }
-    
 
     public static void logoutTrack(String infoUserName) {
 
@@ -151,7 +149,6 @@ public class InfoTrack implements Serializable {
         this.descrizione = descrizione;
         this.dataOraTracciamento = dataOraTracciamento;
     }
-    
 
     // Getter e Setter
     public Long getId() {
@@ -201,5 +198,8 @@ public class InfoTrack implements Serializable {
     public void setFileEntity(FileEntity fileEntity) {
         this.fileEntity = fileEntity;
     }
+    
+    
+    
 
 }

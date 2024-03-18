@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import entity.CampoFileValue;
 import entity.Campo_form;
 import entity.FileEntity;
+import entity.InfoTrack;
 import entity.User;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -143,6 +144,7 @@ public class SaveForm extends HttpServlet {
                 campoFileValue.setFieldValue(campi[i]);
                 Campo_form campoForm = em.find(Campo_form.class, Long.parseLong(idCampi[i]));
                 campoFileValue.setCampoForm(campoForm);
+                InfoTrack.actionTrack(user.getUsername(), "DATI FORM INVIATI", jsonString);
                 em.persist(campoFileValue);
             }
 
