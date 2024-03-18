@@ -4,6 +4,7 @@
  */
 package servlet;
 
+import Utils.FilesUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -68,7 +69,6 @@ public class SaveForm extends HttpServlet {
             et.begin();
 
             FileEntity fileEntity = em.find(FileEntity.class, idFileEntity);
-
             JsonObject json = new JsonObject();
 
             for (int i = 0; i < campi.length; i++) {
@@ -81,8 +81,11 @@ public class SaveForm extends HttpServlet {
                 json.addProperty("Campo_" + (i + 1), campoValue);
             }
 
-            json.addProperty("filename", fileEntity.getFilename());
+            json.addProperty("filePath", fileEntity.getOutputFilepath());
             json.addProperty("user", user.getUsername());
+            json.addProperty("user_id", user.getId());
+            json.addProperty("total_pages", totalPages);
+            json.addProperty("selected_pages", selectedPages);
 
             Timestamp dataDiCompletamento = new Timestamp(new Date().getTime());
 
@@ -104,7 +107,6 @@ public class SaveForm extends HttpServlet {
             fileEntity.setTotalPages(totalPages);
 
             byte[] fileContent = FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
-
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
             try (PDDocument document = PDDocument.load(fileContent)) {
@@ -143,11 +145,15 @@ public class SaveForm extends HttpServlet {
 
             for (int i = 0; i < campi.length; i++) {
                 CampoFileValue campoFileValue = new CampoFileValue();
+                String completeFilePath = fileEntity.getFilepath() + ".completed.pdf";
+
                 if (selectedPages != null && !selectedPages.equals("[]")) {
-                    campoFileValue.setFileContent(byteArrayOutputStream.toByteArray());
+
+                    FileUtils.writeByteArrayToFile(new File(completeFilePath), byteArrayOutputStream.toByteArray());
                 } else {
-                    campoFileValue.setFileContent(fileContent);
+                    FileUtils.writeByteArrayToFile(new File(completeFilePath), fileContent);
                 }
+                campoFileValue.setFileContent(completeFilePath.getBytes());
                 campoFileValue.setUser(user);
                 campoFileValue.setDataDiCompletamento(new Timestamp(new Date().getTime()));
                 campoFileValue.setFileEntity(fileEntity);

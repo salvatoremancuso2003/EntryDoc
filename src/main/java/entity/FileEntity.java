@@ -35,6 +35,9 @@ public class FileEntity implements Serializable {
     @Column(name = "filepath")
     private String filepath;
 
+    @Column(name = "outputfilepath")
+    private String outputFilepath;
+
     @Column(name = "description")
     private String description;
 
@@ -189,6 +192,14 @@ public class FileEntity implements Serializable {
 
     public void setJson(String json) {
         this.json = json;
+    }
+
+    public String getOutputFilepath() {
+        return outputFilepath;
+    }
+
+    public void setOutputFilepath(String outputFilepath) {
+        this.outputFilepath = outputFilepath;
     }
 
 }
