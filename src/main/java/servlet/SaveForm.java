@@ -4,18 +4,20 @@
  */
 package servlet;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import entity.CampoFileValue;
 import entity.Campo_form;
 import entity.FileEntity;
 import entity.User;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -25,7 +27,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.json.JSONArray;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
 
 /**
  *
@@ -51,6 +55,7 @@ public class SaveForm extends HttpServlet {
         String totalPages = request.getParameter("totalPages");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("us_user");
+        CampoFileValue campoFileValue = new CampoFileValue();
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
         EntityManager em = emf.createEntityManager();
@@ -71,7 +76,6 @@ public class SaveForm extends HttpServlet {
                         + ", Tipologia campo: " + campoForm.getTipologia_campo();
 
                 json.addProperty("Campo_" + (i + 1), campoValue);
-
             }
 
             json.addProperty("filename", fileEntity.getFilename());
@@ -88,15 +92,50 @@ public class SaveForm extends HttpServlet {
             fileEntity.setStatus(3);
             fileEntity.setUser(user);
 
-            if (selectedPages != null && selectedPages.equals("[]")) {
-                fileEntity.setPageSelected(totalPages);
-            } else {
+            if (selectedPages != null && !selectedPages.equals("[]")) {
                 fileEntity.setPageSelected(selectedPages);
+            } else {
+                fileEntity.setPageSelected(totalPages);
             }
             fileEntity.setTotalPages(totalPages);
 
+            byte[] fileContent = fileEntity.getFileContent();
+            try (PDDocument document = PDDocument.load(fileContent)) {
+                PDDocument nuovoDocumento = new PDDocument();
+                PDPageTree pagineOriginali = document.getDocumentCatalog().getPages();
+
+                Set<Integer> selectedPagesSet = new HashSet<>();
+                if (selectedPages != null) {
+                    if (!selectedPages.equals("[]")) {
+                        JsonArray selectedPagesArray = JsonParser.parseString(selectedPages).getAsJsonArray();
+                        for (int i = 0; i < selectedPagesArray.size(); i++) {
+                            selectedPagesSet.add(selectedPagesArray.get(i).getAsInt());
+                        }
+                    } else {
+                        int totalPagesInt = Integer.parseInt(totalPages);
+                        for (int i = 1; i <= totalPagesInt; i++) {
+                            selectedPagesSet.add(i);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < pagineOriginali.getCount(); i++) {
+                    PDPage pagina = pagineOriginali.get(i);
+                    if (selectedPagesSet.contains(i + 1)) {
+                        nuovoDocumento.addPage(pagina);
+                    }
+                }
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                nuovoDocumento.save(byteArrayOutputStream);
+
+                campoFileValue.setFileContent(byteArrayOutputStream.toByteArray());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             for (int i = 0; i < campi.length; i++) {
-                CampoFileValue campoFileValue = new CampoFileValue();
                 campoFileValue.setUser(user);
                 campoFileValue.setJson(jsonString);
                 campoFileValue.setDataDiCompletamento(new Timestamp(new Date().getTime()));

@@ -13,10 +13,10 @@
     <class>entity.CampoTipologiaDocumento</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/entryDoc"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/entryDoc"/>
       <property name="javax.persistence.jdbc.user" value="entryDoc"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="entryDoc1234"/>
+      <property name="javax.persistence.jdbc.password" value="entryDoc"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.schema-generation.database.action" value="update"/>
     </properties>

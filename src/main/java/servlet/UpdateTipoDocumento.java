@@ -5,6 +5,7 @@
 package servlet;
 
 import entity.FileEntity;
+import entity.InfoTrack;
 import entity.Tipologia_documento;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,9 @@ public class UpdateTipoDocumento extends HttpServlet {
             fileEntity.setTipologia_documento(tipoDocumento);
             em.getTransaction().begin();
             em.merge(fileEntity);
+            InfoTrack.actionTrack(request.getSession().getAttribute("us_name").toString(),"DOCUMENTO REIMPOSTATO" ,nuovoTipoDocumento);
             em.getTransaction().commit();
+            
 
             em.close();
             emf.close();

@@ -18,7 +18,6 @@
     if (session.getAttribute("us_name") == null) {
 %>
 <script>
-    // Verifica se la sessione è scaduta e mostra l'alert se necessario
     var sessionExpired = <%= session.getAttribute("us_name") == null ? "true" : "false"%>;
     if (sessionExpired) {
         alert("La sessione è scaduta");
@@ -518,7 +517,7 @@
                     </div>
                 </div>
 
-                <div class="container" id="thumbnailsContainer" style="display: none !important; background: none; justify-content: flex-start; flex-direction: column ">
+                <div class="container-fluid" id="thumbnailsContainer" style="display: none !important; background: none; justify-content: space-evenly; flex-direction: row; padding: 15px; ">
 
 
                 </div>

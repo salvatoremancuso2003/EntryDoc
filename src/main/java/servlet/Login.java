@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
                 request.getSession().setAttribute("us_id", userloggato.getId());
 
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(1800); // Imposta il timeout della sessione a 10 secondi
+                session.setMaxInactiveInterval(1800);
 
                 InfoTrack.loginTrack(username);
 
@@ -53,10 +53,12 @@ public class Login extends HttpServlet {
                 } else {
                     redirectToPageByRole(response, userloggato.getRuolo().getId());
                 }
-            } else {
-                response.sendRedirect("unauth.jsp");
             }
+
+        } else {
+            response.sendRedirect("unauth.jsp");
         }
+
     }
 
     private void redirectToPageByRole(HttpServletResponse response, int roleId) throws IOException {

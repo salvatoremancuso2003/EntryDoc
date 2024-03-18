@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -47,6 +48,10 @@ public class CampoFileValue implements Serializable {
 
     @Column(name = "json", columnDefinition = "json")
     private String json;
+
+    @Lob
+    @Column(name = "file_content", columnDefinition = "LONGBLOB")
+    private byte[] fileContent;
 
     public Long getId() {
         return id;
@@ -102,6 +107,14 @@ public class CampoFileValue implements Serializable {
 
     public void setJson(String json) {
         this.json = json;
+    }
+
+    public byte[] getFileContent() {
+        return fileContent;
+    }
+
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
     }
 
 }
