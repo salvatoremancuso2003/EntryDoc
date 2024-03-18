@@ -75,6 +75,7 @@ public class FilesServlet2 extends HttpServlet {
                 campoFileValues.addProperty("dataDiCompletamento", formattedDate);
                 campoFileValues.addProperty("fileName", e.getFileEntity().getFilename());
                 campoFileValues.addProperty("nomeCampo", e.getCampoForm().getNome());
+                campoFileValues.addProperty("descrizioneCampo", e.getCampoForm().getOptions_description());
                 campoFileValues.addProperty("valoreCampo", e.getFieldValue());
 
                 data.add(campoFileValues);

@@ -43,6 +43,7 @@ $(document).ready(function () {
             {"data": "dataDiCompletamento", "type": "date-eu"},
             {"data": "fileName"},
             {"data": "nomeCampo"},
+            {"data": "descrizioneCampo"},
             {"data": "valoreCampo"}
 
         ],

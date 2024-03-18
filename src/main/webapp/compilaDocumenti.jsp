@@ -255,6 +255,7 @@
                                 <th>Data di completamento:</th>
                                 <th>Nome del file : </th>
                                 <th> Nome Campo: </th>
+                                <th> Descrizione Campo: </th>
                                 <th> Valore Campo: </th>
                             </tr>
                         </thead>
