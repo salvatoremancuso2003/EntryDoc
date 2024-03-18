@@ -67,14 +67,14 @@ public class InfoTrack implements Serializable {
         }
     }
 
-    public static void actionTrack(String username,String info2) {
+    public static void actionTrack(String username, String descrizione, String info2) {
 
         try {
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("entryDoc");
             EntityManager em = emf.createEntityManager();
 
-            InfoTrack t = new InfoTrack(username, info2, "AZIONE UTENTE", new Date());
+            InfoTrack t = new InfoTrack(username, info2, descrizione, new Date());
 
             em.getTransaction().begin();
             em.persist(t);
