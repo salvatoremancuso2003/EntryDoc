@@ -46,10 +46,6 @@ public class CampoFileValue implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Lob
-    @Column(name = "file_content", columnDefinition = "LONGBLOB")
-    private byte[] fileContent;
-
     public Long getId() {
         return id;
     }
@@ -97,13 +93,4 @@ public class CampoFileValue implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public byte[] getFileContent() {
-        return fileContent;
-    }
-
-    public void setFileContent(byte[] fileContent) {
-        this.fileContent = fileContent;
-    }
-
 }

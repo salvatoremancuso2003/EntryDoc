@@ -85,7 +85,7 @@ public class SaveForm extends HttpServlet {
             json.addProperty("user", user.getUsername());
             json.addProperty("user_id", user.getId());
             json.addProperty("total_pages", totalPages);
-            
+
             if (selectedPages != null && !selectedPages.equals("[]")) {
                 json.addProperty("selected_pages", selectedPages);
             } else {
@@ -164,7 +164,6 @@ public class SaveForm extends HttpServlet {
                 } else {
                     FileUtils.writeByteArrayToFile(new File(completeFilePath), fileContent);
                 }
-                campoFileValue.setFileContent(completeFilePath.getBytes());
                 campoFileValue.setUser(user);
                 campoFileValue.setDataDiCompletamento(new Timestamp(new Date().getTime()));
                 campoFileValue.setFileEntity(fileEntity);

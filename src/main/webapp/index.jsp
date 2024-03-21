@@ -8,7 +8,6 @@
     if (session.getAttribute("us_name") == null) {
 %>
 <script>
-    // Verifica se la sessione è scaduta e mostra l'alert se necessario
     var sessionExpired = <%= session.getAttribute("us_name") == null ? "true" : "false"%>;
     if (sessionExpired) {
         alert("La sessione è scaduta");
@@ -424,7 +423,6 @@
         <script>
 
             function openDoc(filename, id) {
-                // CONTROLLO
                 var esito;
                 $.ajax({
                     type: "POST",
