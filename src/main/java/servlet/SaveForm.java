@@ -81,11 +81,16 @@ public class SaveForm extends HttpServlet {
                 json.addProperty("Campo_" + (i + 1), campoValue);
             }
 
-            json.addProperty("filePath", fileEntity.getOutputFilepath());
+            json.addProperty("filePath", fileEntity.getFilepath());
             json.addProperty("user", user.getUsername());
             json.addProperty("user_id", user.getId());
             json.addProperty("total_pages", totalPages);
-            json.addProperty("selected_pages", selectedPages);
+            
+            if (selectedPages != null && !selectedPages.equals("[]")) {
+                json.addProperty("selected_pages", selectedPages);
+            } else {
+                json.addProperty("selected_pages", totalPages);
+            }
 
             Timestamp dataDiCompletamento = new Timestamp(new Date().getTime());
 
@@ -94,10 +99,17 @@ public class SaveForm extends HttpServlet {
 
             json.addProperty("data completamento", dataDiCompletamentoString);
 
-            String jsonString = json.toString();
-            fileEntity.setJson(jsonString);
+            byte[] fileContent = FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
             fileEntity.setStatus(3);
             fileEntity.setUser(user);
+            String originalFilePath = fileEntity.getFilepath();
+            String filenameWithoutExtension = originalFilePath.substring(0, originalFilePath.lastIndexOf('.'));
+            String newFilePath = filenameWithoutExtension + "_completato.pdf";
+            FileUtils.writeByteArrayToFile(new File(newFilePath), fileContent);
+            fileEntity.setOutputFilepath(newFilePath);
+            json.addProperty("outputFilePath", newFilePath);
+            String jsonString = json.toString();
+            fileEntity.setJson(jsonString);
 
             if (selectedPages != null && !selectedPages.equals("[]")) {
                 fileEntity.setPageSelected(selectedPages);
@@ -106,7 +118,6 @@ public class SaveForm extends HttpServlet {
             }
             fileEntity.setTotalPages(totalPages);
 
-            byte[] fileContent = FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
             try (PDDocument document = PDDocument.load(fileContent)) {

@@ -71,8 +71,7 @@
     </head>
     <body class="app-default" id="kt_app_body" data-kt-app-layout="dark-header" data-kt-app-toolbar-enabled="true">
 
-        <%
-            String username = session.getAttribute("us_name").toString();
+        <%            String username = session.getAttribute("us_name").toString();
             String name = session.getAttribute("us_nome").toString();
             String surname = session.getAttribute("us_cognome").toString();
             String nomeCompleto = name + " " + surname;
@@ -329,19 +328,19 @@
         <!--end::Custom Javascript-->
         <!--end::Javascript-->
         <script>
-            $(document).ready(function () {
-                $("#logoutButton").click(function (event) {
-                    event.preventDefault();
-                    window.location.href = "Logout";
-                });
-            });
+    $(document).ready(function () {
+        $("#logoutButton").click(function (event) {
+            event.preventDefault();
+            window.location.href = "Logout";
+        });
+    });
         </script>
 
         <%
         } else {
             byte[] pdfContent = null;
             if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
-                pdfContent = fileUtils.getFileContentTiffByIdAndFilename(id, filename);
+                pdfContent = fileUtils.getFileContentTiffByIdAndFilename(id, filename, response);
             } else {
                 pdfContent = fileUtils.getFileContentByIdAndFilename(id, filename);
             }

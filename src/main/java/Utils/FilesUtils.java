@@ -10,13 +10,16 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -80,7 +83,7 @@ public class FilesUtils {
         }
     }
 
-    public byte[] getFileContentTiffByIdAndFilename(Long id, String filename) {
+    public byte[] getFileContentTiffByIdAndFilename(Long id, String filename, HttpServletResponse response) {
         try {
             FileEntity fileEntity = this.em.createQuery("SELECT f FROM FileEntity f WHERE f.id = :id AND f.filename = :filename", FileEntity.class)
                     .setParameter("id", id)
@@ -88,17 +91,76 @@ public class FilesUtils {
                     .getSingleResult();
 
             if (fileEntity != null) {
+                byte[] fileContent = FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
                 if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff")) {
-                    return convertTiffToPdf(FileUtils.readFileToByteArray(new File(fileEntity.getFilepath())));
+                    byte[] convertedPdf = convertTiffToPdf(fileContent);
+                    if (convertedPdf != null) {
+                        String fileName = fileEntity.getFilename() + "_convertito";
+                        String newFileName = changeFileExtension(fileName, ".pdf");
+                        savePdfToFile(convertedPdf, newFileName);
+                        savePdfToDatabase(convertedPdf, newFileName, fileEntity);
+                        response.sendRedirect("compilaDocumenti.jsp?filename=" + newFileName + "&id=" + fileEntity.getId());
+                        return convertedPdf;
+                    } else {
+                        System.err.println("Conversion failed for file: " + filename);
+                    }
                 } else {
-                    return FileUtils.readFileToByteArray(new File(fileEntity.getFilepath()));
+                    System.err.println("File is not TIFF: " + filename);
                 }
             } else {
-                return null;
+                System.err.println("File not found: " + filename);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+        }
+        return null;
+    }
+
+    public String changeFileExtension(String filename, String newExtension) {
+        int lastDotIndex = filename.lastIndexOf(".");
+        if (lastDotIndex != -1) {
+            return filename.substring(0, lastDotIndex) + ".convertito" + newExtension;
+        } else {
+            return filename + ".convertito" + newExtension;
+        }
+    }
+
+    public void savePdfToFile(byte[] pdfContent, String filename) {
+        try {
+            String desktopPath = System.getProperty("user.home") + "/Desktop/";
+            String filePath = desktopPath + filename;
+            FileUtils.writeByteArrayToFile(new File(filePath), pdfContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void savePdfToDatabase(byte[] pdfContent, String filename, FileEntity fileEntity) {
+        EntityTransaction et = null;
+        try {
+
+            et = em.getTransaction();
+            et.begin();
+
+            FileEntity updatedFileEntity = em.find(FileEntity.class, fileEntity.getId());
+            updatedFileEntity.setFilename(filename);
+
+            String originalFilePath = fileEntity.getFilepath();
+            File originalFile = new File(originalFilePath);
+            String directoryPath = originalFile.getParent();
+
+            String newFilePath = directoryPath + File.separator + filename;
+            updatedFileEntity.setFilepath(newFilePath);
+
+            em.merge(updatedFileEntity);
+            em.flush();
+
+            et.commit();
+        } catch (Exception e) {
+            if (et != null && et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
         }
     }
 
