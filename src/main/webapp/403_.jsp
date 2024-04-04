@@ -8,7 +8,7 @@
 <html lang="en">
     <!--begin::Head-->
     <head>
-        <title>Error 404</title>
+        <title>Error 403</title>
         <meta charset="utf-8" />
         <meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
         <meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
@@ -63,16 +63,16 @@
                     <div class="card card-flush w-lg-650px py-5">
                         <div class="card-body py-15 py-lg-20">
                             <!--begin::Title-->
-                            <h1 class="fw-bolder fs-2hx text-gray-900 mb-4">Oops!</h1>
+                            <div class="mb-3">
+                                <h1 style="font-size: 150px; color: #000;">403</h1>
+                            </div>
+                            <h1 class="fw-bolder fs-2hx text-gray-900 mb-4">Qualcosa è andato storto!</h1>
                             <!--end::Title-->
                             <!--begin::Text-->
-                            <div class="fw-semibold fs-6 text-gray-500 mb-7">Non abbiamo trovato questa pagina!</div>
+                            <div class="fw-semibold fs-6 text-gray-500 mb-7">Accesso negato!</div>
                             <!--end::Text-->
                             <!--begin::Illustration-->
-                            <div class="mb-3">
-                                <img src="assets/media/auth/404-error.png" class="mw-100 mh-300px theme-light-show" alt="" />
-                                <img src="assets/media/auth/404-error-dark.png" class="mw-100 mh-300px theme-dark-show" alt="" />
-                            </div>
+                            
                             <!--end::Illustration-->
                             <!--begin::Link-->
                             <div class="mb-0">

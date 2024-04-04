@@ -75,7 +75,7 @@
                             <!--end::Illustration-->
                             <!--begin::Link-->
                             <div class="mb-0">
-                                <a href="login.jsp" class="btn btn-sm btn-secondary">Ritorna al Login</a>
+                                <button class="btn btn-sm btn-secondary" onclick="history.back()">Torna indietro</button>
                             </div>
                             <!--end::Link-->
                         </div>

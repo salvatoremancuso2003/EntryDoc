@@ -1,6 +1,8 @@
 package entity;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -73,5 +75,24 @@ public class AuthService {
             e.printStackTrace();
         }
         return false; // Password non valida o errore
+    }
+    
+    public static User getUserByUsername(String username) {
+        try {
+            EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+            TypedQuery<User> query = entityManager.createNamedQuery("getUtenteUSPASS", User.class);
+            query.setParameter("username", username);
+            query.setMaxResults(1);
+            List<User> resultList = query.getResultList();
+
+            if (!resultList.isEmpty()) {
+                return resultList.get(0);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AuthService.class.getName()).log(Level.SEVERE, "Errore durante l'esecuzione del metodo", e);
+        }
+        return null;
     }
 }
