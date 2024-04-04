@@ -3,8 +3,29 @@
     Created on : 18 feb 2024, 15:44:53
     Author     : Salvatore
 --%>
-
+<%@page import="Utils.Utils"%>
+<%@page import="entity.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String ruolo = null;
+    String pageName = null;
+
+    User utente = (User) session.getAttribute("us_user");
+    if (utente == null) {
+        response.sendRedirect("403_.jsp");
+    } else {
+        String uri = request.getRequestURI();
+        pageName = uri.substring(uri.lastIndexOf("/") + 1);
+        ruolo = String.valueOf(utente.getRuolo().getId());
+        if (!Utils.isVisible(ruolo, pageName)) {
+            response.sendRedirect(request.getContextPath() + "/403_.jsp");
+        } else {
+            String src = Utils.checkAttribute(session, ("src"));
+        }
+    }
+
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -86,42 +107,7 @@
         <script src="assets/js/custom/utilities/modals/new-target.js"></script>
         <script src="assets/js/custom/utilities/modals/users-search.js"></script>
         <!--end::Custom Javascript-->
+        <script src="js/js_fix/fileUpload_fix.js"></script>
         <!--end::Javascript-->
-
-        <script>
-            const uploadButton = document.getElementById('uploadButton');
-            const successMessage = document.getElementById('successMessage');
-            $(document).ready(function () {
-                $('#uploadButton').click(function () {
-                    var formData = new FormData($('#uploadForm')[0]);
-
-                    setTimeout(function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'fileuploadservlet',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            beforeSend: function () {
-                            },
-                            success: function (response) {
-                                console.log(response);
-                                alert("file caricato con successo");
-                            },
-                            error: function (error) {
-                                console.error('Errore durante la richiesta Ajax:', error);
-                                alert("file caricato con successo");
-                            }
-                        });
-                    });
-                });
-            });
-
-            let arrowLeft = document.getElementById('arrowLeft');
-            arrowLeft.addEventListener('click', function () {
-                window.location.href = "index.jsp";
-
-            });
-        </script>
     </body>
 </html>

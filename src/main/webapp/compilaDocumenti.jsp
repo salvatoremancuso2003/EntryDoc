@@ -3,6 +3,8 @@
     Created on : 19 feb 2024, 10:09:42
     Author     : Salvatore
 --%>
+<%@page import="Utils.Utils"%>
+<%@page import="entity.User"%>
 <%@page import="entity.CampoFileValue"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="entity.Campo_form"%>
@@ -13,9 +15,27 @@
 <%@page import="org.apache.commons.codec.binary.Base64"%>
 <%@page import="entity.FileEntity"%>
 <%@page import="Utils.FilesUtils"%>
-<!DOCTYPE html>
 <%
-    if (session.getAttribute("us_name") == null) {
+    String ruolo = null;
+    String pageName = null;
+
+    User utente = (User) session.getAttribute("us_user");
+    if (utente == null) {
+        response.sendRedirect("403_.jsp");
+    } else {
+        String uri = request.getRequestURI();
+        pageName = uri.substring(uri.lastIndexOf("/") + 1);
+        ruolo = String.valueOf(utente.getRuolo().getId());
+        if (!Utils.isVisible(ruolo, pageName)) {
+            response.sendRedirect(request.getContextPath() + "/403_.jsp");
+        } else {
+            String src = Utils.checkAttribute(session, ("src"));
+        }
+    }
+
+%>
+<!DOCTYPE html>
+<%    if (session.getAttribute("us_name") == null) {
 %>
 <script>
     var sessionExpired = <%= session.getAttribute("us_name") == null ? "true" : "false"%>;
@@ -71,8 +91,7 @@
     </head>
     <body class="app-default" id="kt_app_body" data-kt-app-layout="dark-header" data-kt-app-toolbar-enabled="true">
 
-        <%
-            String username = session.getAttribute("us_name").toString();
+        <%            String username = session.getAttribute("us_name").toString();
             String name = session.getAttribute("us_nome").toString();
             String surname = session.getAttribute("us_cognome").toString();
             String nomeCompleto = name + " " + surname;
@@ -329,12 +348,12 @@
         <!--end::Custom Javascript-->
         <!--end::Javascript-->
         <script>
-            $(document).ready(function () {
-                $("#logoutButton").click(function (event) {
-                    event.preventDefault();
-                    window.location.href = "Logout";
-                });
-            });
+    $(document).ready(function () {
+        $("#logoutButton").click(function (event) {
+            event.preventDefault();
+            window.location.href = "Logout";
+        });
+    });
         </script>
 
         <%
@@ -766,173 +785,16 @@
 
 
     <!--begin::Javascript-->
-    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-    <script src="assets/plugins/global/plugins.bundle.js"></script>
-    <script src="assets/js/scripts.bundle.js"></script>
-    <!--end::Global Javascript Bundle-->
-
-    <!--begin::Vendors Javascript(used for this page only)-->
-
-    <!--end::Vendors Javascript-->
-
-    <!--begin::Custom Javascript(used for this page only)-->
-    <script src="assets/js/widgets.bundle.js"></script>
-    <script src="assets/js/custom/widgets.js"></script>
-    <script src="assets/js/custom/apps/chat/chat.js"></script>
-    <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-    <script src="assets/js/custom/utilities/modals/create-app.js"></script>
-    <script src="assets/js/custom/utilities/modals/new-target.js"></script>
-    <script src="assets/js/custom/utilities/modals/users-search.js"></script>
-    <!--end::Custom Javascript-->
-    <!--end::Javascript-->
-
-
 
     <script>
 
-                            let submitUpdateForm = document.getElementById('submitUpdateForm');
-                            submitUpdateForm.addEventListener('click', function () {
-                                Swal.fire({
-                                    text: "Tipologia Documentale Aggiornata!",
-                                    icon: "info",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "OK",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.reload();
-                                    }
-                                });
-                            });
 
-                            $(document).ready(function () {
-                                $('#updateForm').submit(function (event) {
-                                    event.preventDefault();
+        var base64EncodedPDF = "<%= base64EncodedPDF%>";
+        loadAndRenderPDF(atob(base64EncodedPDF));
 
-                                    var form = $(this);
-
-                                    $.ajax({
-                                        type: form.attr('method'),
-                                        url: form.attr('action'),
-                                        data: form.serialize(),
-                                        success: function (data) {
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error('Si ? verificato un errore durante l\'invio del modulo:', error);
-                                        }
-                                    });
-                                });
-                            });
-    </script>
-
-    <script>
-        var pdfDoc = null;
-        var pageNum = 1;
-        var scale = 1.5;
-        var renderTask = null;
-
-        function renderPage(num) {
-            if (renderTask) {
-                renderTask.cancel();
-            }
-
-            pdfDoc.getPage(num).then(function (page) {
-                var canvas = document.getElementById('pdfViewer');
-                var context = canvas.getContext('2d');
-                var viewport = page.getViewport({scale: scale});
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                var renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-
-                renderTask = page.render(renderContext);
-
-                renderTask.promise.then(function () {
-                    document.getElementById('pageNumberInput').value = num;
-                }).catch(function (error) {
-                    console.error('Error rendering page:', error);
-                });
-            }).catch(function (error) {
-                console.error('Error getting page:', error);
-            });
-        }
-
-        function goPrevious() {
-            if (pageNum <= 1)
-                return;
-            pageNum--;
-            renderPage(pageNum);
-        }
-
-        function goNext() {
-            if (pageNum >= pdfDoc.numPages)
-                return;
-            pageNum++;
-            renderPage(pageNum);
-        }
-
-        function goToPage(pageNumber) {
-            if (pageNumber) {
-                if (pageNumber >= 1 && pageNumber <= pdfDoc.numPages) {
-                    pageNum = pageNumber;
-                    renderPage(pageNum);
-                } else {
-                    alert('Numero di pagina non valido');
-                }
-            } else {
-                var desiredPage = parseInt(document.getElementById('pageNumberInput').value);
-                goToPage(desiredPage);
-            }
-        }
-
-        function searchAndGoToPage() {
-            goToPage();
-        }
-
-        function addPageNumber(thumbnailContainer, pageNumber) {
-            var container = document.createElement('div');
-            container.classList.add('thumbnail-page-container');
-
-            var pageNumberLabel = document.createElement('div');
-            pageNumberLabel.textContent = 'Pagina ' + pageNumber;
-            pageNumberLabel.classList.add('thumbnail-page-number');
-
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.name = 'pageCheckbox';
-            checkbox.className = 'custom-checkbox';
-            checkbox.value = pageNumber;
-
-            container.appendChild(pageNumberLabel);
-            container.appendChild(checkbox);
-
-            thumbnailContainer.appendChild(container);
-        }
-
-        var checkboxState = {};
-
-        var selectedPages = [];
-
-        function saveCheckboxState() {
-            selectedPages = [];
-            var checkboxes = document.querySelectorAll('.custom-checkbox:checked');
-            checkboxes.forEach(function (checkbox) {
-                selectedPages.push(checkbox.value);
-            });
-            updateHiddenInput();
-        }
-
-        function updateHiddenInput() {
-            var hiddenInput = document.getElementById('selectedPagesInput');
-            if (hiddenInput) {
-                hiddenInput.value = JSON.stringify(selectedPages);
-            }
-        }
-
+        document.getElementById('saveForm').addEventListener('click', function (event) {
+            saveCheckboxState();
+        });
 
         function loadAndRenderPDF(base64Data) {
             pdfjsLib.getDocument({data: base64Data}).promise.then(function (pdf) {
@@ -994,28 +856,27 @@
             });
         }
 
-        var base64EncodedPDF = "<%= base64EncodedPDF%>";
-        loadAndRenderPDF(atob(base64EncodedPDF));
-
-        document.getElementById('saveForm').addEventListener('click', function (event) {
-            saveCheckboxState();
-        });
-
-        document.getElementById('saveForm').addEventListener('submit', function (event) {
-            saveCheckboxState();
-        });
-
-
     </script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
+    <script src="assets/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
 
-    <script>
-        $(document).ready(function () {
-            $("#logoutButton").click(function (event) {
-                event.preventDefault();
-                window.location.href = "Logout";
-            });
-        });
-    </script>
+    <!--begin::Vendors Javascript(used for this page only)-->
+
+    <!--end::Vendors Javascript-->
+
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="assets/js/widgets.bundle.js"></script>
+    <script src="assets/js/custom/widgets.js"></script>
+    <script src="assets/js/custom/apps/chat/chat.js"></script>
+    <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+    <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+    <script src="assets/js/custom/utilities/modals/new-target.js"></script>
+    <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+    <!--end::Custom Javascript-->
+    <script src="js/js_fix/compilaDocumenti_fix.js"></script>
+    <!--end::Javascript-->
 
     <%
             } else {

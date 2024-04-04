@@ -19,23 +19,27 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (AuthService.isPasswordValid(username, password)) {
-            User userloggato = AuthService.authenticate_US(username, password);
-
-            if (userloggato != null) {
+        int roleId = AuthService.authenticate(username, password);
+        if (roleId != -1) {
+            User user = AuthService.getUserByUsername(username);
+            if (request.getContextPath().contains("EntryDoc")) {
+                request.getSession().setAttribute("src", "../..");
+            }
+            if (user != null) {
                 request.getSession().setAttribute("us_name", username);
-                request.getSession().setAttribute("us_user", userloggato);
-                request.getSession().setAttribute("us_nome", userloggato.getNome());
-                request.getSession().setAttribute("us_cognome", userloggato.getCognome());
-                request.getSession().setAttribute("us_id", userloggato.getId());
+                request.getSession().setAttribute("us_user", user);
+                request.getSession().setAttribute("us_nome", user.getNome());
+                request.getSession().setAttribute("us_cognome", user.getCognome());
+                request.getSession().setAttribute("us_id", user.getId());
 
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(1800);
 
                 InfoTrack.loginTrack(username);
+                
 
                 FilesUtils filesUtils = new FilesUtils();
-                FileEntity userFileEntity = filesUtils.getFilesWithUser(userloggato);
+                FileEntity userFileEntity = filesUtils.getFilesWithUser(user);
                 System.out.println("FILE ENTITY ------------ " + userFileEntity);
 
                 if (userFileEntity != null) {
@@ -48,18 +52,17 @@ public class Login extends HttpServlet {
                             response.sendRedirect("compilaDocumenti.jsp?filename=" + filename + "&id=" + userFileEntity.getId());
                         }
                     } else {
-                        redirectToPageByRole(response, userloggato.getRuolo().getId());
+                        redirectToPageByRole(response, user.getRuolo().getId());
                     }
                 } else {
-                    redirectToPageByRole(response, userloggato.getRuolo().getId());
+                    redirectToPageByRole(response, user.getRuolo().getId());
                 }
             }
-
         } else {
             response.sendRedirect("unauth.jsp");
         }
-
     }
+
 
     private void redirectToPageByRole(HttpServletResponse response, int roleId) throws IOException {
         String targetPage;
@@ -69,7 +72,7 @@ public class Login extends HttpServlet {
                 targetPage = "index.jsp";
                 break;
             case 2:
-                targetPage = "fileUpload.jsp";
+                targetPage = "index.jsp";
                 break;
             case 3:
                 targetPage = "";

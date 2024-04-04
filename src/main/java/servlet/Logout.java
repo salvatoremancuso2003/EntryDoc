@@ -30,23 +30,18 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            try {
+        try {
 
             InfoTrack.logoutTrack(request.getSession().getAttribute("us_name").toString());
-             request.getSession().invalidate();
-            response.sendRedirect("login.jsp"); 
-           
-            
-            
-            
-            }catch(Error e){
-                System.out.println(e);
-                e.getStackTrace(); 
-                
-            
-            }
+            request.getSession().invalidate();
+            response.sendRedirect("login.jsp");
+
+        } catch (Error e) {
+            System.out.println(e);
+            e.getStackTrace();
+
         }
-    
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

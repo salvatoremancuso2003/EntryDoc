@@ -77,11 +77,6 @@ public class fileuploadservlet extends HttpServlet {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 document.save(baos);
                 document.close();
-
-                byte[] bytes = baos.toByteArray();
-
-                fileEntity.setFileContent(bytes);
-
             } else if (fileName.endsWith(".docx")) {
                 XWPFDocument document = new XWPFDocument(new FileInputStream(file));
                 byte[] bytes = new byte[0];
